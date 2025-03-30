@@ -23,7 +23,22 @@ namespace PriceTracker.Infrastructure.Constants
 		public const int storeNameMaxLength = 100;
 
 		/// <summary>
-		/// Stores table data constants
+		/// Products table data constants
 		/// </summary>
+		public const int productNameMinLength = 3;
+		public const int productNameMaxLength = 255;
+
+		public const int productBrandNameMinLength = 2;
+		public const int productBrandNameMaxLength = 255;
+
+		public const int productCategoryMinLength = 3;
+		public const int productCategoryMaxLength = 255;
+
+		/// <summary>
+		/// Price table data constants
+		/// </summary>
+		public const int priceSellingPriceMinRange = 2;
+		public const int priceSellingPriceMaxRange = 10;
+
 	}
 }
