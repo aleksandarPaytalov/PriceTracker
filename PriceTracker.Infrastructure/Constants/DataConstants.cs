@@ -35,10 +35,27 @@ namespace PriceTracker.Infrastructure.Constants
 		public const int productCategoryMaxLength = 255;
 
 		/// <summary>
-		/// Price table data constants
+		/// Prices table data constants
 		/// </summary>
 		public const int priceSellingPriceMinRange = 2;
 		public const int priceSellingPriceMaxRange = 10;
 
+		/// <summary>
+		/// Expenses table data constants
+		/// </summary>
+		public const int expenseDescriptionMinLength = 5;
+		public const int expenseDescriptionMaxLength = 255;
+
+		public const int expenseAmountSpentMinRange = 2;
+		public const int expenseAmountSpentMaxRange = 10;
+
+		/// <summary>
+		/// ToDoItem table data constants
+		/// </summary>
+		public const int taskTitleMinLength = 5;
+		public const int taskTitleMaxLength = 255;
+
+		public const int taskDescriptionMinLength = 5;
+		public const int taskDescriptionMaxLength = 255;
 	}
 }
