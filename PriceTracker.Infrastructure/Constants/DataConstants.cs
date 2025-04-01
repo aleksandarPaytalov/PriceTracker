@@ -57,5 +57,12 @@ namespace PriceTracker.Infrastructure.Constants
 
 		public const int taskDescriptionMinLength = 5;
 		public const int taskDescriptionMaxLength = 255;
+
+		/// <summary>
+		/// Notification table data constants
+		/// </summary>
+		public const int notificationMessageMinLength = 5;
+		public const int notificationMessageMaxLength = 255;
+
 	}
 }
