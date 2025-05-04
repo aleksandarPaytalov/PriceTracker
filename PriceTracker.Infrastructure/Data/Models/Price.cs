@@ -18,7 +18,7 @@ namespace PriceTracker.Infrastructure.Data.Models
 		[Required]
 		[ForeignKey(nameof(ProductId))]
 		[Comment("Product navigation property")]
-		public virtual Product Product { get; set; } = null!;
+		public required virtual Product Product { get; set; }
 
 		[Required]
 		[Comment("Store identifier")]
@@ -27,7 +27,7 @@ namespace PriceTracker.Infrastructure.Data.Models
 		[Required]
 		[ForeignKey(nameof(StoreId))]
 		[Comment("Store navigation property")]
-		public virtual Store Store { get; set; } = null!;
+		public required virtual Store Store { get; set; }
 
 		[Required]
 		[Column(TypeName = "decimal(10,2)")]

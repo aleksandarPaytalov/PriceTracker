@@ -18,13 +18,13 @@ namespace PriceTracker.Infrastructure.Data.Models
 
         [Required]
         [ForeignKey(nameof(UserId))]
-        [Comment("User navigation property")]
-        public virtual User User { get; set; } = null!;
+        [Comment("User navigation property.")]
+        public required virtual User User { get; set; }
 
         [Required]
         [StringLength(DataConstants.taskTitleMaxLength)]
         [Comment("Title of the current task")]
-		public string Title { get; set; } = null!;
+		public required string Title { get; set; }
 
         [StringLength(DataConstants.taskDescriptionMaxLength)]
         [Comment("Description of the current task")]
@@ -43,5 +43,9 @@ namespace PriceTracker.Infrastructure.Data.Models
 
         [Comment("The date that task is created")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+
+        [Comment("")]
+        public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 	}
 }

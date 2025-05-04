@@ -14,6 +14,13 @@ namespace PriceTracker.Infrastructure.Data.Models
         [Required]
         [StringLength(DataConstants.storeNameMaxLength)]
         [Comment("Store name")]
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; set; }
+
+        [Comment("One store can offer many Products with a different prices.")]
+		public virtual ICollection<Price> Prices { get; set; } = new List<Price>();
+
+        [Comment("Many Expenses can be made in one Store")]
+		public virtual ICollection<Expense> Expenses { get; set; } = new List<Expense>();
+
 	}
 }

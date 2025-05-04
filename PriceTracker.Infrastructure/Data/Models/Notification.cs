@@ -19,7 +19,7 @@ namespace PriceTracker.Infrastructure.Data.Models
 		[Required]
 		[ForeignKey(nameof(UserId))]
 		[Comment("Navigation property for User")]
-		public virtual User User { get; set; } = null!;
+		public required virtual User User { get; set; }
 
 		[Required]
 		[Comment("Task identifier")]
@@ -28,19 +28,19 @@ namespace PriceTracker.Infrastructure.Data.Models
 		[Required]
 		[ForeignKey(nameof(TaskId))]
 		[Comment("Navigation property for Task")]
-		public ToDoItem Task { get; set; } = null!;
+		public required virtual ToDoItem Task { get; set; }
 
 		[Required]
 		[StringLength(DataConstants.notificationMessageMaxLength)]
 		[Comment("Notification message")]
-		public string Message { get; set; } = string.Empty;
+		public required string Message { get; set; }
 
 		[Comment("Track if the message is readed or not")]
 		public bool IsRead { get; set; } = false;
 
 		[Required]
 		[Comment("Time of the notification")]
-		public DateTime NotificationTime { get; set; }
+		public required DateTime NotificationTime { get; set; }
 
 		[Required]
 		[Comment("Time when the notification was created")]

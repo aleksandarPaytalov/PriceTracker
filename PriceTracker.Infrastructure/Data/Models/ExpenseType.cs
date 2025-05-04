@@ -3,9 +3,14 @@
     public enum ExpenseType
     {
         Shopping = 1, 
-        Utilities = 2, 
-        Health = 3,
-        Car = 4, 
-        Other = 5
+        Food = 2,
+        Utilities = 3, 
+        Health = 4,
+        Car = 5, 
+        Hobby = 6,
+        Financing = 7,
+        Education = 8,
+        Subscriptions = 9,
+        Other = 10
     }
 }

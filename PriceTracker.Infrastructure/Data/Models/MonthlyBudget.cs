@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PriceTracker.Infrastructure.Data.Models
 {
-    [Comment("MonthlyBudged Db model")]
-    public class MonthlyBudged
+    [Comment("MonthlyBudget Db model")]
+    public class MonthlyBudget
     {
         [Key]
         [Comment("Budged identifier")]
@@ -18,7 +18,7 @@ namespace PriceTracker.Infrastructure.Data.Models
         [Required]
         [ForeignKey(nameof(UserId))]
         [Comment("User navigation property")]
-        public virtual User User { get; set; } = null!;
+        public required virtual User User { get; set; }
 
         [Required]
 		[Column(TypeName = "decimal(10,2)")]
@@ -27,6 +27,6 @@ namespace PriceTracker.Infrastructure.Data.Models
 
         [Required]
         [Comment("Month we spend current budged in")]
-		public Month Month { get; set; } 
+		public required Month Month { get; set; } 
 	}
 }

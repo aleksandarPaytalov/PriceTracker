@@ -16,22 +16,28 @@ namespace PriceTracker.Infrastructure.Data.Models
 		[Required]
 		[StringLength(DataConstants.userNameMaxLength)]
 		[Comment("UserName")]
-		public string UserName { get; set; } = null!;
+		public required string UserName { get; set; }
 
 		//Must be Unique and should be configured later in the fluent API 
 		[Required]
 		[EmailAddress]
 		[StringLength(DataConstants.emailAddressMaxLength)]
 		[Comment("User emailAdress")]
-		public string Email { get; set; } = null!;
+		public required string Email { get; set; }
 
 		[Required]
 		[StringLength(DataConstants.passwordHashMaxLength)]
 		[Comment("PasswordHash of the User")]
-		public string PasswordHash { get; set; } = null!;
+		public required string PasswordHash { get; set; }
 
 		[Comment("The time that the user have been created")]
 		[NotMapped]
 		public DateTime? CreatedAt { get; set; }
+
+		public virtual ICollection<Expense> Expenses { get; set; } = new List<Expense>();
+		public virtual ICollection<MonthlyBudget> MonthlyBudgets { get; set; } = new List<MonthlyBudget>();
+		public virtual ICollection<ToDoItem> Tasks { get; set; } = new List<ToDoItem>();
+		public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+
 	}
 }

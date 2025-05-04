@@ -19,7 +19,7 @@ namespace PriceTracker.Infrastructure.Data.Models
         [Required]
         [ForeignKey(nameof(UserId))]
         [Comment("User navigation property")]
-        public virtual User User { get; set; } = null!;
+        public required virtual User User { get; set; }
 
         [Required]
         [Comment("Expense type")]
@@ -51,6 +51,6 @@ namespace PriceTracker.Infrastructure.Data.Models
 
         [Required]
         [Comment("Date when the expense was made")]
-		public DateTime DateSpent { get; set; }
+		public required DateTime DateSpent { get; set; }
 	}
 }
