@@ -1,5 +1,6 @@
 ﻿using PriceTracker.Infrastructure.Constants;
 using PriceTracker.Infrastructure.Data.Models;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Buiders
 {
@@ -61,49 +62,43 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Buiders
 		{
 			// Null checks with better messages
 			if (user == null)
-				throw new ArgumentNullException(nameof(user), "User cannot be null when creating an expense");
+				throw new ArgumentNullException(nameof(user), ExpenseConstants.UserRequired);
 			if (product == null)
-				throw new ArgumentNullException(nameof(product), "Product cannot be null when creating an expense");
+				throw new ArgumentNullException(nameof(product), ExpenseConstants.ProductRequired);
 			if (store == null)
-				throw new ArgumentNullException(nameof(store), "Store cannot be null when creating an expense");
+				throw new ArgumentNullException(nameof(store), ExpenseConstants.StoreRequired);
 
 			// Enum validation
 			if (!Enum.IsDefined(typeof(ExpenseType), expenseType))
 			{
-				throw new ArgumentException($"Invalid expense type value: {expenseType}", nameof(expenseType));
+				throw new ArgumentException(String.Format(ExpenseConstants.InvalidExpenseType, expenseType));
 			}
 
 			// Amount validations with better messages
 			if (amountSpent <= 0)
 			{
-				throw new ArgumentException(
-					$"Amount must be greater than zero. Provided value: {amountSpent:C}",
-					nameof(amountSpent));
+				throw new ArgumentException(String.Format(ExpenseConstants.InvalidAmount, amountSpent));
 			}
 
 			if (amountSpent > MaxAllowedAmount)
 			{
-				throw new ArgumentException(
-					$"Amount cannot exceed {MaxAllowedAmount:C}. Provided value: {amountSpent:C}",
-					nameof(amountSpent));
+				throw new ArgumentException(String.Format(ExpenseConstants.ExceedsMaxAmount, MaxAllowedAmount, amountSpent));
 			}
 
 			// Date validations with better messages
 			if (dateSpent > DateTime.Now)
 			{
-				throw new ArgumentException(
-					$"Date cannot be in the future. Current date: {DateTime.Now:g}, Provided date: {dateSpent:g}",
-					nameof(dateSpent));
+				throw new ArgumentException(String.Format(ExpenseConstants.FutureDate, DateTime.Now, dateSpent));
 			}
 
 			if (description?.Length > DataConstants.expenseDescriptionMaxLength)
 			{
 				throw new ArgumentException(
-					$"Description length ({description.Length}) exceeds maximum allowed length ({DataConstants.expenseDescriptionMaxLength})",
-					nameof(description));
+					String.Format(ExpenseConstants.DescriptionTooLong,
+						description.Length,
+						DataConstants.expenseDescriptionMaxLength));
 			}
 		}
-
 
 		public Expense Build() => _expense;
 	}
