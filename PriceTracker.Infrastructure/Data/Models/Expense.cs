@@ -29,16 +29,19 @@ namespace PriceTracker.Infrastructure.Data.Models
         [Comment("Product identifier")]
 		public int ProductId { get; set; }
 
+        [Required]
         [ForeignKey(nameof(ProductId))]
         [Comment("Product navigation property")]
-        public virtual Product? Product { get; set; }
+        public required virtual Product Product { get; set; }
 
         [Required]
         [Comment("Store identifier")]
-		public int StoreId { get; set; } 
+		public int StoreId { get; set; }
+
+        [Required]
         [ForeignKey(nameof(StoreId))]
         [Comment("Store navigation property")]
-        public virtual Store? Store { get; set; }
+        public required virtual Store Store { get; set; }
 
         [StringLength(DataConstants.expenseDescriptionMaxLength)]
         [Comment("Description for maked expense")]
