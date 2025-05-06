@@ -23,7 +23,7 @@ namespace PriceTracker.Infrastructure.Data.Models
         [Required]
 		[Column(TypeName = "decimal(10,2)")]
 		[Comment("Total amount of money or budged we have for the current month")]
-		public decimal BudgedAmount { get; set; }
+		public decimal BudgetAmount { get; set; }
 
         [Required]
         [Comment("Month we spend current budged in")]
