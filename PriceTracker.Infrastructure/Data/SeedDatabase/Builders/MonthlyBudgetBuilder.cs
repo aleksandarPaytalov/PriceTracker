@@ -24,15 +24,23 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			decimal budget,
 			Month month)
 		{
-			ValidateInitialBudgetData(user, budget, month);
-
-			_budget = new MonthlyBudget
+			try
 			{
-				UserId = user.Id,
-				User = user,
-				BudgetAmount = budget,
-				Month = month
-			};
+				ValidateInitialBudgetData(user, budget, month);
+
+				_budget = new MonthlyBudget
+				{
+					UserId = user.Id,
+					User = user,
+					BudgetAmount = budget,
+					Month = month
+				};
+			}
+			catch (Exception ex) when (ex is not ValidationException) 
+			{
+				throw new ValidationException($"Failed to create Monthly budget: {ex.Message}");
+			}
+			
 		}
 
 		/// <summary>
