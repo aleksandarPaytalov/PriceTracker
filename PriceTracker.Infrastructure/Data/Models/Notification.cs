@@ -28,7 +28,7 @@ namespace PriceTracker.Infrastructure.Data.Models
 		[Required]
 		[ForeignKey(nameof(TaskId))]
 		[Comment("Navigation property for Task")]
-		public required virtual ToDoItem Task { get; set; }
+		public required virtual ToDoItem Task { get; set; } 
 
 		[Required]
 		[StringLength(DataConstants.notificationMessageMaxLength)]
@@ -39,7 +39,7 @@ namespace PriceTracker.Infrastructure.Data.Models
 		public bool IsRead { get; set; } = false;
 
 		[Required]
-		[Comment("Time of the notification")]
+		[Comment("Time of the notification - due Date")]
 		public required DateTime NotificationTime { get; set; }
 
 		[Required]
