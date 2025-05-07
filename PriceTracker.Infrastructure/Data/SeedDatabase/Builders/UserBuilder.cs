@@ -90,7 +90,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			{
 				var usernameExists = _userRepository
 					.AllReadOnly()
-					.Any(u => u.UserName.ToLower() == userName.ToLower());
+					.Any(u => u.UserName!.Equals(userName, StringComparison.CurrentCultureIgnoreCase));
 
 				if (usernameExists)
 				{
@@ -130,7 +130,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			{
 				var emailExists = _userRepository
 					.AllReadOnly()
-					.Any(u => u.Email.ToLower() == email.ToLower());
+					.Any(u => u.Email!.Equals(email, StringComparison.CurrentCultureIgnoreCase));
 
 				if (emailExists)
 				{
@@ -154,7 +154,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 		}
 
-		private bool IsValidEmail(string email)
+		private static bool IsValidEmail(string email)
 		{
 			try
 			{
