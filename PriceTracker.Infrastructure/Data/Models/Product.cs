@@ -18,12 +18,12 @@ namespace PriceTracker.Infrastructure.Data.Models
 		[Required]
 		[StringLength(DataConstants.productNameMaxLength)]
 		[Comment("Product name")]
-		public string ProductName { get; set; } = string.Empty;
+		public required string ProductName { get; set; }
 
 		[Required]
 		[StringLength(DataConstants.productBrandNameMaxLength)]
 		[Comment("Product brand")]
-		public string Brand { get; set; } = string.Empty;
+		public required string Brand { get; set; }
 
 		[Required]
 		[StringLength(DataConstants.productCategoryMaxLength)]
