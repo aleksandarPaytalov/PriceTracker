@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
 
-namespace PriceTracker.Infrastructure.Data.SeedDatabase.Buiders
+namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 {
 	/// <summary>
 	/// Builder for creating validated MonthlyBudget entities
@@ -24,15 +24,23 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Buiders
 			decimal budget,
 			Month month)
 		{
-			ValidateInitialBudgetData(user, budget, month);
-
-			_budget = new MonthlyBudget
+			try
 			{
-				UserId = user.Id,
-				User = user,
-				BudgetAmount = budget,
-				Month = month
-			};
+				ValidateInitialBudgetData(user, budget, month);
+
+				_budget = new MonthlyBudget
+				{
+					UserId = user.Id,
+					User = user,
+					BudgetAmount = budget,
+					Month = month
+				};
+			}
+			catch (Exception ex) when (ex is not ValidationException) 
+			{
+				throw new ValidationException($"Failed to create Monthly budget: {ex.Message}");
+			}
+			
 		}
 
 		/// <summary>

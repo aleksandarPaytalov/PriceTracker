@@ -1,8 +1,9 @@
 ﻿using PriceTracker.Infrastructure.Constants;
 using PriceTracker.Infrastructure.Data.Models;
+using System.ComponentModel.DataAnnotations;
 using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
 
-namespace PriceTracker.Infrastructure.Data.SeedDatabase.Buiders
+namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 {
 	/// <summary>
 	/// Builder for creating validated Expense entities
@@ -34,21 +35,28 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Buiders
 			DateTime dateSpent,
 			string? description = null)
 		{
-			ValidateInitialData(user, product, store, amountSpent, dateSpent, expenseType, description);
-
-			_expense = new Expense
+			try
 			{
-				User = user,
-				UserId = user.Id,
-				ExpenseType = expenseType,
-				Product = product,
-				ProductId = product.ProductId,
-				Store = store,
-				StoreId = store.StoreId,
-				AmountSpent = amountSpent,
-				DateSpent = dateSpent,
-				Description = description
-			};
+				ValidateInitialData(user, product, store, amountSpent, dateSpent, expenseType, description);
+
+				_expense = new Expense
+				{
+					User = user,
+					UserId = user.Id,
+					ExpenseType = expenseType,
+					Product = product,
+					ProductId = product.ProductId,
+					Store = store,
+					StoreId = store.StoreId,
+					AmountSpent = amountSpent,
+					DateSpent = dateSpent,
+					Description = description
+				};
+			}
+			catch (Exception ex) when (ex is not ValidationException)
+			{
+				throw new ValidationException($"Failed to create Expense: {ex.Message}");
+			}
 		}
 
 		private void ValidateInitialData(

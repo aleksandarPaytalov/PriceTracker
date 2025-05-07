@@ -1,4 +1,4 @@
-﻿namespace PriceTracker.Infrastructure.Data.SeedDatabase.Buiders
+﻿namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 {
 	public interface IBuilder<T> where T : class
 	{

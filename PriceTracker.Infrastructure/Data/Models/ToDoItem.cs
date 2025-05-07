@@ -41,11 +41,12 @@ namespace PriceTracker.Infrastructure.Data.Models
         [Comment("Task status")]
         public TaskStatus TaskStatus { get; set; } = TaskStatus.Pending;
 
+        [Required]
         [Comment("The date that task is created")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 
-        [Comment("")]
+        [Comment("One ToDo task can have many notifications")]
         public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 	}
 }
