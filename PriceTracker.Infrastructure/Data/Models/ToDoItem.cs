@@ -46,7 +46,7 @@ namespace PriceTracker.Infrastructure.Data.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 
-        [Comment("")]
+        [Comment("One ToDo task can have many notifications")]
         public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 	}
 }
