@@ -53,6 +53,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			{
 				throw new ValidationException(NotificationConstants.InvalidIsReadValue);
 			}
+			catch (Exception ex) when (ex is not ValidationException)
+			{
+				throw new ValidationException($"Failed to create Notification: {ex.Message}");
+			}
 		}
 
 
