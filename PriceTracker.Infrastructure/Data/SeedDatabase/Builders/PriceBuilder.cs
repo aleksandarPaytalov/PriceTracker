@@ -26,19 +26,25 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			decimal sellingPrice,
 			DateTime? dateChecked = null)
 		{
-			var actualDateChecked = dateChecked ?? DateTime.Now;
-
-			ValidatePriceInputData(product, store, sellingPrice, actualDateChecked);
-
-			_price = new Price
+			try
 			{
-				Product = product,
-				ProductId = product.ProductId,
-				Store = store,
-				StoreId = store.StoreId,
-				SellingPrice = sellingPrice,
-				DateChecked = actualDateChecked
-			};
+				var actualDateChecked = dateChecked ?? DateTime.Now;
+				ValidatePriceInputData(product, store, sellingPrice, actualDateChecked);
+
+				_price = new Price
+				{
+					Product = product,
+					ProductId = product.ProductId,
+					Store = store,
+					StoreId = store.StoreId,
+					SellingPrice = sellingPrice,
+					DateChecked = actualDateChecked
+				};
+			}
+			catch (Exception ex) when (ex is not ValidationException)
+			{
+				throw new ValidationException($"Failed to create price: {ex.Message}");
+			}
 		}
 
 		public Price Build() => _price;
