@@ -14,9 +14,18 @@
 			public const string InvalidEmailFormat = "Invalid email format";
 			public const string EmailExistsInSeed = "Email address '{0}' is already taken in current seed data";
 			public const string EmailExistsInDb = "Email address '{0}' already exists in database";
+			public const string EmailLocalPartTooShort = "Email local part must be at least 3 characters long";
+			public const string EmailLocalPartInvalidDot = "Email local part cannot start or end with a dot";
+			public const string EmailDomainNotAllowed = "Email domain not allowed";
+			public const string EmailContainsForbiddenChars = "Email contains forbidden characters";
+			public const string EmailMultipleAtSymbols = "Email cannot contain multiple @ symbols";
+			public const string EmailContainsHtmlChars = "Email contains forbidden HTML characters";
 
 			public const string PasswordHashRequired = "Password hash is required";
 			public const string InvalidPasswordHashLength = "Password hash must be between {0} and {1} characters";
+			public const string SqlInjectionAttempt = "Potential SQL injection attempt detected. Input contains forbidden SQL keywords";
+			public const string XssAttempt = "Potential XSS attack attempt detected. Input contains forbidden script patterns";
+
 		}
 
 		public static class MonthlyBudgetConstants

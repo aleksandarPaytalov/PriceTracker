@@ -56,7 +56,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 				throw new ValidationException($"Failed to create user: {ex.Message}");
 			}
 		}
-
 		public User Build() => _user;
 
 		private void ValidateUserInputData(
@@ -116,6 +115,90 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			if (!IsValidEmail(email))
 			{
 				throw new ValidationException(UserConstants.InvalidEmailFormat);
+			}
+
+			// Split email validation
+			var emailParts = email.Split('@');
+			if (emailParts.Length != 2)
+			{
+				throw new ValidationException(UserConstants.InvalidEmailFormat);
+			}
+
+			// Local part validations
+			var localPart = emailParts[0];
+			if (localPart.Length < 3)
+			{
+				throw new ValidationException(UserConstants.EmailLocalPartTooShort);
+			}
+
+			if (localPart.StartsWith('.') || localPart.EndsWith('.'))
+			{
+				throw new ValidationException(UserConstants.EmailLocalPartInvalidDot);
+			}
+
+			// Domain validations
+			var domain = emailParts[1];
+			var forbiddenDomains = new[] { "temp.com", "temporary.com", "disposable.com" };
+			if (forbiddenDomains.Any(d => domain.EndsWith(d, StringComparison.OrdinalIgnoreCase)))
+			{
+				throw new ValidationException(UserConstants.EmailDomainNotAllowed);
+			}
+
+			// Multiple @ check
+			if (email.Count(c => c == '@') > 1)
+			{
+				throw new ValidationException(UserConstants.EmailMultipleAtSymbols);
+			}
+
+			// Special characters validation
+			var forbiddenCharacters = new[] { ";", "'", "\"", "\\", "--" };
+			if (forbiddenCharacters.Any(c => email.Contains(c)))
+			{
+				throw new ValidationException(UserConstants.EmailContainsForbiddenChars);
+			}
+
+			// XSS prevention
+			if (email.Contains('<') || email.Contains('>'))
+			{
+				throw new ValidationException(UserConstants.EmailContainsHtmlChars);
+			}
+
+			// XSS Protection
+			var xssPatterns = new[]
+			{
+				"<script", "javascript:", "vbscript:", "onload=",
+				"onerror=", "onclick=", "onmouseover=",
+				"alert(", "eval(", "document.cookie",
+				"<iframe", "<object", "<embed",
+				"data:text/html", "data:text/javascript",
+				"<", ">", "src=", "href=",
+				"style=", "expression(", "url("
+			};
+
+			if (xssPatterns.Any(pattern =>
+				userName.ToLower().Contains(pattern.ToLower()) ||
+				email.ToLower().Contains(pattern.ToLower())))
+			{
+				throw new ValidationException(UserConstants.XssAttempt);
+			}
+
+
+
+			// SQL Injection Protection
+			var sqlKeywords = new[]
+			{
+				"select", "insert", "update", "delete", "drop",
+				"union", "exec", "execute", "sp_", "xp_",
+				"--", ";", "/*", "*/", "@@", "@",
+				"char", "nchar", "varchar", "nvarchar",
+				"table", "database", "sysobjects", "syscolumns"
+			};
+
+			if (sqlKeywords.Any(keyword =>
+				userName.Contains(keyword, StringComparison.CurrentCultureIgnoreCase) ||
+				email.Contains(keyword, StringComparison.CurrentCultureIgnoreCase)))
+			{
+				throw new ValidationException(UserConstants.SqlInjectionAttempt);
 			}
 
 			// Check for duplicate email in current seed

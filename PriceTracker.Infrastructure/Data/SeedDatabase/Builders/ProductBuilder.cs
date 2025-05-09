@@ -51,7 +51,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		public Product Build() => _product;
 		
 
-		private void ValidateProductInputData(
+		private static void ValidateProductInputData(
 			string productName,
 			string brandName,
 			ProductCategory category,

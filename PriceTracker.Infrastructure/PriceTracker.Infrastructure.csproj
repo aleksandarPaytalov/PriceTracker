@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\SeedDatabase\DataProviders\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 {
@@ -10,7 +11,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 		{
 			_dataProvider = dataProvider;
 		}
-
+		
 		public void Configure(EntityTypeBuilder<T> builder)
 		{
 			ConfigureEntity(builder);
