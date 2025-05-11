@@ -3,7 +3,7 @@ using System.Text;
 
 namespace PriceTracker.Infrastructure.Common
 {
-	public class FileLogger : ILogger
+	public class FileLogger : IAppLogger
 	{
 		private readonly string _logPath;
 		private readonly object _lock = new object();

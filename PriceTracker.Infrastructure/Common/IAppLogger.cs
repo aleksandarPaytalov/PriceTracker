@@ -1,6 +1,6 @@
 ﻿namespace PriceTracker.Infrastructure.Common
 {
-	public interface ILogger
+	public interface IAppLogger
 	{
 		void LogError(string message, Exception? ex = null);
 		void LogWarning(string message);

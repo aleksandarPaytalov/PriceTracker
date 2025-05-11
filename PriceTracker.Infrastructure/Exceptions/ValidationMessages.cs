@@ -1,8 +1,8 @@
 ﻿namespace PriceTracker.Infrastructure.Exceptions
 {
-	public static class ValidationMessages
+	internal static class ValidationMessages
 	{
-		public static class UserConstants
+		internal static class UserConstants
 		{
 			public const string UserNameRequired = "Username is required";
 			public const string InvalidUserNameLength = "Username must be between {0} and {1} characters";
@@ -28,7 +28,7 @@
 
 		}
 
-		public static class MonthlyBudgetConstants
+		internal static class MonthlyBudgetConstants
 		{
 			public const string UserRequired = "User cannot be null when creating a monthly budget.";
 			public const string InvalidAmount = "Budget amount must be greater than zero. Provided value: {0:C}";
@@ -36,7 +36,7 @@
 			public const string InvalidMonth = "Invalid month value: {0}";
 		}
 
-		public static class ExpenseConstants
+		internal static class ExpenseConstants
 		{
 			public const string UserRequired = "User cannot be null when creating an expense.";
 			public const string ProductRequired = "Product cannot be null when creating an expense.";
@@ -48,7 +48,7 @@
 			public const string DescriptionTooLong = "Description length ({0}) exceeds maximum allowed length ({1}).";
 		}
 
-		public static class NotificationConstants
+		internal static class NotificationConstants
 		{
 			public const string UserRequired = "User must be specified";
 			public const string UserIdRequired = "User ID must be specified";
@@ -65,7 +65,7 @@
 			public const string InvalidIsReadValue = "IsRead must be a valid boolean value (true/false)";
 		}
 
-		public static class ProductConstants
+		internal static class ProductConstants
 		{
 			public const string NameRequired = "Product name is required";
 			public const string InvalidNameLength = "Product name must be between {0} and {1} characters";
@@ -75,7 +75,7 @@
 			public const string InvalidQuantity = "Quantity cannot be negative";
 		}
 
-		public static class StoreConstants
+		internal static class StoreConstants
 		{
 			public const string NameRequired = "Store name is required";
 			public const string InvalidNameLength = "Store name must be between {0} and {1} characters";
@@ -83,7 +83,7 @@
 			public const string StoreAlreadyExistsInDb = "Store with name '{0}' already exists in database";
 		}
 
-		public static class PriceConstants
+		internal static class PriceConstants
 		{
 			public const string ProductRequired = "Product must be specified";
 			public const string ProductIdRequired = "Product ID must be specified";
@@ -95,7 +95,7 @@
 			public const string FutureDate = "Price check date cannot be in the future. Current date: {0:g}, Provided date: {1:g}";
 		}
 
-		public static class TaskConstants
+		internal static class TaskConstants
 		{
 			public const string UserRequired = "User must be specified";
 			public const string UserIdRequired = "User ID must be specified";
