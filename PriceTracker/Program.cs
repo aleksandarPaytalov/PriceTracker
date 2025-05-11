@@ -29,7 +29,10 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+// Register Repository
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+// Register DataProviders
 builder.Services.AddScoped<IDataProvider<Product>, ProductDataProvider>();
 builder.Services.AddScoped<IDataProvider<Store>, StoreDataProvider>();
 builder.Services.AddScoped<IDataProvider<Price>, PriceDataProvider>();
@@ -39,6 +42,7 @@ builder.Services.AddScoped<IDataProvider<Notification>, NotificationDataProvider
 builder.Services.AddScoped<IDataProvider<MonthlyBudget>, MonthlyBudgetDataProvider>();
 builder.Services.AddScoped<IDataProvider<User>, UserDataProvider>();
 
+// Register Configurations
 builder.Services.AddScoped<IEntityTypeConfiguration<User>, UserConfiguration>();
 builder.Services.AddScoped<IEntityTypeConfiguration<Store>, StoreConfiguration>();
 builder.Services.AddScoped<IEntityTypeConfiguration<Product>, ProductConfiguration>();
@@ -48,6 +52,7 @@ builder.Services.AddScoped<IEntityTypeConfiguration<MonthlyBudget>, MonthlyBudge
 builder.Services.AddScoped<IEntityTypeConfiguration<ToDoItem>, ToDoItemConfiguration>();
 builder.Services.AddScoped<IEntityTypeConfiguration<Notification>, NotificationConfiguration>();
 
+// Register Logger
 builder.Services.AddSingleton<IAppLogger, FileLogger>();
 
 var app = builder.Build();

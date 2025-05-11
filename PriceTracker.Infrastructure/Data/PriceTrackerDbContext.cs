@@ -46,6 +46,8 @@ public class PriceTrackerDbContext : IdentityDbContext<User, IdentityRole<int>, 
 
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
+		base.OnModelCreating(builder);
+
 		foreach (var configuration in _userConfigurations)
 		{
 			configuration.Configure(builder.Entity<User>());
@@ -79,6 +81,6 @@ public class PriceTrackerDbContext : IdentityDbContext<User, IdentityRole<int>, 
 			configuration.Configure(builder.Entity<Notification>());
 		}
 		
-		base.OnModelCreating(builder);
+		
 	}
 }
