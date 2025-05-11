@@ -1,5 +1,6 @@
 ﻿using PriceTracker.Infrastructure.Common;
-using static PriceTracker.Infrastructure.Constants.DataProviderMessages;
+using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders.DataSources;
+using static PriceTracker.Infrastructure.Constants.DataProviderMessages.BaseDataProviderMessages;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 {
@@ -7,13 +8,13 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 	{
 		protected readonly IRepository<T> _repository;
 		protected readonly IDataSource<T>? _dataSource;
-		protected readonly ILogger _logger;
+		protected readonly IAppLogger _logger;
 		protected readonly string _typeName;
 
 		protected BaseDataProvider(
 			IRepository<T> repository,
 			IDataSource<T>? dataSource = null,
-			ILogger? logger = null)
+			IAppLogger? logger = null)
 		{
 			_repository = repository;
 			_dataSource = dataSource;
