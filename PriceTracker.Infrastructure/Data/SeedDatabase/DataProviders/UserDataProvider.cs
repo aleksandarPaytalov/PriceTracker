@@ -8,6 +8,10 @@ using static PriceTracker.Infrastructure.Constants.DataProviderMessages.UserData
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 {
+	/// <summary>
+	/// Provider responsible for loading and managing user data.
+	/// Handles both default and external user sources.
+	/// </summary>
 	public class UserDataProvider : BaseDataProvider<User>
 	{
 		private readonly IPasswordHasher<User> _passwordHasher;
@@ -22,6 +26,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_passwordHasher = passwordHasher;
 		}
 
+		/// <summary>
+		/// Retrieves all user data either from external source or generates default users
+		/// </summary>
+		/// <returns>Collection of user entities</returns>
 		public override IEnumerable<User> GetData()
 		{
 			var users = new List<User>();
@@ -50,6 +58,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return users;
 		}
 
+		/// <summary>
+		/// Loads users from external data source
+		/// </summary>
+		/// <returns>Collection of users from external source</returns>
 		private IEnumerable<User> LoadUsersFromExternalSource()
 		{
 			var users = new List<User>();
@@ -92,6 +104,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return users;
 		}
 
+		/// <summary>
+		/// Creates default users when no external source is available
+		/// </summary>
+		/// <returns>Collection of default users (admin and test user)</returns>
 		private IEnumerable<User> LoadDefaultUsers()
 		{
 			var users = new List<User>();
@@ -138,6 +154,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return users;
 		}
 
+		/// <summary>
+		/// Creates a new user using the UserBuilder
+		/// </summary>
 		private User? CreateUser(string userName, string email, string password)
 		{
 			try
@@ -159,16 +178,25 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			}
 		}
 
+		/// <summary>
+		/// Checks if a user already exists in the database
+		/// </summary>
 		private bool UserExists(User user)
 		{
 			return UserExists(user.Email!);
 		}
 
+		/// <summary>
+		/// Checks if a user exists by email
+		/// </summary>
 		private bool UserExists(string email)
 		{
 			return EntityExists(u => u.Email == email);
 		}
 
+		/// <summary>
+		/// Logs the addition of a new user
+		/// </summary>
 		private void LogUserAdded(User user, bool isDefault)
 		{
 			var message = string.Format(
@@ -180,11 +208,17 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_logger.LogInformation(message);
 		}
 
+		/// <summary>
+		/// Creates a formatted identifier for a user
+		/// </summary>
 		private string FormatUserIdentifier(User user)
 		{
 			return FormatUserIdentifier(user.UserName!, user.Email!);
 		}
 
+		/// <summary>
+		/// Creates a formatted identifier using individual user components
+		/// </summary>
 		private string FormatUserIdentifier(string userName, string email)
 		{
 			return string.Format(
