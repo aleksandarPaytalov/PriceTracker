@@ -7,6 +7,9 @@ using static PriceTracker.Infrastructure.Constants.DataProviderMessages.PriceDat
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 {
+	/// <summary>
+	/// Provider responsible for loading and managing price data
+	/// </summary>
 	public class PriceDataProvider : BaseDataProvider<Price>
 	{
 		private readonly IRepository<Product> _productRepository;
@@ -26,6 +29,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_random = new Random();
 		}
 
+		/// <summary>
+		/// Main method to retrieve price data.
+		/// Returns collection of prices from external source or default data
+		/// </summary>
 		public override IEnumerable<Price> GetData()
 		{
 			var prices = new List<Price>();
@@ -54,6 +61,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return prices;
 		}
 
+		/// <summary>
+		/// Loads prices from external source
+		/// </summary>
 		private IEnumerable<Price> LoadPricesFromExternalSource()
 		{
 			var prices = new List<Price>();
@@ -94,6 +104,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return prices;
 		}
 
+		/// <summary>
+		/// Creates default prices when no external source is available
+		/// </summary>
 		private IEnumerable<Price> LoadDefaultPrices()
 		{
 			var prices = new List<Price>();
@@ -138,6 +151,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return prices;
 		}
 
+		/// <summary>
+		/// Loads related products and stores data
+		/// </summary>
 		private (List<Product> products, List<Store> stores) LoadRelatedData()
 		{
 			_logger.LogInformation(LoadingRelatedData);
@@ -148,6 +164,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return (products, stores);
 		}
 
+		/// <summary>
+		/// Creates a new Price instance using the builder pattern
+		/// </summary>
 		private Price? CreatePrice(Price priceData, List<Product> products, List<Store> stores)
 		{
 			try
@@ -182,6 +201,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			}
 		}
 
+		/// <summary>
+		/// Generates a default price with random amount for testing purposes
+		/// </summary>
 		private Price GenerateDefaultPrice(Product product, Store store)
 		{
 			// Generate random price in range 1 to 1000 lv.
@@ -198,6 +220,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			};
 		}
 
+		/// <summary>
+		/// Checks if a price record already exists in the database
+		/// </summary>
 		private bool PriceExists(Price price)
 		{
 			return EntityExists(p =>
@@ -206,6 +231,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 				p.DateChecked == price.DateChecked);
 		}
 
+		/// <summary>
+		/// Logs the addition of a new price record to the system
+		/// </summary>
 		private void LogPriceAdded(Price price, bool isDefault)
 		{
 			var message = string.Format(
@@ -218,6 +246,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_logger.LogInformation(message);
 		}
 
+		/// <summary>
+		/// Creates a formatted identifier for a price entity
+		/// </summary>
 		private string FormatPriceIdentifier(Price price)
 		{
 			return FormatPriceIdentifier(
@@ -226,6 +257,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 				price.DateChecked ?? DateTime.Today);
 		}
 
+		/// <summary>
+		/// Creates a formatted identifier using individual price components
+		/// </summary>
 		private string FormatPriceIdentifier(int productId, int storeId, DateTime date)
 		{
 			return string.Format(

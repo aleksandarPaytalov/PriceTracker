@@ -92,6 +92,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 				return Enumerable.Empty<T>();
 			}
 		}
+
 		/// <summary>
 		/// Logs errors that occur during entity processing
 		/// </summary>
