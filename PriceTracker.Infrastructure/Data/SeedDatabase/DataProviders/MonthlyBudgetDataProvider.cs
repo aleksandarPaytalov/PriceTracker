@@ -7,6 +7,9 @@ using static PriceTracker.Infrastructure.Constants.DataProviderMessages.MonthlyB
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 {
+	/// <summary>
+	/// Provider responsible for loading and managing monthly budget data
+	/// </summary>
 	public class MonthlyBudgetDataProvider : BaseDataProvider<MonthlyBudget>
 	{
 		private readonly IRepository<User> _userRepository;
@@ -23,6 +26,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_random = new Random();
 		}
 
+		/// <summary>
+		/// Main method to retrieve budget data
+		/// Returns collection of monthly budgets from external source or default data
+		/// </summary>
 		public override IEnumerable<MonthlyBudget> GetData()
 		{
 			var budgets = new List<MonthlyBudget>();
@@ -51,6 +58,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return budgets;
 		}
 
+		/// <summary>
+		/// Loads budgets from external source (e.g., JSON file)
+		/// </summary>
 		private IEnumerable<MonthlyBudget> LoadBudgetsFromExternalSource()
 		{
 			var budgets = new List<MonthlyBudget>();
@@ -91,6 +101,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return budgets;
 		}
 
+		/// <summary>
+		/// Creates default budgets when no external source is available
+		/// </summary>
 		private IEnumerable<MonthlyBudget> LoadDefaultBudgets()
 		{
 			var budgets = new List<MonthlyBudget>();
@@ -146,12 +159,18 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return budgets;
 		}
 
+		/// <summary>
+		/// Loads all users from the database
+		/// </summary>
 		private List<User> LoadUsers()
 		{
 			_logger.LogInformation(LoadingRelatedData);
 			return _userRepository.AllReadOnly().ToList();
 		}
 
+		/// <summary>
+		/// Creates a new MonthlyBudget instance using the builder pattern
+		/// </summary>
 		private MonthlyBudget? CreateBudget(MonthlyBudget budgetData, List<User> users)
 		{
 			try
@@ -173,6 +192,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			}
 		}
 
+		/// <summary>
+		/// Generates a default budget with random amount for testing purposes
+		/// </summary>
 		private MonthlyBudget GenerateDefaultBudget(User user, Month month)
 		{
 			// Generating a random budget for the next month 
@@ -187,6 +209,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			};
 		}
 
+		/// <summary>
+		/// Checks if a budget already exists for specific user and month
+		/// </summary>
 		private bool BudgetExists(MonthlyBudget budget)
 		{
 			return EntityExists(b =>
@@ -194,6 +219,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 				b.Month == budget.Month);
 		}
 
+		/// <summary>
+		/// Add message in log if budget is successfully added
+		/// </summary>
 		private void LogBudgetAdded(MonthlyBudget budget, bool isDefault)
 		{
 			var message = string.Format(
@@ -206,11 +234,17 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_logger.LogInformation(message);
 		}
 
+		/// <summary>
+		/// Formats a unique identifier for a budget using its associated budget entity
+		/// </summary>
 		private string FormatBudgetIdentifier(MonthlyBudget budget)
 		{
 			return FormatBudgetIdentifier(budget.UserId, budget.Month);
 		}
 
+		/// <summary>
+		/// Formats a unique identifier for a budget using individual components
+		/// </summary>
 		private string FormatBudgetIdentifier(int userId, Month month)
 		{
 			return string.Format(
