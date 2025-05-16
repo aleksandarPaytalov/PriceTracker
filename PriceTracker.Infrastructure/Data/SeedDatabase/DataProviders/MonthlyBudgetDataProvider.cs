@@ -237,7 +237,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Formats a unique identifier for a budget using its associated budget entity
 		/// </summary>
-		private string FormatBudgetIdentifier(MonthlyBudget budget)
+		private static string FormatBudgetIdentifier(MonthlyBudget budget)
 		{
 			return FormatBudgetIdentifier(budget.UserId, budget.Month);
 		}
@@ -245,7 +245,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Formats a unique identifier for a budget using individual components
 		/// </summary>
-		private string FormatBudgetIdentifier(int userId, Month month)
+		private static string FormatBudgetIdentifier(int userId, Month month)
 		{
 			return string.Format(
 				BudgetIdentifier,
