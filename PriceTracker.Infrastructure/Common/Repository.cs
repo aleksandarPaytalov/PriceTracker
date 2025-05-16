@@ -1,7 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
-using PriceTracker.Infrastructure.Data;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace PriceTracker.Infrastructure.Common
 {
