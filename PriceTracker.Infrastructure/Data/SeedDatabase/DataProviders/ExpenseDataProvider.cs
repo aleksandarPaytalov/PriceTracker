@@ -7,6 +7,10 @@ using static PriceTracker.Infrastructure.Constants.DataProviderMessages.ExpenseD
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 {
+	/// <summary>
+	/// Provider responsible for loading and managing expense data.
+	/// Handles both default and external data sources for expenses.
+	/// </summary>
 	public class ExpenseDataProvider : BaseDataProvider<Expense>
 	{
 		private readonly IRepository<User> _userRepository;
@@ -29,6 +33,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_random = new Random();
 		}
 
+		/// <summary>
+		/// Retrieves all expense data either from external source or generates default data
+		/// </summary>
+		/// <returns>Collection of expense entities</returns>
 		public override IEnumerable<Expense> GetData()
 		{
 			var expenses = new List<Expense>();
@@ -57,6 +65,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return expenses;
 		}
 
+		/// <summary>
+		/// Loads expenses from an external data source
+		/// </summary>
+		/// <returns>Collection of expenses from external source</returns>
 		private IEnumerable<Expense> LoadExpensesFromExternalSource()
 		{
 			var expenses = new List<Expense>();
@@ -97,6 +109,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return expenses;
 		}
 
+		/// <summary>
+		/// Creates default expense records when no external source is available
+		/// </summary>
 		private IEnumerable<Expense> LoadDefaultExpenses()
 		{
 			var expenses = new List<Expense>();
@@ -141,6 +156,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return expenses;
 		}
 
+		/// <summary>
+		/// Loads all related data needed for expense creation
+		/// </summary>
+		/// <returns>Tuple containing lists of users, products, and stores</returns>
 		private (List<User> users, List<Product> products, List<Store> stores) LoadRelatedData()
 		{
 			_logger.LogInformation(LoadingRelatedData);
@@ -152,6 +171,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return (users, products, stores);
 		}
 
+		/// <summary>
+		/// Creates a new expense entity using the builder pattern
+		/// </summary>
 		private Expense? CreateExpense(
 			Expense expenseData,
 			List<User> users,
@@ -187,6 +209,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			}
 		}
 
+		/// <summary>
+		/// Generates a default expense with random amount for testing purposes
+		/// </summary>
 		private Expense GenerateDefaultExpense(User user, Product product, Store store)
 		{
 			var randomAmount = _random.Next(1000, 100000) / 100.0m; 
@@ -206,6 +231,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			};
 		}
 
+		/// <summary>
+		/// Checks if an expense already exists in the database
+		/// </summary>
 		private bool ExpenseExists(Expense expense)
 		{
 			return EntityExists(e =>
@@ -215,6 +243,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 				e.DateSpent == expense.DateSpent);
 		}
 
+		/// <summary>
+		/// Logs the addition of a new expense to the system
+		/// </summary>
 		private void LogExpenseAdded(Expense expense, bool isDefault)
 		{
 			var message = string.Format(
@@ -227,6 +258,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_logger.LogInformation(message);
 		}
 
+		/// <summary>
+		/// Creates a formatted identifier for an expense entity
+		/// </summary>
 		private string FormatExpenseIdentifier(Expense expense)
 		{
 			return FormatExpenseIdentifier(
@@ -235,6 +269,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 				expense.DateSpent);
 		}
 
+		/// /// <summary>
+		/// Creates a formatted identifier using individual expense components
+		/// </summary>
 		private string FormatExpenseIdentifier(int userId, int productId, DateTime date)
 		{
 			return string.Format(
