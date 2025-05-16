@@ -7,6 +7,9 @@ using static PriceTracker.Infrastructure.Constants.DataProviderMessages.ToDoItem
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 {
+	/// <summary>
+	/// Provider responsible for loading and managing todo items data
+	/// </summary>
 	public class ToDoItemDataProvider : BaseDataProvider<ToDoItem>
 	{
 		private readonly IRepository<User> _userRepository;
@@ -23,6 +26,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_random = new Random();
 		}
 
+		/// <summary>
+		/// Main method to retrieve todo items data
+		/// Returns collection of todo items from external source or default data
+		/// </summary>
 		public override IEnumerable<ToDoItem> GetData()
 		{
 			var tasks = new List<ToDoItem>();
@@ -51,6 +58,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return tasks;
 		}
 
+		/// <summary>
+		/// Loads tasks from external source
+		/// </summary>
 		private IEnumerable<ToDoItem> LoadTasksFromExternalSource()
 		{
 			var tasks = new List<ToDoItem>();
@@ -91,6 +101,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return tasks;
 		}
 
+		/// <summary>
+		/// Creates default tasks when no external source is available
+		/// </summary>
 		private IEnumerable<ToDoItem> LoadDefaultTasks()
 		{
 			var tasks = new List<ToDoItem>();
@@ -133,12 +146,18 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return tasks;
 		}
 
+		/// <summary>
+		/// Get a collection of users
+		/// </summary>
 		private List<User> LoadUsers()
 		{
 			_logger.LogInformation(LoadingRelatedData);
 			return _userRepository.AllReadOnly().ToList();
 		}
 
+		/// <summary>
+		/// Creates a new Task instance using the builder pattern
+		/// </summary>
 		private ToDoItem? CreateTask(ToDoItem taskData, List<User> users)
 		{
 			try
@@ -163,6 +182,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			}
 		}
 
+		/// <summary>
+		/// Generates default tasks for a specific user
+		/// </summary>
 		private IEnumerable<ToDoItem> GetDefaultTasksForUser(User user)
 		{
 			var defaultTasks = new[]
@@ -185,6 +207,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			});
 		}
 
+		/// <summary>
+		/// Determines if a task with identical UserId, Title and Creation Date already exists in the system.
+		/// </summary>
 		private bool TaskExists(ToDoItem task)
 		{
 			return EntityExists(t =>
@@ -193,6 +218,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 				t.CreatedAt.Date == task.CreatedAt.Date);
 		}
 
+		/// <summary>
+		/// Logs the addition of a new task to the system, with different messages for default and custom tasks.
+		/// </summary>
 		private void LogTaskAdded(ToDoItem task, bool isDefault)
 		{
 			var message = string.Format(
@@ -204,6 +232,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_logger.LogInformation(message);
 		}
 
+		/// <summary>
+		/// Creates a formatted string identifier for a task using its title and user information.
+		/// </summary>
 		private string FormatTaskIdentifier(ToDoItem task)
 		{
 			return string.Format(

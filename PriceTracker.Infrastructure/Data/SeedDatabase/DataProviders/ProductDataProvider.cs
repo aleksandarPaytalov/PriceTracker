@@ -1,12 +1,15 @@
 ﻿using PriceTracker.Infrastructure.Common;
 using PriceTracker.Infrastructure.Data.Models;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Builders;
-using static PriceTracker.Infrastructure.Constants.DataProviderMessages.ProductDataProviderConstants;
-using static PriceTracker.Infrastructure.Constants.DataProviderMessages.BaseDataProviderMessages;
 using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders.DataSources;
+using static PriceTracker.Infrastructure.Constants.DataProviderMessages.BaseDataProviderMessages;
+using static PriceTracker.Infrastructure.Constants.DataProviderMessages.ProductDataProviderConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 {
+	/// <summary>
+	/// Provider responsible for loading and managing product data
+	/// </summary>
 	public class ProductDataProvider : BaseDataProvider<Product>
 	{
 		public ProductDataProvider(
@@ -17,6 +20,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		{
 		}
 
+		/// <summary>
+		/// Main method to retrieve product data.
+		/// Returns collection of products from external source or default data
+		/// </summary>
 		public override IEnumerable<Product> GetData()
 		{
 			var products = new List<Product>();
@@ -47,6 +54,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return products;
 		}
 
+		/// <summary>
+		/// Loads products from external source
+		/// </summary>
 		private IEnumerable<Product> LoadProductsFromExternalSource()
 		{
 			var products = new List<Product>();
@@ -90,6 +100,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return products;
 		}
 
+		/// <summary>
+		/// Creates default products when no external source is available
+		/// </summary>
 		private IEnumerable<Product> LoadDefaultProducts()
 		{
 			var products = new List<Product>();
@@ -98,17 +111,17 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			{
 				_logger.LogInformation(LoadingDefaultData);
 
-				foreach (var defaultProduct in GetDefaultProductData())
+				foreach (var (name, brand, category, quantity) in GetDefaultProductData())
 				{
 					try
 					{
-						if (!ProductExists(defaultProduct.name, defaultProduct.brand))
+						if (!ProductExists(name, brand))
 						{
 							var product = CreateProduct(
-								defaultProduct.name,
-								defaultProduct.brand,
-								defaultProduct.category,
-								defaultProduct.quantity);
+								name,
+								brand,
+								category,
+								quantity);
 
 							if (product != null)
 							{
@@ -119,7 +132,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 					}
 					catch (Exception ex)
 					{
-						var identifier = FormatProductIdentifier(defaultProduct.name, defaultProduct.brand);
+						var identifier = FormatProductIdentifier(name, brand);
 						LogProcessingError(identifier, ex);
 					}
 				}
@@ -132,6 +145,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return products;
 		}
 
+		/// <summary>
+		/// Creates a new product instance using the ProductBuilder
+		/// </summary>
 		private Product? CreateProduct(string name, string brand, ProductCategory category, int quantity)
 		{
 			try
@@ -151,11 +167,17 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			}
 		}
 
+		/// <summary>
+		/// Checks if a product already exists in the database
+		/// </summary>
 		private bool ProductExists(Product product)
 		{
 			return ProductExists(product.ProductName, product.Brand);
 		}
 
+		/// <summary>
+		/// Checks if a product already exists based on name and brand
+		/// </summary>
 		private bool ProductExists(string name, string brand)
 		{
 			return EntityExists(p =>
@@ -163,6 +185,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 				p.Brand == brand);
 		}
 
+		/// <summary>
+		/// Logs the addition of a new product to the system
+		/// </summary>
 		private void LogProductAdded(Product product, bool isDefault)
 		{
 			var message = string.Format(
@@ -174,23 +199,29 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_logger.LogInformation(message);
 		}
 
+		/// <summary>
+		/// Creates a formatted identifier string for a product
+		/// </summary>
 		private string FormatProductIdentifier(string name, string brand)
 		{
 			return string.Format(ProductIdentifier, name, brand);
 		}
 
-		private IEnumerable<(string name, string brand, ProductCategory category, int quantity)>
+		/// <summary>
+		/// Provides default product data for seeding the database
+		/// </summary>
+		private static IEnumerable<(string name, string brand, ProductCategory category, int quantity)>
 			GetDefaultProductData()
 		{
-			return new[]
-			{
+			return
+			[
 				("Milk 3%", "Vereia", ProductCategory.Food, 1),
 				("White Bread", "Sofia Mel", ProductCategory.Food, 1),
 				("Coca Cola 2L", "Coca Cola", ProductCategory.Food, 1),
 				("Laptop XPS 13", "Dell", ProductCategory.Electronics, 1),
 				("iPhone 15", "Apple", ProductCategory.Electronics, 1),
 				("Running Shoes", "Nike", ProductCategory.Clothing, 1)
-			};
+			];
 		}
 	}
 }

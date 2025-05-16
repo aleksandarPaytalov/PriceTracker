@@ -4,6 +4,9 @@ using static PriceTracker.Infrastructure.Constants.DataProviderMessages.BaseData
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 {
+	/// <summary>
+	/// Abstract base class for all data providers that provides common functionality
+	/// </summary>
 	public abstract class BaseDataProvider<T> : IDataProvider<T> where T : class
 	{
 		protected readonly IRepository<T> _repository;
@@ -22,8 +25,15 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_typeName = typeof(T).Name;
 		}
 
+		/// <summary>
+		/// Abstract method that must be implemented by inheritors.
+		/// Returns a collection of data for the specific type.
+		/// </summary>
 		public abstract IEnumerable<T> GetData();
 
+		/// <summary>
+		/// Checks if a specific entity already exists in the database
+		/// </summary>
 		protected bool EntityExists(Func<T, bool> predicate)
 		{
 			try
@@ -39,6 +49,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			}
 		}
 
+		/// <summary>
+		/// Loads data from external source asynchronously
+		/// </summary>
+		/// <returns>Collection of loaded data</returns>
 		protected async Task<IEnumerable<T>> LoadFromSourceAsync()
 		{
 			if (_dataSource == null)
@@ -79,6 +93,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			}
 		}
 
+		/// <summary>
+		/// Logs errors that occur during entity processing
+		/// </summary>
 		protected void LogProcessingError(string entityIdentifier, Exception ex)
 		{
 			_logger.LogError(
@@ -88,6 +105,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 				ex);
 		}
 
+		/// <summary>
+		/// Logs critical errors that occur during method execution
+		/// </summary>
 		protected void LogCriticalError(string methodName, Exception ex)
 		{
 			_logger.LogError(

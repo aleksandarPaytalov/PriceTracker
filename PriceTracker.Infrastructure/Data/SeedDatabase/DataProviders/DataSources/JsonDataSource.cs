@@ -2,6 +2,9 @@
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders.DataSources
 {
+	/// <summary>
+	/// Implementation of IDataSource that loads data from JSON files
+	/// </summary>
 	public class JsonDataSource<T> : IDataSource<T> where T : class
 	{
 		private readonly string _filePath;
@@ -16,6 +19,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders.DataSource
 			};
 		}
 
+		/// <summary>
+		/// Loads and deserializes data from a JSON file asynchronously
+		/// </summary>
+		/// <returns>Collection of deserialized objects</returns>
 		public async Task<IEnumerable<T>> LoadDataAsync()
 		{
 			if (!File.Exists(_filePath))

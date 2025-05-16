@@ -49,7 +49,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		/// <returns>A validated MonthlyBudget object</returns>
 		public MonthlyBudget Build() => _budget;
 
-		private void ValidateInitialBudgetData(User user, decimal budget, Month month)
+		private static void ValidateInitialBudgetData(User user, decimal budget, Month month)
 		{
 			// User validation
 			if (user == null)
