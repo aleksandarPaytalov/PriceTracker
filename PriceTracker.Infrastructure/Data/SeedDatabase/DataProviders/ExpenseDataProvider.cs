@@ -16,7 +16,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		private readonly IRepository<User> _userRepository;
 		private readonly IRepository<Product> _productRepository;
 		private readonly IRepository<Store> _storeRepository;
-		private readonly Random _random;
 
 		public ExpenseDataProvider(
 			IRepository<Expense> repository,
@@ -30,11 +29,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			_userRepository = userRepository;
 			_productRepository = productRepository;
 			_storeRepository = storeRepository;
-			_random = new Random();
 		}
 
 		/// <summary>
-		/// Retrieves all expense data either from external source or generates default data
+		/// Retrieves all expense data from external source
 		/// </summary>
 		/// <returns>Collection of expense entities</returns>
 		public override IEnumerable<Expense> GetData()
@@ -43,14 +41,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 
 			try
 			{
-				if (_dataSource != null)
-				{
-					expenses.AddRange(LoadExpensesFromExternalSource());
-				}
-				else
-				{
-					expenses.AddRange(LoadDefaultExpenses());
-				}
+				expenses.AddRange(LoadExpensesFromExternalSource());
 
 				_logger.LogInformation(
 					string.Format(FinishedLoadingData,
@@ -90,7 +81,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 							if (expense != null)
 							{
 								expenses.Add(expense);
-								LogExpenseAdded(expense, isDefault: false);
+								LogExpenseAdded(expense);
 							}
 						}
 					}
@@ -109,53 +100,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			return expenses;
 		}
 
-		/// <summary>
-		/// Creates default expense records when no external source is available
-		/// </summary>
-		private IEnumerable<Expense> LoadDefaultExpenses()
-		{
-			var expenses = new List<Expense>();
-
-			try
-			{
-				_logger.LogInformation(LoadingDefaultData);
-
-				var (users, products, stores) = LoadRelatedData();
-
-				// Generating couple of expenses for each user
-				foreach (var user in users)
-				{
-					foreach (var product in products.Take(3)) // We take the first three products for example
-					{
-						try
-						{
-							var defaultExpense = GenerateDefaultExpense(user, product, stores.First());
-							if (!ExpenseExists(defaultExpense))
-							{
-								var expense = CreateExpense(defaultExpense, users, products, stores);
-								if (expense != null)
-								{
-									expenses.Add(expense);
-									LogExpenseAdded(expense, isDefault: true);
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							var identifier = FormatExpenseIdentifier(user.Id, product.ProductId, DateTime.Today);
-							LogProcessingError(identifier, ex);
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				LogCriticalError(nameof(LoadDefaultExpenses), ex);
-			}
-
-			return expenses;
-		}
-
+		
 		/// <summary>
 		/// Loads all related data needed for expense creation
 		/// </summary>
@@ -210,28 +155,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		}
 
 		/// <summary>
-		/// Generates a default expense with random amount for testing purposes
-		/// </summary>
-		private Expense GenerateDefaultExpense(User user, Product product, Store store)
-		{
-			var randomAmount = _random.Next(1000, 100000) / 100.0m; 
-
-			return new Expense
-			{
-				UserId = user.Id,
-				User = user,
-				ProductId = product.ProductId,
-				Product = product,
-				StoreId = store.StoreId,
-				Store = store,
-				ExpenseType = (ExpenseType)_random.Next(1, 10),
-				AmountSpent = randomAmount,
-				DateSpent = DateTime.Today.AddDays(-_random.Next(0, 30)),
-				Description = $"Test expense for {product.ProductName}"
-			};
-		}
-
-		/// <summary>
 		/// Checks if an expense already exists in the database
 		/// </summary>
 		private bool ExpenseExists(Expense expense)
@@ -246,11 +169,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Logs the addition of a new expense to the system
 		/// </summary>
-		private void LogExpenseAdded(Expense expense, bool isDefault)
+		private void LogExpenseAdded(Expense expense)
 		{
-			var message = string.Format(
-				isDefault ? DefaultExpenseAdded
-						 : ExpenseAdded,
+			var message = string.Format(ExpenseAdded,
 				expense.User?.UserName ?? expense.UserId.ToString(),
 				expense.Product?.ProductName ?? expense.ProductId.ToString(),
 				expense.AmountSpent);
@@ -261,7 +182,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Creates a formatted identifier for an expense entity
 		/// </summary>
-		private string FormatExpenseIdentifier(Expense expense)
+		private static string FormatExpenseIdentifier(Expense expense)
 		{
 			return FormatExpenseIdentifier(
 				expense.UserId,
@@ -272,7 +193,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// /// <summary>
 		/// Creates a formatted identifier using individual expense components
 		/// </summary>
-		private string FormatExpenseIdentifier(int userId, int productId, DateTime date)
+		private static string FormatExpenseIdentifier(string userId, int productId, DateTime date)
 		{
 			return string.Format(
 				ExpenseIdentifier,

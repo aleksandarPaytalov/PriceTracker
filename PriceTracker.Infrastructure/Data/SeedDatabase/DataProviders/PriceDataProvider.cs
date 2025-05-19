@@ -14,7 +14,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 	{
 		private readonly IRepository<Product> _productRepository;
 		private readonly IRepository<Store> _storeRepository;
-		private readonly Random _random;
 
 		public PriceDataProvider(
 			IRepository<Price> repository,
@@ -26,12 +25,11 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		{
 			_productRepository = productRepository;
 			_storeRepository = storeRepository;
-			_random = new Random();
 		}
 
 		/// <summary>
 		/// Main method to retrieve price data.
-		/// Returns collection of prices from external source or default data
+		/// Returns collection of prices from external source
 		/// </summary>
 		public override IEnumerable<Price> GetData()
 		{
@@ -39,14 +37,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 
 			try
 			{
-				if (_dataSource != null)
-				{
-					prices.AddRange(LoadPricesFromExternalSource());
-				}
-				else
-				{
-					prices.AddRange(LoadDefaultPrices());
-				}
+				prices.AddRange(LoadPricesFromExternalSource());
 
 				_logger.LogInformation(
 					string.Format(FinishedLoadingData,
@@ -85,7 +76,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 							if (price != null)
 							{
 								prices.Add(price);
-								LogPriceAdded(price, isDefault: false);
+								LogPriceAdded(price);
 							}
 						}
 					}
@@ -103,54 +94,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 
 			return prices;
 		}
-
-		/// <summary>
-		/// Creates default prices when no external source is available
-		/// </summary>
-		private IEnumerable<Price> LoadDefaultPrices()
-		{
-			var prices = new List<Price>();
-
-			try
-			{
-				_logger.LogInformation(LoadingDefaultData);
-
-				var (products, stores) = LoadRelatedData();
-
-				// Generate prices for each product in each store
-				foreach (var product in products)
-				{
-					foreach (var store in stores)
-					{
-						try
-						{
-							var defaultPrice = GenerateDefaultPrice(product, store);
-							if (!PriceExists(defaultPrice))
-							{
-								var price = CreatePrice(defaultPrice, products, stores);
-								if (price != null)
-								{
-									prices.Add(price);
-									LogPriceAdded(price, isDefault: true);
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							var identifier = FormatPriceIdentifier(product.ProductId, store.StoreId, DateTime.Today);
-							LogProcessingError(identifier, ex);
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				LogCriticalError(nameof(LoadDefaultPrices), ex);
-			}
-
-			return prices;
-		}
-
+		
 		/// <summary>
 		/// Loads related products and stores data
 		/// </summary>
@@ -202,25 +146,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		}
 
 		/// <summary>
-		/// Generates a default price with random amount for testing purposes
-		/// </summary>
-		private Price GenerateDefaultPrice(Product product, Store store)
-		{
-			// Generate random price in range 1 to 1000 lv.
-			var randomPrice = _random.Next(100, 100000) / 100.0m;
-
-			return new Price
-			{
-				ProductId = product.ProductId,
-				Product = product,
-				StoreId = store.StoreId,
-				Store = store,
-				SellingPrice = randomPrice,
-				DateChecked = DateTime.Today
-			};
-		}
-
-		/// <summary>
 		/// Checks if a price record already exists in the database
 		/// </summary>
 		private bool PriceExists(Price price)
@@ -234,11 +159,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Logs the addition of a new price record to the system
 		/// </summary>
-		private void LogPriceAdded(Price price, bool isDefault)
+		private void LogPriceAdded(Price price)
 		{
 			var message = string.Format(
-				isDefault ? DefaultPriceAdded
-						 : PriceAdded,
+				PriceAdded,
 				price.Product?.ProductName ?? price.ProductId.ToString(),
 				price.Store?.Name ?? price.StoreId.ToString(),
 				price.SellingPrice);
@@ -249,7 +173,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Creates a formatted identifier for a price entity
 		/// </summary>
-		private string FormatPriceIdentifier(Price price)
+		private static string FormatPriceIdentifier(Price price)
 		{
 			return FormatPriceIdentifier(
 				price.ProductId,
@@ -260,7 +184,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Creates a formatted identifier using individual price components
 		/// </summary>
-		private string FormatPriceIdentifier(int productId, int storeId, DateTime date)
+		private static string FormatPriceIdentifier(int productId, int storeId, DateTime date)
 		{
 			return string.Format(
 				PriceIdentifier,

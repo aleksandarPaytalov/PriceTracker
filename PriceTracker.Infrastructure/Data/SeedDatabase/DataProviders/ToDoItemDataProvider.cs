@@ -13,8 +13,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 	public class ToDoItemDataProvider : BaseDataProvider<ToDoItem>
 	{
 		private readonly IRepository<User> _userRepository;
-		private readonly Random _random;
-
 		public ToDoItemDataProvider(
 			IRepository<ToDoItem> repository,
 			IRepository<User> userRepository,
@@ -23,12 +21,11 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			: base(repository, dataSource, logger)
 		{
 			_userRepository = userRepository;
-			_random = new Random();
 		}
 
 		/// <summary>
 		/// Main method to retrieve todo items data
-		/// Returns collection of todo items from external source or default data
+		/// Returns collection of todo items from external source
 		/// </summary>
 		public override IEnumerable<ToDoItem> GetData()
 		{
@@ -36,14 +33,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 
 			try
 			{
-				if (_dataSource != null)
-				{
-					tasks.AddRange(LoadTasksFromExternalSource());
-				}
-				else
-				{
-					tasks.AddRange(LoadDefaultTasks());
-				}
+				tasks.AddRange(LoadTasksFromExternalSource());
 
 				_logger.LogInformation(
 					string.Format(FinishedLoadingData,
@@ -82,7 +72,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 							if (task != null)
 							{
 								tasks.Add(task);
-								LogTaskAdded(task, isDefault: false);
+								LogTaskAdded(task);
 							}
 						}
 					}
@@ -102,57 +92,12 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		}
 
 		/// <summary>
-		/// Creates default tasks when no external source is available
-		/// </summary>
-		private IEnumerable<ToDoItem> LoadDefaultTasks()
-		{
-			var tasks = new List<ToDoItem>();
-
-			try
-			{
-				_logger.LogInformation(LoadingDefaultData);
-
-				var users = LoadUsers();
-
-				foreach (var user in users)
-				{
-					foreach (var defaultTask in GetDefaultTasksForUser(user))
-					{
-						try
-						{
-							if (!TaskExists(defaultTask))
-							{
-								var task = CreateTask(defaultTask, users);
-								if (task != null)
-								{
-									tasks.Add(task);
-									LogTaskAdded(task, isDefault: true);
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							var identifier = FormatTaskIdentifier(defaultTask);
-							LogProcessingError(identifier, ex);
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				LogCriticalError(nameof(LoadDefaultTasks), ex);
-			}
-
-			return tasks;
-		}
-
-		/// <summary>
 		/// Get a collection of users
 		/// </summary>
 		private List<User> LoadUsers()
 		{
 			_logger.LogInformation(LoadingRelatedData);
-			return _userRepository.AllReadOnly().ToList();
+			return [.. _userRepository.AllReadOnly()];
 		}
 
 		/// <summary>
@@ -183,31 +128,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		}
 
 		/// <summary>
-		/// Generates default tasks for a specific user
-		/// </summary>
-		private IEnumerable<ToDoItem> GetDefaultTasksForUser(User user)
-		{
-			var defaultTasks = new[]
-			{
-				("Check prices", "Review product prices in all stores", TaskPriority.High),
-				("Update budget", "Update monthly budget", TaskPriority.Medium),
-				("Review expenses", "Review last month expenses", TaskPriority.Low)
-			};
-
-			return defaultTasks.Select(t => new ToDoItem
-			{
-				UserId = user.Id,
-				User = user,
-				Title = t.Item1,
-				Description = t.Item2,
-				Priority = t.Item3,
-				TaskStatus = Models.TaskStatus.Pending,
-				DueDate = DateTime.Today.AddDays(_random.Next(1, 14)),
-				CreatedAt = DateTime.UtcNow
-			});
-		}
-
-		/// <summary>
 		/// Determines if a task with identical UserId, Title and Creation Date already exists in the system.
 		/// </summary>
 		private bool TaskExists(ToDoItem task)
@@ -221,11 +141,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Logs the addition of a new task to the system, with different messages for default and custom tasks.
 		/// </summary>
-		private void LogTaskAdded(ToDoItem task, bool isDefault)
+		private void LogTaskAdded(ToDoItem task)
 		{
 			var message = string.Format(
-				isDefault ? DefaultTaskAdded
-						: TaskAdded,
+				TaskAdded,
 				task.User?.UserName ?? task.UserId.ToString(),
 				task.Title);
 
@@ -235,7 +154,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Creates a formatted string identifier for a task using its title and user information.
 		/// </summary>
-		private string FormatTaskIdentifier(ToDoItem task)
+		private static string FormatTaskIdentifier(ToDoItem task)
 		{
 			return string.Format(
 				TaskIdentifier,

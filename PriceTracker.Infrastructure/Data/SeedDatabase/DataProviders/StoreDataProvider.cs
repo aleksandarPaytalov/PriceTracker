@@ -30,14 +30,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 
 			try
 			{
-				if (_dataSource != null)
-				{
-					stores.AddRange(LoadStoresFromExternalSource());
-				}
-				else
-				{
-					stores.AddRange(LoadDefaultStores());
-				}
+				stores.AddRange(LoadStoresFromExternalSource());
 
 				_logger.LogInformation(string.Format(FinishedLoadingData,
 						_typeName,
@@ -73,7 +66,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 							if (store != null)
 							{
 								stores.Add(store);
-								LogStoreAdded(store, isDefault: false);
+								LogStoreAdded(store);
 							}
 						}
 					}
@@ -87,46 +80,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			catch (Exception ex)
 			{
 				LogCriticalError(nameof(LoadStoresFromExternalSource), ex);
-			}
-
-			return stores;
-		}
-
-		/// <summary>
-		/// Creates default stores when no external source is available
-		/// </summary>
-		private IEnumerable<Store> LoadDefaultStores()
-		{
-			var stores = new List<Store>();
-
-			try
-			{
-				_logger.LogInformation(LoadingDefaultData);
-
-				foreach (var storeName in GetDefaultStoreData())
-				{
-					try
-					{
-						if (!StoreExists(storeName))
-						{
-							var store = CreateStore(storeName);
-							if (store != null)
-							{
-								stores.Add(store);
-								LogStoreAdded(store, isDefault: true);
-							}
-						}
-					}
-					catch (Exception ex)
-					{
-						var identifier = FormatStoreIdentifier(storeName);
-						LogProcessingError(identifier, ex);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				LogCriticalError(nameof(LoadDefaultStores), ex);
 			}
 
 			return stores;
@@ -168,11 +121,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Logs the addition of a new store to the system
 		/// </summary>
-		private void LogStoreAdded(Store store, bool isDefault)
+		private void LogStoreAdded(Store store)
 		{
 			var message = string.Format(
-				isDefault ? DefaultStoreAdded
-						 : StoreAdded,
+				StoreAdded,
 				store.Name);
 
 			_logger.LogInformation(message);
@@ -181,25 +133,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Creates a formatted identifier string for a store
 		/// </summary>
-		private string FormatStoreIdentifier(string name)
+		private static string FormatStoreIdentifier(string name)
 		{
 			return string.Format(StoreIdentifier, name);
-		}
-
-		/// <summary>
-		/// Provides default stores data for seeding the database
-		/// </summary>
-		private static IEnumerable<string> GetDefaultStoreData()
-		{
-			return
-			[
-				"Kaufland",
-				"Lidl",
-				"Billa",
-				"Metro",
-				"BBB",
-				"T-Market"
-			];
 		}
 	}
 }

@@ -13,7 +13,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 	public class MonthlyBudgetDataProvider : BaseDataProvider<MonthlyBudget>
 	{
 		private readonly IRepository<User> _userRepository;
-		private readonly Random _random;
 
 		public MonthlyBudgetDataProvider(
 			IRepository<MonthlyBudget> repository,
@@ -23,12 +22,11 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			: base(repository, dataSource, logger)
 		{
 			_userRepository = userRepository;
-			_random = new Random();
 		}
 
 		/// <summary>
 		/// Main method to retrieve budget data
-		/// Returns collection of monthly budgets from external source or default data
+		/// Returns collection of monthly budgets from external source
 		/// </summary>
 		public override IEnumerable<MonthlyBudget> GetData()
 		{
@@ -36,14 +34,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 
 			try
 			{
-				if (_dataSource != null)
-				{
-					budgets.AddRange(LoadBudgetsFromExternalSource());
-				}
-				else
-				{
-					budgets.AddRange(LoadDefaultBudgets());
-				}
+				budgets.AddRange(LoadBudgetsFromExternalSource());
 
 				_logger.LogInformation(
 					string.Format(FinishedLoadingData,
@@ -82,7 +73,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 							if (budget != null)
 							{
 								budgets.Add(budget);
-								LogBudgetAdded(budget, isDefault: false);
+								LogBudgetAdded(budget);
 							}
 						}
 					}
@@ -96,64 +87,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			catch (Exception ex)
 			{
 				LogCriticalError(nameof(LoadBudgetsFromExternalSource), ex);
-			}
-
-			return budgets;
-		}
-
-		/// <summary>
-		/// Creates default budgets when no external source is available
-		/// </summary>
-		private IEnumerable<MonthlyBudget> LoadDefaultBudgets()
-		{
-			var budgets = new List<MonthlyBudget>();
-
-			try
-			{
-				_logger.LogInformation(LoadingDefaultData);
-
-				var users = LoadUsers();
-				var currentMonth = (Month)DateTime.Now.Month;
-				var nextMonth = currentMonth == Month.December ? Month.January : currentMonth + 1;
-
-				foreach (var user in users)
-				{
-					try
-					{
-						// Creating a budget for the current month
-						var currentBudget = GenerateDefaultBudget(user, currentMonth);
-						if (!BudgetExists(currentBudget))
-						{
-							var budget = CreateBudget(currentBudget, users);
-							if (budget != null)
-							{
-								budgets.Add(budget);
-								LogBudgetAdded(budget, isDefault: true);
-							}
-						}
-
-						// Creating a budget for the next month
-						var nextBudget = GenerateDefaultBudget(user, nextMonth);
-						if (!BudgetExists(nextBudget))
-						{
-							var budget = CreateBudget(nextBudget, users);
-							if (budget != null)
-							{
-								budgets.Add(budget);
-								LogBudgetAdded(budget, isDefault: true);
-							}
-						}
-					}
-					catch (Exception ex)
-					{
-						var identifier = FormatBudgetIdentifier(user.Id, currentMonth);
-						LogProcessingError(identifier, ex);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				LogCriticalError(nameof(LoadDefaultBudgets), ex);
 			}
 
 			return budgets;
@@ -193,23 +126,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		}
 
 		/// <summary>
-		/// Generates a default budget with random amount for testing purposes
-		/// </summary>
-		private MonthlyBudget GenerateDefaultBudget(User user, Month month)
-		{
-			// Generating a random budget for the next month 
-			var randomBudget = _random.Next(100000, 500000) / 100.0m;
-
-			return new MonthlyBudget
-			{
-				UserId = user.Id,
-				User = user,
-				Month = month,
-				BudgetAmount = randomBudget
-			};
-		}
-
-		/// <summary>
 		/// Checks if a budget already exists for specific user and month
 		/// </summary>
 		private bool BudgetExists(MonthlyBudget budget)
@@ -222,11 +138,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Add message in log if budget is successfully added
 		/// </summary>
-		private void LogBudgetAdded(MonthlyBudget budget, bool isDefault)
+		private void LogBudgetAdded(MonthlyBudget budget)
 		{
 			var message = string.Format(
-				isDefault ? DefaultBudgetAdded
-						: BudgetAdded,
+				BudgetAdded,
 				budget.User?.UserName ?? budget.UserId.ToString(),
 				budget.Month,
 				budget.BudgetAmount);
@@ -245,7 +160,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Formats a unique identifier for a budget using individual components
 		/// </summary>
-		private static string FormatBudgetIdentifier(int userId, Month month)
+		private static string FormatBudgetIdentifier(string userId, Month month)
 		{
 			return string.Format(
 				BudgetIdentifier,

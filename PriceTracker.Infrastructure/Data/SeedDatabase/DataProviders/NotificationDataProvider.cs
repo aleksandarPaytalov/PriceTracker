@@ -29,7 +29,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		}
 
 		/// <summary>
-		/// Retrieves all notification data either from external source or generates default data
+		/// Retrieves all notification data from external source
 		/// </summary>
 		/// <returns>Collection of notification entities</returns>
 		public override IEnumerable<Notification> GetData()
@@ -38,14 +38,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 
 			try
 			{
-				if (_dataSource != null)
-				{
-					notifications.AddRange(LoadNotificationsFromExternalSource());
-				}
-				else
-				{
-					notifications.AddRange(LoadDefaultNotifications());
-				}
+				notifications.AddRange(LoadNotificationsFromExternalSource());
 
 				_logger.LogInformation(
 					string.Format(FinishedLoadingData,
@@ -85,7 +78,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 							if (notification != null)
 							{
 								notifications.Add(notification);
-								LogNotificationAdded(notification, isDefault: false);
+								LogNotificationAdded(notification);
 							}
 						}
 					}
@@ -99,54 +92,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			catch (Exception ex)
 			{
 				LogCriticalError(nameof(LoadNotificationsFromExternalSource), ex);
-			}
-
-			return notifications;
-		}
-
-		/// <summary>
-		/// Creates default notifications when no external source is available
-		/// </summary>
-		/// <returns>Collection of default notifications</returns>
-		private IEnumerable<Notification> LoadDefaultNotifications()
-		{
-			var notifications = new List<Notification>();
-
-			try
-			{
-				_logger.LogInformation(LoadingDefaultData);
-
-				var (users, tasks) = LoadRelatedData();
-
-				// Making one notification for eaach task
-				foreach (var task in tasks)
-				{
-					try
-					{
-						var defaultNotification = GenerateDefaultNotification(task);
-						if (!NotificationExists(defaultNotification))
-						{
-							var notification = CreateNotification(defaultNotification, users, tasks);
-							if (notification != null)
-							{
-								notifications.Add(notification);
-								LogNotificationAdded(notification, isDefault: true);
-							}
-						}
-					}
-					catch (Exception ex)
-					{
-						var identifier = FormatNotificationIdentifier(
-							task.UserId,
-							task.TaskId,
-							DateTime.Now);
-						LogProcessingError(identifier, ex);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				LogCriticalError(nameof(LoadDefaultNotifications), ex);
 			}
 
 			return notifications;
@@ -199,24 +144,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		}
 
 		/// <summary>
-		/// Generates a default notification for a specific task
-		/// </summary>
-		private static Notification GenerateDefaultNotification(ToDoItem task)
-		{
-			return new Notification
-			{
-				UserId = task.UserId,
-				User = task.User,
-				TaskId = task.TaskId,
-				Task = task,
-				Message = $"Reminder: {task.Title} is due soon",
-				NotificationTime = task.DueDate?.AddHours(-24) ?? DateTime.Now.AddDays(1),
-				IsRead = false,
-				CreatedAt = DateTime.UtcNow
-			};
-		}
-
-		/// <summary>
 		/// Checks if a notification already exists in the database
 		/// </summary>
 		private bool NotificationExists(Notification notification)
@@ -230,11 +157,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Logs the addition of a new notification
 		/// </summary>
-		private void LogNotificationAdded(Notification notification, bool isDefault)
+		private void LogNotificationAdded(Notification notification)
 		{
 			var message = string.Format(
-				isDefault ? DefaultNotificationAdded
-						: NotificationAdded,
+				NotificationAdded,
 				notification.User?.UserName ?? notification.UserId.ToString(),
 				notification.Task?.Title ?? notification.TaskId.ToString());
 
@@ -244,7 +170,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Creates a formatted identifier for a notification entity
 		/// </summary>
-		private string FormatNotificationIdentifier(Notification notification)
+		private static string FormatNotificationIdentifier(Notification notification)
 		{
 			return FormatNotificationIdentifier(
 				notification.UserId,
@@ -255,7 +181,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Creates a formatted identifier using individual notification components
 		/// </summary>
-		private string FormatNotificationIdentifier(int userId, int taskId, DateTime time)
+		private static string FormatNotificationIdentifier(string userId, int taskId, DateTime time)
 		{
 			return string.Format(
 				NotificationIdentifier,

@@ -27,7 +27,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		}
 
 		/// <summary>
-		/// Retrieves all user data either from external source or generates default users
+		/// Retrieves all user data either from external source
 		/// </summary>
 		/// <returns>Collection of user entities</returns>
 		public override IEnumerable<User> GetData()
@@ -36,14 +36,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 
 			try
 			{
-				if (_dataSource != null)
-				{
-					users.AddRange(LoadUsersFromExternalSource());
-				}
-				else
-				{
-					users.AddRange(LoadDefaultUsers());
-				}
+				users.AddRange(LoadUsersFromExternalSource());
 
 				_logger.LogInformation(
 					string.Format(FinishedLoadingData,
@@ -85,7 +78,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 							if (user != null)
 							{
 								users.Add(user);
-								LogUserAdded(user, isDefault: false);
+								LogUserAdded(user);
 							}
 						}
 					}
@@ -99,56 +92,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			catch (Exception ex)
 			{
 				LogCriticalError(nameof(LoadUsersFromExternalSource), ex);
-			}
-
-			return users;
-		}
-
-		/// <summary>
-		/// Creates default users when no external source is available
-		/// </summary>
-		/// <returns>Collection of default users (admin and test user)</returns>
-		private IEnumerable<User> LoadDefaultUsers()
-		{
-			var users = new List<User>();
-
-			try
-			{
-				_logger.LogInformation(LoadingDefaultData);
-
-				// Creating admin user
-				if (!UserExists(AdminEmail))
-				{
-					var adminUser = CreateUser(
-						AdminUserName,
-						AdminEmail,
-						AdminPassword);
-
-					if (adminUser != null)
-					{
-						users.Add(adminUser);
-						LogUserAdded(adminUser, isDefault: true);
-					}
-				}
-
-				// Creating test/regular user
-				if (!UserExists(TestEmail))
-				{
-					var testUser = CreateUser(
-						TestUserName,
-						TestEmail,
-						TestPassword);
-
-					if (testUser != null)
-					{
-						users.Add(testUser);
-						LogUserAdded(testUser, isDefault: true);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				LogCriticalError(nameof(LoadDefaultUsers), ex);
 			}
 
 			return users;
@@ -197,11 +140,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Logs the addition of a new user
 		/// </summary>
-		private void LogUserAdded(User user, bool isDefault)
+		private void LogUserAdded(User user)
 		{
 			var message = string.Format(
-				isDefault ? DefaultUserAdded
-						: UserAdded,
+				UserAdded,
 				user.UserName,
 				user.Email);
 
@@ -211,7 +153,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Creates a formatted identifier for a user
 		/// </summary>
-		private string FormatUserIdentifier(User user)
+		private static string FormatUserIdentifier(User user)
 		{
 			return FormatUserIdentifier(user.UserName!, user.Email!);
 		}
@@ -219,7 +161,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 		/// <summary>
 		/// Creates a formatted identifier using individual user components
 		/// </summary>
-		private string FormatUserIdentifier(string userName, string email)
+		private static string FormatUserIdentifier(string userName, string email)
 		{
 			return string.Format(
 				UserIdentifier,
