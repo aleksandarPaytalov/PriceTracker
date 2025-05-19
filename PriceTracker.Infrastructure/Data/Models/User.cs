@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PriceTracker.Infrastructure.Data.Models
 {
 	[Comment("User DB Model")]
-    public class User : IdentityUser<int>
+    public class User : IdentityUser
     {
 		[Comment("The time that the user have been created")]
 		[NotMapped]

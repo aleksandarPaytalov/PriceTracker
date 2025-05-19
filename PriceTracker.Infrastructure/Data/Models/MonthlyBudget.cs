@@ -13,7 +13,7 @@ namespace PriceTracker.Infrastructure.Data.Models
 
         [Required]
         [Comment("User identifier")]
-		public int UserId { get; set; }
+		public required string UserId { get; set; }
 
         [Required]
         [ForeignKey(nameof(UserId))]
