@@ -1,17 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PriceTracker.Infrastructure.Data.Models;
-using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 {
-	public class MonthlyBudgetConfiguration : BaseConfiguration<MonthlyBudget>
+	public class MonthlyBudgetConfiguration : IEntityTypeConfiguration<MonthlyBudget>
 	{
-		public MonthlyBudgetConfiguration(IDataProvider<MonthlyBudget> dataProvider) : base(dataProvider)
-		{
-		}
-
-		protected override void ConfigureEntity(EntityTypeBuilder<MonthlyBudget> builder)
+		public void Configure(EntityTypeBuilder<MonthlyBudget> builder)
 		{
 			// Unique composite index
 			builder.HasIndex(mb => new { mb.UserId, mb.Month })
@@ -23,6 +18,15 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 				   .WithMany(u => u.MonthlyBudgets)
 				   .HasForeignKey(mb => mb.UserId)
 				   .OnDelete(DeleteBehavior.Restrict);
+
+			var data = new SeedData();
+
+			builder.HasData(
+				[
+					data.Budget1,
+					data.Budget2,
+					data.Budget3
+				]);
 		}
 	}
 }
