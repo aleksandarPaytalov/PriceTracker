@@ -1,28 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PriceTracker.Infrastructure.Data.Models;
-using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 {
-	public class ToDoItemConfiguration : BaseConfiguration<ToDoItem>
+	public class ToDoItemConfiguration : IEntityTypeConfiguration<ToDoItem>
 	{
-		public ToDoItemConfiguration(IDataProvider<ToDoItem> dataProvider) : base(dataProvider)
-		{
-		}
-
-		protected override void ConfigureEntity(EntityTypeBuilder<ToDoItem> builder)
+		public void Configure(EntityTypeBuilder<ToDoItem> builder)
 		{
 			// Relation Configuration
 			builder.HasOne(t => t.User)
 				   .WithMany(u => u.Tasks)
 				   .HasForeignKey(t => t.UserId)
-				   .OnDelete(DeleteBehavior.Cascade);
+				   .OnDelete(DeleteBehavior.NoAction);
 
 			builder.HasMany(t => t.Notifications)
 				   .WithOne(n => n.Task)
 				   .HasForeignKey(n => n.TaskId)
-				   .OnDelete(DeleteBehavior.Cascade);
+				   .OnDelete(DeleteBehavior.NoAction);
+
+			var data = new SeedData();
+
+			builder.HasData(
+				[
+					data.Task1,
+					data.Task2,
+					data.Task3
+				]);
 		}
 	}
 }
