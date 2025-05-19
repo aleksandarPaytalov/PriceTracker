@@ -1,17 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PriceTracker.Infrastructure.Data.Models;
-using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 {
-	public class ExpenseConfiguration : BaseConfiguration<Expense>
+	public class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
 	{
-		public ExpenseConfiguration(IDataProvider<Expense> dataProvider) : base(dataProvider)
-		{
-		}
-
-		protected override void ConfigureEntity(EntityTypeBuilder<Expense> builder)
+		public void Configure(EntityTypeBuilder<Expense> builder)
 		{
 			// Relations Config
 			// We keep the expenses for tacking/accounting
@@ -29,6 +24,18 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 				   .WithMany(s => s.Expenses)
 				   .HasForeignKey(e => e.StoreId)
 				   .OnDelete(DeleteBehavior.Restrict);
+
+			var data = new SeedData();
+
+			builder.HasData(
+				[
+					data.Expense1,
+					data.Expense2,
+					data.Expense3,
+					data.Expense4,
+					data.Expense5,
+					data.Expense6,
+				]);
 		}
 	}
 }
