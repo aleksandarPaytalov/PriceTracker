@@ -1,28 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PriceTracker.Infrastructure.Data.Models;
-using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 {
-	public class NotificationConfiguration : BaseConfiguration<Notification>
+	public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
 	{
-		public NotificationConfiguration(IDataProvider<Notification> dataProvider) : base(dataProvider)
-		{
-		}
-
-		protected override void ConfigureEntity(EntityTypeBuilder<Notification> builder)
+		public void Configure(EntityTypeBuilder<Notification> builder)
 		{
 			// Relations Config
 			builder.HasOne(n => n.User)
 				   .WithMany(u => u.Notifications)
 				   .HasForeignKey(n => n.UserId)
-				   .OnDelete(DeleteBehavior.Cascade);
+				   .OnDelete(DeleteBehavior.NoAction);
 
 			builder.HasOne(n => n.Task)
 				   .WithMany(t => t.Notifications)
 				   .HasForeignKey(n => n.TaskId)
-				   .OnDelete(DeleteBehavior.Cascade);
+				   .OnDelete(DeleteBehavior.NoAction);
+
+			var data = new SeedData();
+
+			builder.HasData(
+				[
+					data.Notification1,
+					data.Notification2,
+					data.Notification3
+				]);
 		}
 	}
 }
