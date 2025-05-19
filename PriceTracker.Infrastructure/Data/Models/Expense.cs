@@ -19,9 +19,9 @@ namespace PriceTracker.Infrastructure.Data.Models
         [Required]
         [ForeignKey(nameof(UserId))]
         [Comment("User navigation property")]
-        public required virtual User User { get; set; }
+        public virtual User User { get; set; } = null!;
 
-        [Required]
+		[Required]
         [Comment("Expense type")]
 		public ExpenseType ExpenseType { get; set; }
 
@@ -32,16 +32,16 @@ namespace PriceTracker.Infrastructure.Data.Models
         [Required]
         [ForeignKey(nameof(ProductId))]
         [Comment("Product navigation property")]
-        public required virtual Product Product { get; set; }
+        public virtual Product Product { get; set; } = null!;
 
-        [Required]
+		[Required]
         [Comment("Store identifier")]
 		public int StoreId { get; set; }
 
         [Required]
         [ForeignKey(nameof(StoreId))]
         [Comment("Store navigation property")]
-        public required virtual Store Store { get; set; }
+        public virtual Store Store { get; set; } = null!;
 
         [StringLength(DataConstants.expenseDescriptionMaxLength)]
         [Comment("Description for maked expense")]

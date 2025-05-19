@@ -19,7 +19,7 @@ namespace PriceTracker.Infrastructure.Data.Models
 		[Required]
 		[ForeignKey(nameof(UserId))]
 		[Comment("Navigation property for User")]
-		public required virtual User User { get; set; }
+		public virtual User User { get; set; } = null!;
 
 		[Required]
 		[Comment("Task identifier")]
@@ -28,7 +28,7 @@ namespace PriceTracker.Infrastructure.Data.Models
 		[Required]
 		[ForeignKey(nameof(TaskId))]
 		[Comment("Navigation property for Task")]
-		public required virtual ToDoItem Task { get; set; } 
+		public virtual ToDoItem Task { get; set; } = null!;
 
 		[Required]
 		[StringLength(DataConstants.notificationMessageMaxLength)]

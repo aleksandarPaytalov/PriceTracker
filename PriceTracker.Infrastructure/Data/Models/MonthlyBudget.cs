@@ -18,9 +18,9 @@ namespace PriceTracker.Infrastructure.Data.Models
         [Required]
         [ForeignKey(nameof(UserId))]
         [Comment("User navigation property")]
-        public required virtual User User { get; set; }
+        public virtual User User { get; set; } = null!;
 
-        [Required]
+		[Required]
 		[Column(TypeName = "decimal(10,2)")]
 		[Comment("Total amount of money or budged we have for the current month")]
 		public decimal BudgetAmount { get; set; }

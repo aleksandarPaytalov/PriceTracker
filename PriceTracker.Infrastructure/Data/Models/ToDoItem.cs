@@ -19,9 +19,9 @@ namespace PriceTracker.Infrastructure.Data.Models
         [Required]
         [ForeignKey(nameof(UserId))]
         [Comment("User navigation property.")]
-        public required virtual User User { get; set; }
+        public virtual User User { get; set; } = null!;
 
-        [Required]
+		[Required]
         [StringLength(DataConstants.taskTitleMaxLength)]
         [Comment("Title of the current task")]
 		public required string Title { get; set; }
