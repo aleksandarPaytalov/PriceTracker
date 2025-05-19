@@ -67,7 +67,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 				throw new ValidationException(TaskConstants.UserRequired);
 			}
 
-			if (user.Id == 0)
+			if (user.Id == null)
 			{
 				throw new ValidationException(TaskConstants.UserIdRequired);
 			}
