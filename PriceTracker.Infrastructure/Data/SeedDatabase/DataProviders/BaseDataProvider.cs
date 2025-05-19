@@ -87,8 +87,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders
 			catch (Exception ex)
 			{
 				_logger.LogError(
-					string.Format(ErrorLoadingData, _typeName),
-					ex);
+					string.Format(ErrorLoadingData, _typeName),	ex);
 				return Enumerable.Empty<T>();
 			}
 		}
