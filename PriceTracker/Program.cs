@@ -1,33 +1,9 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using PriceTracker.Infrastructure.Common;
-using PriceTracker.Infrastructure.Data.Models;
-using PriceTracker.Infrastructure.Data.SeedDatabase.Configurations;
-using PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityConfiguration;
-using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders;
+using PriceTracker.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string dbConnection = builder.Configuration.GetConnectionString("DbConnection") ?? throw new InvalidOperationException("Connection string not found");
-builder.Services.AddDbContext<PriceTrackerDbContext>(options => options.UseSqlServer(dbConnection));
-
-// Register Repository
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddIdentity<User, IdentityRole>(options =>
-{
-	options.SignIn.RequireConfirmedAccount = false;
-	options.Password.RequireDigit = true;
-	options.Password.RequireLowercase = true;
-	options.Password.RequireUppercase = true;
-	options.Password.RequireNonAlphanumeric = true;
-	options.Password.RequiredLength = 6;
-})
-.AddRoles<IdentityRole>()
-.AddEntityFrameworkStores<PriceTrackerDbContext>()
-.AddDefaultTokenProviders()
-.AddDefaultUI();
+builder.Services.DataBaseServiceExtensions(builder.Configuration);
+builder.Services.AddIdentityServiceExtensions();
 
 
 // Add services to the container.
