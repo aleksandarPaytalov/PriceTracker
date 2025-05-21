@@ -1,7 +1,7 @@
 ﻿using PriceTracker.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
-using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
 using static PriceTracker.Infrastructure.Constants.DataConstants;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 {
@@ -34,13 +34,11 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			try
 			{
-				ValidateNotificationInputs(user, task, message, time, isRead, createdAt);
+				ValidateNotificationInputs(user, task, message, time, createdAt);
 
 				_notification = new Notification
 				{
-					User = user,
 					UserId = user.Id,
-					Task = task,
 					TaskId = task.TaskId,
 					Message = message,
 					NotificationTime = time,
@@ -62,12 +60,11 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 		public Notification Build() => _notification;
 
-		private void ValidateNotificationInputs(
+		private static void ValidateNotificationInputs(
 			User user,
 			ToDoItem task,
 			string message,
 			DateTime time,
-			bool isRead,
 			DateTime createdAt)
 		{
 			// User validations
@@ -138,7 +135,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 		}
 
-		private bool IsValidDate(DateTime date)
+		private static bool IsValidDate(DateTime date)
 		{
 			return DateTime.TryParse(date.ToString(), out _);
 		}

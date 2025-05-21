@@ -24,9 +24,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			string productName,
 			string brandName,
 			ProductCategory category,
-			int quantity
-
-			)
+			int quantity)
 		{
 			try
 			{
