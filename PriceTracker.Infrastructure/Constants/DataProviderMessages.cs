@@ -20,6 +20,35 @@
 			internal const string CriticalError = "Critical error in {0}.{1}";
 		}
 
+		internal static class BaseSeederMessages
+		{
+			// Information messages
+			internal const string StartingSeedOperation = "Starting seed operation for {0}...";
+			internal const string SuccessfullyCompletedSeeding = "Successfully completed seeding for {0}";
+			internal const string SkippingSeedingDataExists = "Skipping seeding for {0} - data already exists";
+
+			// Error messages
+			internal const string ErrorWhileSeeding = "Error while seeding {0}: {1}";
+			internal const string FailedToGetJsonFilePath = "Failed to get JSON file path for {0}";
+		}
+
+		internal static class SeederServiceConstants
+		{
+			// Information messages
+			internal const string ExternalSeedingDisabled = "External seeding is disabled in configuration";
+			internal const string StartingSeeding = "Starting database seeding from external sources...";
+			internal const string FoundSeeders = "Found {0} seeders to execute";
+			internal const string ExecutingSeeder = "Executing seeder: {0}";
+			internal const string SkippingSeeder = "Skipping disabled seeder: {0}";
+			internal const string SeedingCompleted = "Database seeding completed successfully";
+
+			// Error messages
+			internal const string SeedingError = "Error during database seeding";
+
+			// Constants
+			internal const string SeederSuffix = "Seeder";
+		}
+
 		internal static class ProductDataProviderConstants
 		{
 			// Information messages
@@ -28,6 +57,19 @@
 
 			// Entity identification
 			internal const string ProductIdentifier = "Name: {0}, Brand: {1}";
+		}
+
+		internal static class ProductSeederConstants
+		{
+			// Information messages
+			internal const string SeederDescription = "Product Seeder";
+			internal const string CheckingExistingProducts = "Checking if there are existing products in the database";
+			internal const string FindingJsonFilePath = "Finding the path to the JSON file for product data";
+			internal const string LoadingProductsFromPath = "Loading products from: {0}";
+			internal const string UsingFactoryComment = "Using factory pattern for data provider creation";
+			internal const string LoadingData = "Loading product data from external source";
+			internal const string FoundProductsToImport = "Found {0} products to import";
+			internal const string SuccessfullySeededProducts = "Successfully seeded {0} products";
 		}
 
 		internal static class StoreDataProviderConstants
