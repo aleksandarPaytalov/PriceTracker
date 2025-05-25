@@ -36,7 +36,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 				_task = new ToDoItem
 				{
-					User = user,
 					UserId = user.Id,
 					Title = title,
 					Description = description,
@@ -55,7 +54,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 		public ToDoItem Build() => _task;
 
-		private void ValidateTaskInputData(
+		private static void ValidateTaskInputData(
 			User user,
 			string title,
 			string? description,
@@ -109,7 +108,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 		}
 
-		private bool IsValidDate(DateTime date)
+		private static bool IsValidDate(DateTime date)
 		{
 			return DateTime.TryParse(date.ToString(), out _);
 		}

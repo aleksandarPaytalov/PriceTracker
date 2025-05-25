@@ -33,9 +33,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 				_price = new Price
 				{
-					Product = product,
 					ProductId = product.ProductId,
-					Store = store,
 					StoreId = store.StoreId,
 					SellingPrice = sellingPrice,
 					DateChecked = actualDateChecked
@@ -49,7 +47,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 		public Price Build() => _price;
 		
-		private void ValidatePriceInputData(
+		private static void ValidatePriceInputData(
 			Product product,
 			Store store,
 			decimal sellingPrice,
@@ -103,7 +101,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}					
 		}
 
-		private bool IsValidDate(DateTime date)
+		private static bool IsValidDate(DateTime date)
 		{
 			return DateTime.TryParse(date.ToString(), out _);
 		}

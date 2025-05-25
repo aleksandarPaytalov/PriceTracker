@@ -1,0 +1,72 @@
+[
+  {
+    "productId": 101,
+    "productName": "Ябълки Златна превъзходна",
+    "brand": "Родопи",
+    "quantity": 1000,
+    "category": 3
+  },
+  {
+    "productId": 102,
+    "productName": "Пилешко филе",
+    "brand": "Лудогорско",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 103,
+    "productName": "Пуешко филе",
+    "brand": "Градус",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 104,
+    "productName": "Телешко бон филе",
+    "brand": "Еко Меат",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 105,
+    "productName": "Натурален йогурт 3.6%",
+    "brand": "БМК",
+    "quantity": 400,
+    "category": 3
+  },
+  {
+    "productId": 106,
+    "productName": "Смарт телевизор OLED",
+    "brand": "LG",
+    "quantity": 1,
+    "category": 1
+  },
+  {
+    "productId": 107,
+    "productName": "Смартфон Galaxy S24",
+    "brand": "Samsung",
+    "quantity": 1,
+    "category": 1
+  },
+  {
+    "productId": 108,
+    "productName": "Пералня с предно зареждане",
+    "brand": "Bosch",
+    "quantity": 1,
+    "category": 8
+  },
+  {
+    "productId": 109,
+    "productName": "Хладилник с фризер",
+    "brand": "Liebherr",
+    "quantity": 1,
+    "category": 8
+  },
+  {
+    "productId": 110,
+    "productName": "Дизелово гориво",
+    "brand": "Eko",
+    "quantity": 1,
+    "category": 6
+  }
+]

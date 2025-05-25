@@ -41,15 +41,12 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 				_expense = new Expense
 				{
-					User = user,
 					UserId = user.Id,
-					ExpenseType = expenseType,
-					Product = product,
 					ProductId = product.ProductId,
-					Store = store,
 					StoreId = store.StoreId,
 					AmountSpent = amountSpent,
 					DateSpent = dateSpent,
+					ExpenseType = expenseType,
 					Description = description
 				};
 			}
@@ -59,7 +56,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 		}
 
-		private void ValidateInitialData(
+		private static void ValidateInitialData(
 		User user,
 		Product product,
 		Store store,

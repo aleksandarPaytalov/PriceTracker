@@ -31,7 +31,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 				_budget = new MonthlyBudget
 				{
 					UserId = user.Id,
-					User = user,
 					BudgetAmount = budget,
 					Month = month
 				};
