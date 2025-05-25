@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PriceTracker.Configuration;
 using PriceTracker.Infrastructure.Common;
 using PriceTracker.Infrastructure.Data.Models;
+using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders;
+using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders.DataSources;
+using PriceTracker.Infrastructure.Data.SeedDatabase.ExternalSeeders;
+using PriceTracker.Infrastructure.Data.SeedDatabase.Services;
 
 namespace PriceTracker.Extensions
 {
@@ -21,7 +26,8 @@ namespace PriceTracker.Extensions
 			return services;
 		}
 
-		public static IServiceCollection AddIdentityServiceExtensions(this IServiceCollection services)
+		public static IServiceCollection AddIdentityServiceExtensions(
+			this IServiceCollection services)
 		{
 			services.AddIdentity<User, IdentityRole>(options =>
 			{
@@ -40,5 +46,35 @@ namespace PriceTracker.Extensions
 			return services;
 		}
 
+		/// <summary>
+		/// Registers the services needed for seeding data from external sources
+		/// </summary>
+		public static IServiceCollection AddSeedingServices(this IServiceCollection services, IConfiguration configuration)
+		{
+			// Registration of seeding configuration
+			services.Configure<SeedingOptions>(
+				configuration.GetSection("SeedingOptions"));
+
+			services.AddSingleton<IAppLogger, FileLogger>();
+			services.AddScoped<IDataSourceFactory, DataSourceFactory>();
+			services.AddScoped<IDataProviderFactory<Product>, ProductDataProviderFactory>();
+			services.AddScoped<ISeederService, SeederService>();
+
+			// Registration of all seeders
+			services.AddScoped<ISeeder, ProductSeeder>();
+			// TODO: Add other seeders as needed			
+
+			return services;
+		}
+
+		/// <summary>
+		/// Seeds the database from an external JSON source
+		/// </summary>
+		public static async Task SeedDatabaseAsync(this IHost host)
+		{
+			using var scope = host.Services.CreateScope();
+			var seederService = scope.ServiceProvider.GetRequiredService<ISeederService>();
+			await seederService.SeedAllAsync();
+		}
 	}
 }

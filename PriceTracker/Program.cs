@@ -1,17 +1,13 @@
-using PriceTracker.Extensions;
+﻿using PriceTracker.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Services registration
 builder.Services.DataBaseServiceExtensions(builder.Configuration);
 builder.Services.AddIdentityServiceExtensions();
-
-
-// Add services to the container.
+builder.Services.AddSeedingServices(builder.Configuration);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
-// Register Logger
-//builder.Services.AddSingleton<IAppLogger, FileLogger>();
 
 var app = builder.Build();
 
@@ -19,22 +15,23 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.MapRazorPages();
+
+if (args.Contains("--seed"))
+{
+	await app.SeedDatabaseAsync();
+}
 
 app.Run();
