@@ -1,11 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Options;
+using PriceTracker.Configuration;
 using PriceTracker.Infrastructure.Data.Models;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 {
 	public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
 	{
+		private readonly IOptions<SeedingOptions> _options;
+
+		public NotificationConfiguration(IOptions<SeedingOptions> options)
+		{
+			_options = options;
+		}
+
 		public void Configure(EntityTypeBuilder<Notification> builder)
 		{
 			// Relations Config
@@ -19,14 +28,18 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 				   .HasForeignKey(n => n.TaskId)
 				   .OnDelete(DeleteBehavior.NoAction);
 
-			var data = new SeedData();
+			if (!_options.Value.UseExternalSource)
+			{
+				var data = new SeedData();
+				data.Initialize();
 
-			builder.HasData(
+				builder.HasData(
 				[
 					data.Notification1,
 					data.Notification2,
 					data.Notification3
 				]);
+			}				
 		}
 	}
 }

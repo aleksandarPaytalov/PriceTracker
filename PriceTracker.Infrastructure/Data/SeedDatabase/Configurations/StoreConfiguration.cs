@@ -1,11 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Options;
+using PriceTracker.Configuration;
 using PriceTracker.Infrastructure.Data.Models;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 {
 	public class StoreConfiguration : IEntityTypeConfiguration<Store>
 	{
+		private readonly IOptions<SeedingOptions> _options;
+
+		public StoreConfiguration(IOptions<SeedingOptions> options)
+		{
+			_options = options;
+		}
+
 		public void Configure(EntityTypeBuilder<Store> builder)
 		{
 			// Unique index for the Store name
@@ -22,20 +31,23 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 				   .HasForeignKey(e => e.StoreId)
 				   .OnDelete(DeleteBehavior.Restrict);
 
-			var data = new SeedData();
+			if (!_options.Value.UseExternalSource)
+			{
+				var data = new SeedData();
+				data.Initialize();
 
-			builder.HasData(
-			[
-				data.Store1,
-				data.Store2,
-				data.Store3,
-				data.Store4,
-				data.Store5,
-				data.Store6,
-				data.Store7,
-				data.Store8,
-			]);
-		
+				builder.HasData(
+				[
+					data.Store1,
+					data.Store2,
+					data.Store3,
+					data.Store4,
+					data.Store5,
+					data.Store6,
+					data.Store7,
+					data.Store8,
+				]);
+			}		
 		}
 	}
 }

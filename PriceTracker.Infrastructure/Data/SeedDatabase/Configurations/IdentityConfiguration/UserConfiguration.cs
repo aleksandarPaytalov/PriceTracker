@@ -1,11 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Options;
+using PriceTracker.Configuration;
 using PriceTracker.Infrastructure.Data.Models;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityConfiguration
 {
 	public class UserConfiguration : IEntityTypeConfiguration<User>
 	{
+		private readonly IOptions<SeedingOptions> _options;
+
+		public UserConfiguration(IOptions<SeedingOptions> options)
+		{
+			_options = options;
+		}
+
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
 			// Relation configuration
@@ -32,14 +41,19 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 				   .HasForeignKey(n => n.UserId)
 				   .OnDelete(DeleteBehavior.NoAction);
 
-			var data = new SeedData();
+			if (!_options.Value.UseExternalSource)
+			{
+				var data = new SeedData();
+				data.Initialize();
 
-			builder.HasData(
-			[
-				data.Guest,
-				data.User,
-				data.Administrator,
-			]);
+				builder.HasData(
+				[
+					data.Guest,
+					data.User,
+					data.Administrator,
+				]);
+			}
+			
 		}
 	}
 }
