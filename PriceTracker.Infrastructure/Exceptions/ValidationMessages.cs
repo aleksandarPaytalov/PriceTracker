@@ -2,6 +2,13 @@
 {
 	internal static class ValidationMessages
 	{
+		internal static class ConfigurationConstants
+		{
+			public const string ExternalSourceEnabledButNoData =
+				"UseExternalSource is set to true, but {0} is empty, missing, or invalid. " +
+				"Either provide valid JSON data or set UseExternalSource to false.";
+		}
+
 		internal static class UserConstants
 		{
 			public const string UserNameRequired = "Username is required";
