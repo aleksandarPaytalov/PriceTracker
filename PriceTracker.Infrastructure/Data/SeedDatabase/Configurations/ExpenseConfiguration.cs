@@ -1,11 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Options;
+using PriceTracker.Configuration;
 using PriceTracker.Infrastructure.Data.Models;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 {
 	public class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
 	{
+		private readonly IOptions<SeedingOptions> _options;
+
+		public ExpenseConfiguration(IOptions<SeedingOptions> options)
+		{
+			_options = options;
+		}
+
 		public void Configure(EntityTypeBuilder<Expense> builder)
 		{
 			// Relations Config
@@ -25,9 +34,12 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 				   .HasForeignKey(e => e.StoreId)
 				   .OnDelete(DeleteBehavior.Restrict);
 
-			var data = new SeedData();
+			if (!_options.Value.UseExternalSource)
+			{
+				var data = new SeedData();
+				data.Initialize();
 
-			builder.HasData(
+				builder.HasData(
 				[
 					data.Expense1,
 					data.Expense2,
@@ -36,6 +48,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations
 					data.Expense5,
 					data.Expense6,
 				]);
+			}			
 		}
 	}
 }

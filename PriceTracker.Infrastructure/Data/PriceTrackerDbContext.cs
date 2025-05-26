@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Options;
+using PriceTracker.Configuration;
 using PriceTracker.Infrastructure.Data.Models;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Configurations;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityConfiguration;
@@ -22,17 +25,19 @@ public class PriceTrackerDbContext : IdentityDbContext<User>
 	{
 		base.OnModelCreating(builder);		
 
-		builder.ApplyConfiguration(new StoreConfiguration());
-		builder.ApplyConfiguration(new ProductConfiguration());
+		var options = this.GetService<IOptions<SeedingOptions>>();
+
+		builder.ApplyConfiguration(new StoreConfiguration(options));
+		builder.ApplyConfiguration(new ProductConfiguration(options));
 		
-		builder.ApplyConfiguration(new RoleConfiguration());
-		builder.ApplyConfiguration(new UserConfiguration());
-		builder.ApplyConfiguration(new UserRoleConfiguration());
+		builder.ApplyConfiguration(new RoleConfiguration(options));
+		builder.ApplyConfiguration(new UserConfiguration(options));
+		builder.ApplyConfiguration(new UserRoleConfiguration(options));
 		
-		builder.ApplyConfiguration(new PriceConfiguration());
-		builder.ApplyConfiguration(new ExpenseConfiguration());
-		builder.ApplyConfiguration(new MonthlyBudgetConfiguration());
-		builder.ApplyConfiguration(new ToDoItemConfiguration());
-		builder.ApplyConfiguration(new NotificationConfiguration());
+		builder.ApplyConfiguration(new PriceConfiguration(options));
+		builder.ApplyConfiguration(new ExpenseConfiguration(options));
+		builder.ApplyConfiguration(new MonthlyBudgetConfiguration(options));
+		builder.ApplyConfiguration(new ToDoItemConfiguration(options));
+		builder.ApplyConfiguration(new NotificationConfiguration(options));
 	}
 }

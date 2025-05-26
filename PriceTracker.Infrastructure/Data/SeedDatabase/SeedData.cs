@@ -64,15 +64,18 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 		public IdentityUserRole<string> AdminUserRole { get; set; } = null!;
 		public IdentityUserRole<string> RegularUserRole { get; set; } = null!;
 		public IdentityUserRole<string> GuestUserRole { get; set; } = null!;
-		public SeedData()
+
+		public SeedData() { }
+
+		public void Initialize()
 		{
 			SeedStores();
 			SeedProducts();
 			SeedRoles();
-			
+
 			SeedUsers();
 			SeedUserRoles();
-			
+
 			SeedPrices();
 			SeedTasks();
 			SeedNotifications();
