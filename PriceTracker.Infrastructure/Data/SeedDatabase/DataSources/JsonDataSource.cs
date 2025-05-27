@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders.DataSources
+namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataSources
 {
 	/// <summary>
 	/// Implementation of IDataSource that loads data from JSON files

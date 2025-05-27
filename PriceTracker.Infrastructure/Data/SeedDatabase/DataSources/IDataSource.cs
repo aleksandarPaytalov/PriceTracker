@@ -1,4 +1,4 @@
-﻿namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders.DataSources
+﻿namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataSources
 {
 	public interface IDataSource<T> where T : class
 	{

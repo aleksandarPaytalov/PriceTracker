@@ -1,4 +1,4 @@
-﻿using PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders.DataSources;
+﻿using PriceTracker.Infrastructure.Data.SeedDatabase.DataSources;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 {

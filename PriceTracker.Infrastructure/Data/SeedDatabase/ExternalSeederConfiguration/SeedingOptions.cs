@@ -1,4 +1,5 @@
 ﻿namespace PriceTracker.Configuration
+
 {
 	public class SeedingOptions
 	{
