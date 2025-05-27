@@ -5,7 +5,6 @@ var builder = WebApplication.CreateBuilder(args);
 //Services registration
 builder.Services.DataBaseServiceExtensions(builder.Configuration);
 builder.Services.AddIdentityServiceExtensions();
-builder.Services.AddSeedingServices(builder.Configuration);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
@@ -28,10 +27,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
-
-if (args.Contains("--seed"))
-{
-	await app.SeedDatabaseAsync();
-}
 
 app.Run();
