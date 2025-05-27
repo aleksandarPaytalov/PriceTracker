@@ -1,6 +1,6 @@
-﻿
+﻿using PriceTracker.Infrastructure.Data.SeedDatabase.DataSources;
 
-namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataProviders.DataSources
+namespace PriceTracker.Infrastructure.Data.SeedDatabase.DataSources
 {
 	public class DataSourceFactory : IDataSourceFactory
 	{
