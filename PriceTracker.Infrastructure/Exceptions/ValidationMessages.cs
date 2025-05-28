@@ -80,6 +80,7 @@
 			public const string InvalidBrandLength = "Brand must be between {0} and {1} characters";
 			public const string InvalidCategory = "Invalid product category: {0}";
 			public const string InvalidQuantity = "Quantity cannot be negative";
+			public const string InvalidProductId = "Product ID must be a positive number. Provided value: {0}";
 		}
 
 		internal static class StoreConstants

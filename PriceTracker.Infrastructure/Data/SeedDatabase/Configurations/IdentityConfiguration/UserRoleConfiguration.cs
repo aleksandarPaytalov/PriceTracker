@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Options;
-using PriceTracker.Configuration;
+using PriceTracker.Infrastructure.Data.SeedDatabase.ExternalSeederConfiguration;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityConfiguration
 {

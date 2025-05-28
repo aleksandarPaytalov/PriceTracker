@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Options;
-using PriceTracker.Configuration;
 using PriceTracker.Infrastructure.Data.Models;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Configurations;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityConfiguration;
+using PriceTracker.Infrastructure.Data.SeedDatabase.ExternalSeederConfiguration;
 
 public class PriceTrackerDbContext : IdentityDbContext<User>
 {
