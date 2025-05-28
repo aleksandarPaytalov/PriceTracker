@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PriceTracker.Configuration;
 using PriceTracker.Infrastructure.Common;
 using PriceTracker.Infrastructure.Data.Models;
 
@@ -13,8 +14,8 @@ namespace PriceTracker.Extensions
 		{
 			string dbConnection = configuration.GetConnectionString("DbConnection") ?? throw new InvalidOperationException("Connection string not found");
 			services.AddDbContext<PriceTrackerDbContext>(options => options.UseSqlServer(dbConnection));
+			services.Configure<SeedingOptions>(configuration.GetSection("SeedingOptions"));
 
-			// Register Repository
 			services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 			services.AddDatabaseDeveloperPageExceptionFilter();
 

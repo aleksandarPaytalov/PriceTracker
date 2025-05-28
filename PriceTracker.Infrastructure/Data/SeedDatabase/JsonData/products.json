@@ -1,72 +1,352 @@
 [
   {
-    "productId": 101,
+    "productId": 1,
     "productName": "Ябълки Златна превъзходна",
     "brand": "Родопи",
     "quantity": 1000,
     "category": 3
   },
   {
-    "productId": 102,
+    "productId": 2,
     "productName": "Пилешко филе",
     "brand": "Лудогорско",
     "quantity": 500,
     "category": 3
   },
   {
-    "productId": 103,
+    "productId": 3,
     "productName": "Пуешко филе",
     "brand": "Градус",
     "quantity": 500,
     "category": 3
   },
   {
-    "productId": 104,
+    "productId": 4,
     "productName": "Телешко бон филе",
     "brand": "Еко Меат",
     "quantity": 500,
     "category": 3
   },
   {
-    "productId": 105,
+    "productId": 5,
     "productName": "Натурален йогурт 3.6%",
     "brand": "БМК",
     "quantity": 400,
     "category": 3
   },
   {
-    "productId": 106,
-    "productName": "Смарт телевизор OLED",
-    "brand": "LG",
-    "quantity": 1,
-    "category": 1
+    "productId": 6,
+    "productName": "Прясно мляко 3.6%",
+    "brand": "Верея",
+    "quantity": 1000,
+    "category": 3
   },
   {
-    "productId": 107,
-    "productName": "Смартфон Galaxy S24",
-    "brand": "Samsung",
-    "quantity": 1,
-    "category": 1
+    "productId": 7,
+    "productName": "Кашкавал от краве мляко",
+    "brand": "Маджаров",
+    "quantity": 400,
+    "category": 3
   },
   {
-    "productId": 108,
-    "productName": "Пералня с предно зареждане",
-    "brand": "Bosch",
-    "quantity": 1,
-    "category": 8
+    "productId": 8,
+    "productName": "Сирене от краве мляко",
+    "brand": "Лакрима",
+    "quantity": 500,
+    "category": 3
   },
   {
-    "productId": 109,
-    "productName": "Хладилник с фризер",
-    "brand": "Liebherr",
-    "quantity": 1,
-    "category": 8
+    "productId": 9,
+    "productName": "Масло краве 82%",
+    "brand": "Верея",
+    "quantity": 200,
+    "category": 3
   },
   {
-    "productId": 110,
+    "productId": 10,
+    "productName": "Яйца размер L",
+    "brand": "Нашата ферма",
+    "quantity": 10,
+    "category": 3
+  },
+  {
+    "productId": 11,
+    "productName": "Хляб пълнозърнест",
+    "brand": "Добруджа",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 12,
+    "productName": "Картофи",
+    "brand": "Булгарплод",
+    "quantity": 2000,
+    "category": 3
+  },
+  {
+    "productId": 13,
+    "productName": "Домати",
+    "brand": "Марица Земеделие",
+    "quantity": 1000,
+    "category": 3
+  },
+  {
+    "productId": 14,
+    "productName": "Краставици",
+    "brand": "Марица Земеделие",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 15,
+    "productName": "Лук",
+    "brand": "Булгарплод",
+    "quantity": 1000,
+    "category": 3
+  },
+  {
+    "productId": 16,
+    "productName": "Моркови",
+    "brand": "Булгарплод",
+    "quantity": 1000,
+    "category": 3
+  },
+  {
+    "productId": 17,
+    "productName": "Ориз",
+    "brand": "Арпа",
+    "quantity": 1000,
+    "category": 3
+  },
+  {
+    "productId": 18,
+    "productName": "Макарони",
+    "brand": "Арпа",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 19,
+    "productName": "Брашно тип 500",
+    "brand": "Добруджа",
+    "quantity": 1000,
+    "category": 3
+  },
+  {
+    "productId": 20,
+    "productName": "Захар бяла кристална",
+    "brand": "Арпа",
+    "quantity": 1000,
+    "category": 3
+  },
+  {
+    "productId": 21,
+    "productName": "Олио",
+    "brand": "Златна Добруджа",
+    "quantity": 1000,
+    "category": 3
+  },
+  {
+    "productId": 22,
+    "productName": "Сол",
+    "brand": "Солница",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 23,
+    "productName": "Колбас Елена",
+    "brand": "Орехите",
+    "quantity": 100,
+    "category": 3
+  },
+  {
+    "productId": 24,
+    "productName": "Луканка",
+    "brand": "Карлово Мес",
+    "quantity": 200,
+    "category": 3
+  },
+  {
+    "productId": 25,
+    "productName": "Зеле",
+    "brand": "Дерони",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 26,
+    "productName": "Айран",
+    "brand": "БМК",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 27,
+    "productName": "Мед полифлорен",
+    "brand": "Български мед",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 28,
+    "productName": "Фасул бял",
+    "brand": "Арпа",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 29,
+    "productName": "Леща червена",
+    "brand": "Арпа",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 30,
+    "productName": "Нахут",
+    "brand": "Арпа",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 31,
+    "productName": "Консерва риба тон",
+    "brand": "Дерони",
+    "quantity": 160,
+    "category": 3
+  },
+  {
+    "productId": 32,
+    "productName": "Консерва пъстърва",
+    "brand": "Дерони",
+    "quantity": 200,
+    "category": 3
+  },
+  {
+    "productId": 33,
+    "productName": "Сок портокал 100%",
+    "brand": "Рила",
+    "quantity": 1000,
+    "category": 3
+  },
+  {
+    "productId": 34,
+    "productName": "Минерална вода",
+    "brand": "Михалково",
+    "quantity": 500,
+    "category": 3
+  },
+  {
+    "productId": 35,
+    "productName": "Чай черен пакетчета",
+    "brand": "Верея",
+    "quantity": 25,
+    "category": 3
+  },
+  {
+    "productId": 36,
     "productName": "Дизелово гориво",
-    "brand": "Eko",
+    "brand": "OMV",
     "quantity": 1,
     "category": 6
+  },
+  {
+    "productId": 37,
+    "productName": "Бензин А95",
+    "brand": "Лукойл",
+    "quantity": 1,
+    "category": 6
+  },
+  {
+    "productId": 38,
+    "productName": "Пропан-бутан",
+    "brand": "Пропанола",
+    "quantity": 1,
+    "category": 6
+  },
+  {
+    "productId": 39,
+    "productName": "Газ пропан за кола",
+    "brand": "Auto Gas",
+    "quantity": 1,
+    "category": 6
+  },
+  {
+    "productId": 40,
+    "productName": "Бензин А98",
+    "brand": "Shell",
+    "quantity": 1,
+    "category": 6
+  },
+  {
+    "productId": 41,
+    "productName": "Ток домакински",
+    "brand": "ЧЕЗ",
+    "quantity": 1,
+    "category": 9
+  },
+  {
+    "productId": 42,
+    "productName": "Вода канализация",
+    "brand": "Софийска вода",
+    "quantity": 1,
+    "category": 9
+  },
+  {
+    "productId": 43,
+    "productName": "Отопление топлофикация",
+    "brand": "Топлофикация София",
+    "quantity": 1,
+    "category": 9
+  },
+  {
+    "productId": 44,
+    "productName": "Футболна топка",
+    "brand": "Спортмаркет",
+    "quantity": 1,
+    "category": 5
+  },
+  {
+    "productId": 45,
+    "productName": "Абонамент фитнес",
+    "brand": "Пулс Фитнес",
+    "quantity": 1,
+    "category": 5
+  },
+  {
+    "productId": 46,
+    "productName": "Лекарства витамини",
+    "brand": "Софарма",
+    "quantity": 30,
+    "category": 4
+  },
+  {
+    "productId": 47,
+    "productName": "Почистващ препарат",
+    "brand": "Лавена",
+    "quantity": 500,
+    "category": 8
+  },
+  {
+    "productId": 48,
+    "productName": "Детски играчки",
+    "brand": "Комикс БГ",
+    "quantity": 1,
+    "category": 10
+  },
+  {
+    "productId": 49,
+    "productName": "Книга учебна",
+    "brand": "Анубис",
+    "quantity": 1,
+    "category": 7
+  },
+  {
+    "productId": 50,
+    "productName": "Мобилен интернет",
+    "brand": "А1",
+    "quantity": 1,
+    "category": 9
   }
 ]
