@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Options;
+using PriceTracker.Infrastructure.Common;
 using PriceTracker.Infrastructure.Data.Models;
 using PriceTracker.Infrastructure.Data.SeedDatabase;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Builders;
+using PriceTracker.Infrastructure.Data.SeedDatabase.ExternalSeederConfiguration;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Helpers;
-using PriceTracker.Infrastructure.Common;
 using System.ComponentModel.DataAnnotations;
 using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ConfigurationConstants;
-using PriceTracker.Infrastructure.Data.SeedDatabase.ExternalSeederConfiguration;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
@@ -42,7 +42,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 			if (validatedProducts.Any())
 			{
 				builder.HasData(validatedProducts);
-				_logger?.LogInformation($"Successfully loaded and validated {validatedProducts.Count()} products from JSON");
+				_logger?.LogInformation($"Loaded {validatedProducts.Count()} products from JSON for seeding");
 			}
 			else
 			{
@@ -72,7 +72,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 			// Clear tracking for new seeding session
 			ProductBuilder.ResetTracking();
 
-			var jsonProducts = MigrationDataHelper.GetDataFromJson<ProductJsonDto>("products.json");
+			// Load JSON products directly as Product objects
+			var jsonProducts = MigrationDataHelper.GetDataFromJson<Product>("products.json");
 
 			if (!jsonProducts.Any())
 			{
@@ -80,66 +81,45 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 				return Enumerable.Empty<Product>();
 			}
 
-			// Use the validation helper for consistent validation logic
-			var validationResult = MigrationDataHelper.ValidateItems(
+			// Validate using ProductBuilder - returns only valid items
+			var validatedProducts = MigrationDataHelper.ValidateItems(
 				jsonProducts,
-				BuildProductFromDto,
-				"product");
+				ValidateProductWithBuilder,
+				"product",
+				_options.Value.StrictValidation);
 
-			// Handle validation results based on configuration
-			if (validationResult.HasErrors)
-			{
-				var errorSummary = string.Join(Environment.NewLine,
-					validationResult.ValidationErrors.Take(_options.Value.MaxValidationErrorsToLog)
-					.Select(e => $"Item #{e.ItemIndex}: {e.ErrorMessage}"));
-
-				if (_options.Value.StrictValidation)
-				{
-					throw new ValidationException(
-						$"Product validation failed with {validationResult.InvalidCount} errors. " +
-						$"Success rate: {validationResult.ValidationSuccessRate:F1}%{Environment.NewLine}{errorSummary}");
-				}
-
-				_logger?.LogWarning(
-					$"Continuing with {validationResult.ValidCount} valid products despite {validationResult.InvalidCount} validation errors. " +
-					$"Success rate: {validationResult.ValidationSuccessRate:F1}%{Environment.NewLine}{errorSummary}");
-			}
-
-			_logger?.LogInformation($"Successfully loaded and validated {validationResult.ValidCount} products from JSON");
-			return validationResult.ValidItems;
+			return validatedProducts;
 		}
 		catch (Exception ex) when (!(ex is ValidationException))
 		{
-			var errorMessage = $"Failed to load and validate products from JSON: {ex.Message}";
-			_logger?.LogError(errorMessage, ex);
-			throw new InvalidOperationException(errorMessage, ex);
+			_logger?.LogError($"Failed to load products from JSON: {ex.Message}", ex);
+			throw new InvalidOperationException($"Product loading failed: {ex.Message}", ex);
 		}
 	}
 
 	/// <summary>
-	/// Builds a Product entity from ProductJsonDto using ProductBuilder validation
+	/// Validates a Product object using ProductBuilder validation logic
 	/// </summary>
-	private static Product BuildProductFromDto(ProductJsonDto dto)
+	private static Product ValidateProductWithBuilder(Product product)
 	{
 		// Validate ProductId first
-		if (dto.ProductId <= 0)
+		if (product.ProductId <= 0)
 		{
-			throw new ValidationException($"Product ID must be a positive number. Provided value: {dto.ProductId}");
+			throw new ValidationException($"Product ID must be positive. Provided: {product.ProductId}");
 		}
 
+		// Use ProductBuilder for validation
 		var productBuilder = new ProductBuilder(
-			dto.ProductName,
-			dto.Brand,
-			(ProductCategory)dto.Category,
-			dto.Quantity
+			product.ProductName,
+			product.Brand,
+			product.Category,
+			product.Quantity
 		);
 
-		var product = productBuilder.Build();
+		var validatedProduct = productBuilder.Build();
+		validatedProduct.ProductId = product.ProductId;
 
-		// Set the ID from JSON (important for seeding)
-		product.ProductId = dto.ProductId;
-
-		return product;
+		return validatedProduct;
 	}
 
 	/// <summary>
@@ -149,43 +129,23 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 	{
 		try
 		{
-			// Clear tracking for new seeding session
 			ProductBuilder.ResetTracking();
 
 			var data = new SeedData();
 			data.Initialize();
 
-			// Validate default products using ProductBuilder as well
 			var defaultProducts = new[]
 			{
 				data.Product1, data.Product2, data.Product3, data.Product4, data.Product5,
 				data.Product6, data.Product7, data.Product8, data.Product9
 			};
 
-			var validatedProducts = new List<Product>();
-
-			foreach (var product in defaultProducts)
-			{
-				try
-				{
-					// Validate using ProductBuilder
-					var productBuilder = new ProductBuilder(
-						product.ProductName,
-						product.Brand,
-						product.Category,
-						product.Quantity
-					);
-
-					var validatedProduct = productBuilder.Build();
-					validatedProduct.ProductId = product.ProductId;
-					validatedProducts.Add(validatedProduct);
-				}
-				catch (ValidationException ex)
-				{
-					_logger?.LogError($"Default product validation failed for '{product.ProductName}': {ex.Message}", ex);
-					throw; // Re-throw for default data - this should never happen
-				}
-			}
+			// Validate default products - should never fail
+			var validatedProducts = MigrationDataHelper.ValidateItems(
+				defaultProducts,
+				ValidateProductWithBuilder,
+				"default product",
+				strictValidation: true);
 
 			builder.HasData(validatedProducts);
 		}
@@ -195,16 +155,4 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 			throw;
 		}
 	}
-}
-
-/// <summary>
-/// DTO class for deserializing products from JSON
-/// </summary>
-public class ProductJsonDto
-{
-	public int ProductId { get; set; }
-	public string ProductName { get; set; } = string.Empty;
-	public string Brand { get; set; } = string.Empty;
-	public int Quantity { get; set; }
-	public int Category { get; set; }
 }
