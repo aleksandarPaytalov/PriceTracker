@@ -78,49 +78,49 @@
   },
   {
     "productId": 12,
-    "productName": "Картофи Аглика",
+    "productName": "Картофи",
     "brand": "Булгарплод",
     "quantity": 2000,
     "category": 3
   },
   {
     "productId": 13,
-    "productName": "Домати оранжерийни",
+    "productName": "Домати",
     "brand": "Марица Земеделие",
     "quantity": 1000,
     "category": 3
   },
   {
     "productId": 14,
-    "productName": "Краставици салатни",
+    "productName": "Краставици",
     "brand": "Марица Земеделие",
     "quantity": 500,
     "category": 3
   },
   {
     "productId": 15,
-    "productName": "Лук жълт",
+    "productName": "Лук",
     "brand": "Булгарплод",
     "quantity": 1000,
     "category": 3
   },
   {
     "productId": 16,
-    "productName": "Моркови пресни",
+    "productName": "Моркови",
     "brand": "Булгарплод",
     "quantity": 1000,
     "category": 3
   },
   {
     "productId": 17,
-    "productName": "Ориз белозърнест",
+    "productName": "Ориз",
     "brand": "Арпа",
     "quantity": 1000,
     "category": 3
   },
   {
     "productId": 18,
-    "productName": "Макарони спирали",
+    "productName": "Макарони",
     "brand": "Арпа",
     "quantity": 500,
     "category": 3
@@ -141,14 +141,14 @@
   },
   {
     "productId": 21,
-    "productName": "Олио слънчогледово",
+    "productName": "Олио",
     "brand": "Златна Добруджа",
     "quantity": 1000,
     "category": 3
   },
   {
     "productId": 22,
-    "productName": "Сол йодирана",
+    "productName": "Сол",
     "brand": "Солница",
     "quantity": 500,
     "category": 3
@@ -162,14 +162,14 @@
   },
   {
     "productId": 24,
-    "productName": "Луканка Габровска",
+    "productName": "Луканка",
     "brand": "Карлово Мес",
     "quantity": 200,
     "category": 3
   },
   {
     "productId": 25,
-    "productName": "Кисело зеле",
+    "productName": "Зеле",
     "brand": "Дерони",
     "quantity": 500,
     "category": 3
@@ -204,7 +204,7 @@
   },
   {
     "productId": 30,
-    "productName": "Нахут сушен",
+    "productName": "Нахут",
     "brand": "Арпа",
     "quantity": 500,
     "category": 3
