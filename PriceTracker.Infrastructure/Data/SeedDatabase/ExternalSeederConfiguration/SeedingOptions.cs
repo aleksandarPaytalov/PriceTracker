@@ -1,5 +1,4 @@
-﻿namespace PriceTracker.Configuration
-
+﻿namespace PriceTracker.Infrastructure.Data.SeedDatabase.ExternalSeederConfiguration
 {
 	public class SeedingOptions
 	{
@@ -24,5 +23,21 @@
 			{ "Notification", false },
 			{ "Budget", false }
 		};
+
+		/// <summary>
+		/// If true, validation errors will stop the migration process.
+		/// If false, invalid items will be skipped with warnings logged.
+		/// </summary>
+		public bool StrictValidation { get; set; } = true;
+
+		/// <summary>
+		/// If true, detailed validation logs will be written to console and log files
+		/// </summary>
+		public bool EnableValidationLogging { get; set; } = true;
+
+		/// <summary>
+		/// Maximum number of validation errors to log before stopping (prevents log spam)
+		/// </summary>
+		public int MaxValidationErrorsToLog { get; set; } = 50;
 	}
 }
