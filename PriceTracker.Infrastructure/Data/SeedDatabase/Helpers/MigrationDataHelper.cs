@@ -1,6 +1,7 @@
 ﻿using PriceTracker.Infrastructure.Common;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 {
@@ -36,7 +37,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 				var jsonPath = GetJsonFilePath(fileName);
 				if (!File.Exists(jsonPath))
 				{
-					_logger?.LogWarning($"JSON file not found: {jsonPath}");
+					_logger?.LogWarning(string.Format(
+						MigrationDataConstants.JsonFileNotFound, 
+						jsonPath));
 					return Enumerable.Empty<T>();
 				}
 
@@ -45,12 +48,19 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 				var result = JsonSerializer.Deserialize<IEnumerable<T>>(jsonString, _jsonOptions)
 						   ?? Enumerable.Empty<T>();
 
-				_logger?.LogInformation($"Successfully loaded {result.Count()} items from {fileName}");
+				_logger?.LogInformation(string.Format(
+					MigrationDataConstants.SuccessfullyLoadedItems, 
+					result.Count(), 
+					fileName));
 				return result;
 			}
 			catch (Exception ex)
 			{
-				_logger?.LogError($"Failed to load data from {fileName}: {ex.Message}", ex);
+				_logger?.LogError(string.Format(
+					MigrationDataConstants.FailedToLoadData, 
+					fileName, 
+					ex.Message),
+					ex);
 				return Enumerable.Empty<T>();
 			}
 		}
@@ -81,32 +91,58 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 				catch (ValidationException ex)
 				{
 					errorCount++;
-					_logger?.LogError($"Validation failed for {itemTypeName} #{processedCount}: {ex.Message}");
+					_logger?.LogError(string.Format(
+						MigrationDataConstants.ValidationFailed, 
+						itemTypeName, 
+						processedCount, 
+						ex.Message));
 
 					if (strictValidation)
 					{
-						throw new ValidationException($"Strict validation failed for {itemTypeName} #{processedCount}: {ex.Message}", ex);
+						throw new ValidationException(string.Format(
+							MigrationDataConstants.StrictValidationFailed, 
+							itemTypeName, 
+							processedCount, 
+							ex.Message), 
+							ex);
 					}
 				}
 				catch (Exception ex)
 				{
 					errorCount++;
-					_logger?.LogError($"Unexpected error validating {itemTypeName} #{processedCount}: {ex.Message}", ex);
+					_logger?.LogError(string.Format(
+						MigrationDataConstants.UnexpectedValidationError, 
+						itemTypeName, 
+						processedCount, 
+						ex.Message), 
+						ex);
 
 					if (strictValidation)
 					{
-						throw new InvalidOperationException($"Validation process failed for {itemTypeName} #{processedCount}: {ex.Message}", ex);
+						throw new InvalidOperationException(string.Format(
+							MigrationDataConstants.ValidationProcessFailed, 
+							itemTypeName, processedCount, 
+							ex.Message), 
+							ex);
 					}
 				}
 			}
 
 			if (errorCount > 0)
 			{
-				_logger?.LogWarning($"Validation completed for {itemTypeName}: {validItems.Count} valid, {errorCount} invalid out of {processedCount} total");
+				_logger?.LogWarning(string.Format(
+					MigrationDataConstants.ValidationCompletedWithErrors,
+					itemTypeName,
+					validItems.Count,
+					errorCount,
+					processedCount));
 			}
 			else
 			{
-				_logger?.LogInformation($"All {processedCount} {itemTypeName}s validated successfully");
+				_logger?.LogInformation(string.Format(
+					MigrationDataConstants.AllItemsValidatedSuccessfully,
+					processedCount,
+					itemTypeName));
 			}
 
 			return validItems;

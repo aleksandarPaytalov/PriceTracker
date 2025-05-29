@@ -9,6 +9,22 @@
 				"Either provide valid JSON data or set UseExternalSource to false.";
 		}
 
+		internal static class MigrationDataConstants
+		{
+			// File loading messages
+			public const string JsonFileNotFound = "JSON file not found: {0}";
+			public const string SuccessfullyLoadedItems = "Successfully loaded {0} items from {1}";
+			public const string FailedToLoadData = "Failed to load data from {0}: {1}";
+
+			// Validation messages
+			public const string ValidationFailed = "Validation failed for {0} #{1}: {2}";
+			public const string UnexpectedValidationError = "Unexpected error validating {0} #{1}: {2}";
+			public const string StrictValidationFailed = "Strict validation failed for {0} #{1}: {2}";
+			public const string ValidationProcessFailed = "Validation process failed for {0} #{1}: {2}";
+			public const string ValidationCompletedWithErrors = "Validation completed for {0}: {1} valid, {2} invalid out of {3} total";
+			public const string AllItemsValidatedSuccessfully = "All {0} {1}s validated successfully";
+		}
+
 		internal static class UserConstants
 		{
 			public const string UserNameRequired = "Username is required";
@@ -81,6 +97,16 @@
 			public const string InvalidCategory = "Invalid product category: {0}";
 			public const string InvalidQuantity = "Quantity cannot be negative";
 			public const string InvalidProductId = "Product ID must be a positive number. Provided value: {0}";
+		}
+
+		internal static class ProductConfigurationConstants
+		{
+			public const string LoadedProductsFromJson = "Loaded {0} products from JSON for seeding";
+			public const string NoProductsFoundInJson = "No products found in products.json file";
+			public const string UsingDefaultSeedData = "Using default seed data for products";
+			public const string FailedToLoadProductsFromJson = "Failed to load products from JSON: {0}";
+			public const string ProductLoadingFailed = "Product loading failed: {0}";
+			public const string FailedToSeedDefaultData = "Failed to seed default product data: {0}";
 		}
 
 		internal static class StoreConstants
