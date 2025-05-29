@@ -117,6 +117,17 @@
 			public const string StoreAlreadyExistsInDb = "Store with name '{0}' already exists in database";
 		}
 
+		internal static class StoreConfigurationConstants
+		{
+			public const string LoadedStoresFromJson = "Loaded {0} stores from JSON for seeding";
+			public const string NoStoresFoundInJson = "No stores found in stores.json file";
+			public const string UsingDefaultSeedData = "Using default seed data for stores";
+			public const string FailedToLoadStoresFromJson = "Failed to load stores from JSON: {0}";
+			public const string StoreLoadingFailed = "Store loading failed: {0}";
+			public const string FailedToSeedDefaultData = "Failed to seed default store data: {0}";
+			public const string InvalidStoreId = "Store ID must be a positive number. Provided value: {0}";
+		}
+
 		internal static class PriceConstants
 		{
 			public const string ProductRequired = "Product must be specified";

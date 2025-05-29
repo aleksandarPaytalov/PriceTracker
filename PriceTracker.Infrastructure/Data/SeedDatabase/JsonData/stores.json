@@ -1,0 +1,83 @@
+[
+  {
+    "storeId": 1,
+    "name": "Kaufland"
+  },
+  {
+    "storeId": 2,
+    "name": "Lidl"
+  },
+  {
+    "storeId": 3,
+    "name": "Billa"
+  },
+  {
+    "storeId": 4,
+    "name": "Metro"
+  },
+  {
+    "storeId": 5,
+    "name": "Fantastico"
+  },
+  {
+    "storeId": 6,
+    "name": "Piccadilly"
+  },
+  {
+    "storeId": 7,
+    "name": "T-Market"
+  },
+  {
+    "storeId": 8,
+    "name": "CBA"
+  },
+  {
+    "storeId": 9,
+    "name": "Penny Market"
+  },
+  {
+    "storeId": 10,
+    "name": "Lukoil"
+  },
+  {
+    "storeId": 11,
+    "name": "Shell"
+  },
+  {
+    "storeId": 12,
+    "name": "OMV"
+  },
+  {
+    "storeId": 13,
+    "name": "Petrol"
+  },
+  {
+    "storeId": 14,
+    "name": "EKO"
+  },
+  {
+    "storeId": 15,
+    "name": "Т-маркет"
+  },
+  {
+    "storeId": 16,
+    "name": "EVN"
+  },
+  {
+    "storeId": 17,
+    "name": "ВИК Пловдив"
+  },
+  {
+    "storeId": 18,
+    "name": "BBB"
+  },
+  {
+    "storeId": 19,
+    "name": "Аптеки 366"
+  },
+  {
+    "storeId": 20,
+    "name": "X-fit"
+  }
+]
+

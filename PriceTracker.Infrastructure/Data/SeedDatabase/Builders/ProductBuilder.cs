@@ -1,7 +1,7 @@
 ﻿using PriceTracker.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using static PriceTracker.Infrastructure.Constants.DataConstants;
-using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ProductConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 {
@@ -60,26 +60,26 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			// Name validations
 			if (string.IsNullOrWhiteSpace(productName))
 			{
-				throw new ValidationException(ProductConstants.NameRequired);
+				throw new ValidationException(NameRequired);
 			}
 
 			if (productName.Length < productNameMinLength || productName.Length > productNameMaxLength)
 			{
 				throw new ValidationException(
-					string.Format(ProductConstants.InvalidNameLength,
+					string.Format(InvalidNameLength,
 						productNameMinLength,
 						productNameMaxLength));
 			}
 
 			if (string.IsNullOrWhiteSpace(brandName))
 			{
-				throw new ValidationException(ProductConstants.BrandRequired);
+				throw new ValidationException(BrandRequired);
 			}
 
 			if (brandName.Length < productBrandNameMinLength || brandName.Length > productBrandNameMaxLength)
 			{
 				throw new ValidationException(
-					string.Format(ProductConstants.InvalidBrandLength,
+					string.Format(InvalidBrandLength,
 						productBrandNameMinLength,
 						productBrandNameMaxLength));
 			}
@@ -88,13 +88,13 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			if (!Enum.IsDefined(typeof(ProductCategory), category))
 			{
 				throw new ValidationException(
-					string.Format(ProductConstants.InvalidCategory, category));
+					string.Format(InvalidCategory, category));
 			}
 
 			// Quantity validation
 			if (quantity < 0)
 			{
-				throw new ValidationException(ProductConstants.InvalidQuantity);
+				throw new ValidationException(InvalidQuantity);
 			}
 
 			// In-memory duplication check for current seed session

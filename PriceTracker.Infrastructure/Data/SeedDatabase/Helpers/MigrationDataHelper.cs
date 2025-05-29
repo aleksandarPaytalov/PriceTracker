@@ -1,7 +1,7 @@
 ﻿using PriceTracker.Infrastructure.Common;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.MigrationDataConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 {
@@ -37,7 +37,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 				var jsonPath = GetJsonFilePath(fileName);
 				if (!File.Exists(jsonPath))
 				{
-					MigrationLogger.LogWarning(string.Format(MigrationDataConstants.JsonFileNotFound, jsonPath));
+					MigrationLogger.LogWarning(string.Format(JsonFileNotFound, jsonPath));
 					return Enumerable.Empty<T>();
 				}
 
@@ -46,12 +46,12 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 				var result = JsonSerializer.Deserialize<IEnumerable<T>>(jsonString, _jsonOptions)
 						   ?? Enumerable.Empty<T>();
 
-				MigrationLogger.LogInformation(string.Format(MigrationDataConstants.SuccessfullyLoadedItems, result.Count(), fileName));
+				MigrationLogger.LogInformation(string.Format(SuccessfullyLoadedItems, result.Count(), fileName));
 				return result;
 			}
 			catch (Exception ex)
 			{
-				MigrationLogger.LogError(string.Format(MigrationDataConstants.FailedToLoadData, fileName, ex.Message), ex);
+				MigrationLogger.LogError(string.Format(FailedToLoadData, fileName, ex.Message), ex);
 				return Enumerable.Empty<T>();
 			}
 		}
@@ -82,32 +82,38 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 				catch (ValidationException ex)
 				{
 					errorCount++;
-					MigrationLogger.LogError(string.Format(MigrationDataConstants.ValidationFailed, itemTypeName, processedCount, ex.Message));
+					MigrationLogger.LogError(string.Format(ValidationFailed, 
+						itemTypeName, processedCount, ex.Message));
 
 					if (strictValidation)
 					{
-						throw new ValidationException(string.Format(MigrationDataConstants.StrictValidationFailed, itemTypeName, processedCount, ex.Message), ex);
+						throw new ValidationException(string.Format(StrictValidationFailed, 
+							itemTypeName, processedCount, ex.Message), ex);
 					}
 				}
 				catch (Exception ex)
 				{
 					errorCount++;
-					MigrationLogger.LogError(string.Format(MigrationDataConstants.UnexpectedValidationError, itemTypeName, processedCount, ex.Message), ex);
+					MigrationLogger.LogError(string.Format(UnexpectedValidationError, 
+						itemTypeName, processedCount, ex.Message), ex);
 
 					if (strictValidation)
 					{
-						throw new InvalidOperationException(string.Format(MigrationDataConstants.ValidationProcessFailed, itemTypeName, processedCount, ex.Message), ex);
+						throw new InvalidOperationException(string.Format(ValidationProcessFailed, 
+							itemTypeName, processedCount, ex.Message), ex);
 					}
 				}
 			}
 
 			if (errorCount > 0)
 			{
-				MigrationLogger.LogWarning(string.Format(MigrationDataConstants.ValidationCompletedWithErrors, itemTypeName, validItems.Count, errorCount, processedCount));
+				MigrationLogger.LogWarning(string.Format(ValidationCompletedWithErrors, 
+					itemTypeName, validItems.Count, errorCount, processedCount));
 			}
 			else
-			{
-				MigrationLogger.LogInformation(string.Format(MigrationDataConstants.AllItemsValidatedSuccessfully, processedCount, itemTypeName));
+			{	
+				MigrationLogger.LogInformation(string.Format(AllItemsValidatedSuccessfully, 
+					processedCount, itemTypeName));
 			}
 
 			return validItems;
