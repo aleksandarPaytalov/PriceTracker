@@ -120,7 +120,7 @@ namespace PriceTracker.Extensions
 			if (missingFiles.Count != 0)
 			{
 				var errorMessage = "Required JSON files are missing or empty:" + Environment.NewLine +
-								 string.Join(Environment.NewLine, missingFiles.Select(f => $"  - {f}")) + Environment.NewLine +
+								 string.Join(Environment.NewLine, missingFiles.Select(f => $" - {f}")) + Environment.NewLine +
 								 "Either provide the missing files or disable the corresponding seeders in EnabledSeeders configuration.";
 
 				throw new FileNotFoundException(errorMessage);

@@ -1,25 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Options;
-using PriceTracker.Infrastructure.Common;
 using PriceTracker.Infrastructure.Data.Models;
 using PriceTracker.Infrastructure.Data.SeedDatabase;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Builders;
 using PriceTracker.Infrastructure.Data.SeedDatabase.ExternalSeederConfiguration;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Helpers;
 using System.ComponentModel.DataAnnotations;
-using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
 using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ConfigurationConstants;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ProductConfigurationConstants;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ProductConstants;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
 	private readonly IOptions<SeedingOptions> _options;
-	private readonly IAppLogger? _logger;
 
-	public ProductConfiguration(IOptions<SeedingOptions> options, IAppLogger? logger = null)
+	public ProductConfiguration(IOptions<SeedingOptions> options)
 	{
 		_options = options ?? throw new ArgumentNullException(nameof(options));
-		_logger = logger;
 	}
 
 	public void Configure(EntityTypeBuilder<Product> builder)
@@ -43,14 +41,12 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 			if (validatedProducts.Any())
 			{
 				builder.HasData(validatedProducts);
-				_logger?.LogInformation(string.Format(
-					ProductConfigurationConstants.LoadedProductsFromJson, 
-					validatedProducts.Count()));
+				MigrationLogger.LogInformation(string.Format(LoadedProductsFromJson, validatedProducts.Count()));
 			}
 			else
 			{
 				var errorMessage = string.Format(ExternalSourceEnabledButNoData, "products.json");
-				_logger?.LogError(errorMessage);
+				MigrationLogger.LogError(errorMessage);
 				throw new InvalidOperationException(errorMessage);
 			}
 		}
@@ -60,7 +56,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 			if (!_options.Value.UseExternalSource || _options.Value.EnabledSeeders.GetValueOrDefault("Product", true))
 			{
 				SeedDefaultData(builder);
-				_logger?.LogInformation(ProductConfigurationConstants.UsingDefaultSeedData);
+				MigrationLogger.LogInformation(UsingDefaultSeedData);
 			}
 		}
 	}
@@ -80,7 +76,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
 			if (!jsonProducts.Any())
 			{
-				_logger?.LogWarning(ProductConfigurationConstants.NoProductsFoundInJson);
+				MigrationLogger.LogWarning(NoProductsFoundInJson);
 				return Enumerable.Empty<Product>();
 			}
 
@@ -93,16 +89,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
 			return validatedProducts;
 		}
-		catch (Exception ex) when (ex is not ValidationException)
+		catch (Exception ex) when (!(ex is ValidationException))
 		{
-			_logger?.LogError(string.Format(
-				ProductConfigurationConstants.FailedToLoadProductsFromJson, 
-				ex.Message), 
-				ex);
-			throw new InvalidOperationException(string.Format(
-				ProductConfigurationConstants.ProductLoadingFailed, 
-				ex.Message), 
-				ex);
+			MigrationLogger.LogError(string.Format(FailedToLoadProductsFromJson, ex.Message), ex);
+			throw new InvalidOperationException(string.Format(ProductLoadingFailed, ex.Message), ex);
 		}
 	}
 
@@ -114,9 +104,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 		// Validate ProductId first - reuse existing constant
 		if (product.ProductId <= 0)
 		{
-			throw new ValidationException(string.Format(
-				ProductConstants.InvalidProductId, 
-				product.ProductId));
+			throw new ValidationException(string.Format(InvalidProductId, product.ProductId));
 		}
 
 		// Use ProductBuilder for validation
@@ -162,10 +150,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 		}
 		catch (Exception ex)
 		{
-			_logger?.LogError(string.Format(
-				ProductConfigurationConstants.FailedToSeedDefaultData, 
-				ex.Message), 
-				ex);
+			MigrationLogger.LogError(string.Format(FailedToSeedDefaultData, ex.Message), ex);
 			throw;
 		}
 	}
