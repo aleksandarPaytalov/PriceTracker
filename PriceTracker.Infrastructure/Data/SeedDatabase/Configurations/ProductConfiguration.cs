@@ -8,6 +8,7 @@ using PriceTracker.Infrastructure.Data.SeedDatabase.Builders;
 using PriceTracker.Infrastructure.Data.SeedDatabase.ExternalSeederConfiguration;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Helpers;
 using System.ComponentModel.DataAnnotations;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
 using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ConfigurationConstants;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
@@ -42,7 +43,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 			if (validatedProducts.Any())
 			{
 				builder.HasData(validatedProducts);
-				_logger?.LogInformation($"Loaded {validatedProducts.Count()} products from JSON for seeding");
+				_logger?.LogInformation(string.Format(
+					ProductConfigurationConstants.LoadedProductsFromJson, 
+					validatedProducts.Count()));
 			}
 			else
 			{
@@ -57,7 +60,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 			if (!_options.Value.UseExternalSource || _options.Value.EnabledSeeders.GetValueOrDefault("Product", true))
 			{
 				SeedDefaultData(builder);
-				_logger?.LogInformation("Using default seed data for products");
+				_logger?.LogInformation(ProductConfigurationConstants.UsingDefaultSeedData);
 			}
 		}
 	}
@@ -77,7 +80,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
 			if (!jsonProducts.Any())
 			{
-				_logger?.LogWarning("No products found in products.json file");
+				_logger?.LogWarning(ProductConfigurationConstants.NoProductsFoundInJson);
 				return Enumerable.Empty<Product>();
 			}
 
@@ -90,10 +93,16 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
 			return validatedProducts;
 		}
-		catch (Exception ex) when (!(ex is ValidationException))
+		catch (Exception ex) when (ex is not ValidationException)
 		{
-			_logger?.LogError($"Failed to load products from JSON: {ex.Message}", ex);
-			throw new InvalidOperationException($"Product loading failed: {ex.Message}", ex);
+			_logger?.LogError(string.Format(
+				ProductConfigurationConstants.FailedToLoadProductsFromJson, 
+				ex.Message), 
+				ex);
+			throw new InvalidOperationException(string.Format(
+				ProductConfigurationConstants.ProductLoadingFailed, 
+				ex.Message), 
+				ex);
 		}
 	}
 
@@ -102,10 +111,12 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 	/// </summary>
 	private static Product ValidateProductWithBuilder(Product product)
 	{
-		// Validate ProductId first
+		// Validate ProductId first - reuse existing constant
 		if (product.ProductId <= 0)
 		{
-			throw new ValidationException($"Product ID must be positive. Provided: {product.ProductId}");
+			throw new ValidationException(string.Format(
+				ProductConstants.InvalidProductId, 
+				product.ProductId));
 		}
 
 		// Use ProductBuilder for validation
@@ -151,7 +162,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 		}
 		catch (Exception ex)
 		{
-			_logger?.LogError($"Failed to seed default product data: {ex.Message}", ex);
+			_logger?.LogError(string.Format(
+				ProductConfigurationConstants.FailedToSeedDefaultData, 
+				ex.Message), 
+				ex);
 			throw;
 		}
 	}
