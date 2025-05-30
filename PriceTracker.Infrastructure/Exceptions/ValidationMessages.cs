@@ -138,6 +138,20 @@
 			public const string ExceedsMaxPrice = "Price exceeds maximum allowed value of {0:C}. Provided value: {1:C}";
 			public const string InvalidDateFormat = "Invalid date format provided";
 			public const string FutureDate = "Price check date cannot be in the future. Current date: {0:g}, Provided date: {1:g}";
+
+			public const string InvalidPriceId = "Price ID must be a positive number. Provided value: {0}";
+			public const string ProductNotFound = "Product with ID {0} not found during price validation";
+			public const string StoreNotFound = "Store with ID {0} not found during price validation";
+		}
+
+		internal static class PriceConfigurationConstants
+		{
+			public const string LoadedPricesFromJson = "Loaded {0} prices from JSON for seeding";
+			public const string NoPricesFoundInJson = "No prices found in prices.json file";
+			public const string UsingDefaultSeedData = "Using default seed data for prices";
+			public const string FailedToLoadPricesFromJson = "Failed to load prices from JSON: {0}";
+			public const string PriceLoadingFailed = "Price loading failed: {0}";
+			public const string FailedToSeedDefaultData = "Failed to seed default price data: {0}";
 		}
 
 		internal static class TaskConstants

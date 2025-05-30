@@ -17,7 +17,7 @@
 		{
 			{ "Product", true },
 			{ "Store", true },
-			{ "Price", false },
+			{ "Price", true },
 			{ "Expense", false },
 			{ "Task", false },
 			{ "Notification", false },

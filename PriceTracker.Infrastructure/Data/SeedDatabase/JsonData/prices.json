@@ -1,0 +1,492 @@
+[
+  {
+    "priceId": 1,
+    "productId": 1,
+    "storeId": 1,
+    "sellingPrice": 4.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 2,
+    "productId": 1,
+    "storeId": 2,
+    "sellingPrice": 4.49,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 3,
+    "productId": 1,
+    "storeId": 3,
+    "sellingPrice": 5.29,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 4,
+    "productId": 2,
+    "storeId": 1,
+    "sellingPrice": 18.90,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 5,
+    "productId": 2,
+    "storeId": 4,
+    "sellingPrice": 17.50,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 6,
+    "productId": 2,
+    "storeId": 18,
+    "sellingPrice": 19.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 7,
+    "productId": 3,
+    "storeId": 1,
+    "sellingPrice": 21.50,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 8,
+    "productId": 3,
+    "storeId": 5,
+    "sellingPrice": 20.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 9,
+    "productId": 4,
+    "storeId": 4,
+    "sellingPrice": 35.90,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 10,
+    "productId": 4,
+    "storeId": 1,
+    "sellingPrice": 32.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 11,
+    "productId": 5,
+    "storeId": 1,
+    "sellingPrice": 3.45,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 12,
+    "productId": 5,
+    "storeId": 2,
+    "sellingPrice": 3.29,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 13,
+    "productId": 5,
+    "storeId": 18,
+    "sellingPrice": 3.59,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 14,
+    "productId": 6,
+    "storeId": 1,
+    "sellingPrice": 2.89,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 15,
+    "productId": 6,
+    "storeId": 3,
+    "sellingPrice": 2.95,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 16,
+    "productId": 6,
+    "storeId": 9,
+    "sellingPrice": 2.79,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 17,
+    "productId": 7,
+    "storeId": 1,
+    "sellingPrice": 24.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 18,
+    "productId": 7,
+    "storeId": 18,
+    "sellingPrice": 23.50,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 19,
+    "productId": 8,
+    "storeId": 2,
+    "sellingPrice": 18.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 20,
+    "productId": 8,
+    "storeId": 5,
+    "sellingPrice": 19.49,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 21,
+    "productId": 9,
+    "storeId": 1,
+    "sellingPrice": 7.89,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 22,
+    "productId": 9,
+    "storeId": 3,
+    "sellingPrice": 7.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 23,
+    "productId": 10,
+    "storeId": 1,
+    "sellingPrice": 4.50,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 24,
+    "productId": 10,
+    "storeId": 5,
+    "sellingPrice": 4.39,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 25,
+    "productId": 10,
+    "storeId": 8,
+    "sellingPrice": 4.69,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 26,
+    "productId": 11,
+    "storeId": 1,
+    "sellingPrice": 2.45,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 27,
+    "productId": 11,
+    "storeId": 2,
+    "sellingPrice": 2.29,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 28,
+    "productId": 12,
+    "storeId": 1,
+    "sellingPrice": 1.89,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 29,
+    "productId": 12,
+    "storeId": 2,
+    "sellingPrice": 1.79,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 30,
+    "productId": 12,
+    "storeId": 9,
+    "sellingPrice": 1.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 31,
+    "productId": 13,
+    "storeId": 1,
+    "sellingPrice": 4.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 32,
+    "productId": 13,
+    "storeId": 3,
+    "sellingPrice": 5.29,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 33,
+    "productId": 13,
+    "storeId": 7,
+    "sellingPrice": 4.79,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 34,
+    "productId": 14,
+    "storeId": 1,
+    "sellingPrice": 3.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 35,
+    "productId": 14,
+    "storeId": 5,
+    "sellingPrice": 3.79,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 36,
+    "productId": 15,
+    "storeId": 2,
+    "sellingPrice": 2.29,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 37,
+    "productId": 15,
+    "storeId": 8,
+    "sellingPrice": 2.49,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 38,
+    "productId": 16,
+    "storeId": 1,
+    "sellingPrice": 2.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 39,
+    "productId": 16,
+    "storeId": 3,
+    "sellingPrice": 3.19,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 40,
+    "productId": 17,
+    "storeId": 1,
+    "sellingPrice": 3.45,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 41,
+    "productId": 17,
+    "storeId": 4,
+    "sellingPrice": 3.29,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 42,
+    "productId": 18,
+    "storeId": 1,
+    "sellingPrice": 2.89,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 43,
+    "productId": 18,
+    "storeId": 2,
+    "sellingPrice": 2.69,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 44,
+    "productId": 19,
+    "storeId": 1,
+    "sellingPrice": 2.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 45,
+    "productId": 19,
+    "storeId": 4,
+    "sellingPrice": 2.79,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 46,
+    "productId": 20,
+    "storeId": 1,
+    "sellingPrice": 2.79,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 47,
+    "productId": 20,
+    "storeId": 2,
+    "sellingPrice": 2.69,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 48,
+    "productId": 21,
+    "storeId": 1,
+    "sellingPrice": 4.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 49,
+    "productId": 21,
+    "storeId": 5,
+    "sellingPrice": 5.19,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 50,
+    "productId": 22,
+    "storeId": 1,
+    "sellingPrice": 1.29,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 51,
+    "productId": 22,
+    "storeId": 9,
+    "sellingPrice": 1.19,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 52,
+    "productId": 23,
+    "storeId": 1,
+    "sellingPrice": 18.90,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 53,
+    "productId": 24,
+    "storeId": 4,
+    "sellingPrice": 22.50,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 54,
+    "productId": 25,
+    "storeId": 1,
+    "sellingPrice": 1.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 55,
+    "productId": 25,
+    "storeId": 3,
+    "sellingPrice": 2.19,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 56,
+    "productId": 26,
+    "storeId": 1,
+    "sellingPrice": 2.89,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 57,
+    "productId": 26,
+    "storeId": 18,
+    "sellingPrice": 2.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 58,
+    "productId": 27,
+    "storeId": 1,
+    "sellingPrice": 12.90,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 59,
+    "productId": 28,
+    "storeId": 1,
+    "sellingPrice": 4.59,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 60,
+    "productId": 28,
+    "storeId": 4,
+    "sellingPrice": 4.29,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 61,
+    "productId": 29,
+    "storeId": 1,
+    "sellingPrice": 5.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 62,
+    "productId": 30,
+    "storeId": 4,
+    "sellingPrice": 6.49,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 63,
+    "productId": 31,
+    "storeId": 1,
+    "sellingPrice": 4.89,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 64,
+    "productId": 31,
+    "storeId": 3,
+    "sellingPrice": 5.19,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 65,
+    "productId": 32,
+    "storeId": 1,
+    "sellingPrice": 5.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 66,
+    "productId": 33,
+    "storeId": 1,
+    "sellingPrice": 3.99,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 67,
+    "productId": 33,
+    "storeId": 2,
+    "sellingPrice": 3.79,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 68,
+    "productId": 34,
+    "storeId": 1,
+    "sellingPrice": 1.39,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 69,
+    "productId": 34,
+    "storeId": 5,
+    "sellingPrice": 1.29,
+    "dateChecked": "2025-05-18T00:00:00"
+  },
+  {
+    "priceId": 70,
+    "productId": 35,
+    "storeId": 1,
+    "sellingPrice": 4.79,
+    "dateChecked": "2025-05-18T00:00:00"
+  }
+]

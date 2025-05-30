@@ -1,6 +1,6 @@
 ﻿using PriceTracker.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
-using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.PriceConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 {
@@ -11,6 +11,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 	{
 		private readonly Price _price;
 		private const decimal MaxAllowedPrice = 1000000m;
+		private static readonly HashSet<string> _currentSeedPrices = new(StringComparer.OrdinalIgnoreCase);
 
 		/// <summary>
 		/// Creates a new price with required data
@@ -38,6 +39,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 					SellingPrice = sellingPrice,
 					DateChecked = actualDateChecked
 				};
+
+				// Track combination for counting purposes
+				var priceKey = $"{product.ProductId}|{store.StoreId}|{actualDateChecked:yyyy-MM-dd}".ToLower();
+				_currentSeedPrices.Add(priceKey);
 			}
 			catch (Exception ex) when (ex is not ValidationException)
 			{
@@ -46,7 +51,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		}
 
 		public Price Build() => _price;
-		
+
 		private static void ValidatePriceInputData(
 			Product product,
 			Store store,
@@ -56,54 +61,70 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			// Product validations
 			if (product == null)
 			{
-				throw new ValidationException(PriceConstants.ProductRequired);
+				throw new ValidationException(ProductRequired);
 			}
 
 			if (product.ProductId == 0)
 			{
-				throw new ValidationException(PriceConstants.ProductIdRequired);
+				throw new ValidationException(ProductIdRequired);
 			}
 
 			// Store validations
 			if (store == null)
 			{
-				throw new ValidationException(PriceConstants.StoreRequired);
+				throw new ValidationException(StoreRequired);
 			}
 
 			if (store.StoreId == 0)
 			{
-				throw new ValidationException(PriceConstants.StoreIdRequired);
+				throw new ValidationException(StoreIdRequired);
 			}
 
 			// Price validations
 			if (sellingPrice <= 0)
 			{
-				throw new ValidationException(string.Format(PriceConstants.InvalidPrice, sellingPrice));
+				throw new ValidationException(string.Format(InvalidPrice, sellingPrice));
 			}
 
 			if (sellingPrice > MaxAllowedPrice)
 			{
 				throw new ValidationException(
-					string.Format(PriceConstants.ExceedsMaxPrice, MaxAllowedPrice, sellingPrice));
+					string.Format(ExceedsMaxPrice, MaxAllowedPrice, sellingPrice));
 			}
 
 			// Date validations
-			
 			if (!IsValidDate(dateChecked))
 			{
-				throw new ValidationException(PriceConstants.InvalidDateFormat);
+				throw new ValidationException(InvalidDateFormat);
 			}
 
 			if (dateChecked > DateTime.Now)
 			{
 				throw new ValidationException(
-					string.Format(PriceConstants.FutureDate, DateTime.Now, dateChecked));
-			}					
+					string.Format(FutureDate, DateTime.Now, dateChecked));
+			}
 		}
 
 		private static bool IsValidDate(DateTime date)
 		{
 			return DateTime.TryParse(date.ToString(), out _);
+		}
+
+		/// <summary>
+		/// Clear tracking collections for new seeding session
+		/// Call this before starting a new migration or seeding operation
+		/// </summary>
+		public static void ResetTracking()
+		{
+			_currentSeedPrices.Clear();
+		}
+
+		/// <summary>
+		/// Get count of currently tracked price combinations in this session
+		/// </summary>
+		public static int GetTrackedPriceCount()
+		{
+			return _currentSeedPrices.Count;
 		}
 	}
 }
