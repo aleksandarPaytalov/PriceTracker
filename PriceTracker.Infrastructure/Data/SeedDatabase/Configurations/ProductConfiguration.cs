@@ -124,7 +124,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 	/// <summary>
 	/// Seeds default data from SeedData class using ProductBuilder validation
 	/// </summary>
-	private void SeedDefaultData(EntityTypeBuilder<Product> builder)
+	private static void SeedDefaultData(EntityTypeBuilder<Product> builder)
 	{
 		try
 		{
