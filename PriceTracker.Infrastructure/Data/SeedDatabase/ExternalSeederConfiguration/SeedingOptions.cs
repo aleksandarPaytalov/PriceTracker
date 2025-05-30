@@ -16,7 +16,7 @@
 		public Dictionary<string, bool> EnabledSeeders { get; set; } = new()
 		{
 			{ "Product", true },
-			{ "Store", false },
+			{ "Store", true },
 			{ "Price", false },
 			{ "Expense", false },
 			{ "Task", false },

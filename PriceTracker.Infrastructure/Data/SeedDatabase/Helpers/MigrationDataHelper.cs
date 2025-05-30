@@ -1,7 +1,7 @@
 ﻿using PriceTracker.Infrastructure.Common;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.MigrationDataConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 {
@@ -10,7 +10,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 	/// </summary>
 	public static class MigrationDataHelper
 	{
-		private static IAppLogger? _logger;
 		private static readonly JsonSerializerOptions _jsonOptions = new()
 		{
 			PropertyNameCaseInsensitive = true
@@ -18,10 +17,11 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 
 		/// <summary>
 		/// Sets the logger instance for validation logging
+		/// For backward compatibility - delegates to MigrationLogger
 		/// </summary>
 		public static void SetLogger(IAppLogger? logger)
 		{
-			_logger = logger;
+			MigrationLogger.SetRuntimeLogger(logger);
 		}
 
 		/// <summary>
@@ -37,9 +37,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 				var jsonPath = GetJsonFilePath(fileName);
 				if (!File.Exists(jsonPath))
 				{
-					_logger?.LogWarning(string.Format(
-						MigrationDataConstants.JsonFileNotFound, 
-						jsonPath));
+					MigrationLogger.LogWarning(string.Format(JsonFileNotFound, jsonPath));
 					return Enumerable.Empty<T>();
 				}
 
@@ -48,19 +46,12 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 				var result = JsonSerializer.Deserialize<IEnumerable<T>>(jsonString, _jsonOptions)
 						   ?? Enumerable.Empty<T>();
 
-				_logger?.LogInformation(string.Format(
-					MigrationDataConstants.SuccessfullyLoadedItems, 
-					result.Count(), 
-					fileName));
+				MigrationLogger.LogInformation(string.Format(SuccessfullyLoadedItems, result.Count(), fileName));
 				return result;
 			}
 			catch (Exception ex)
 			{
-				_logger?.LogError(string.Format(
-					MigrationDataConstants.FailedToLoadData, 
-					fileName, 
-					ex.Message),
-					ex);
+				MigrationLogger.LogError(string.Format(FailedToLoadData, fileName, ex.Message), ex);
 				return Enumerable.Empty<T>();
 			}
 		}
@@ -91,58 +82,38 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Helpers
 				catch (ValidationException ex)
 				{
 					errorCount++;
-					_logger?.LogError(string.Format(
-						MigrationDataConstants.ValidationFailed, 
-						itemTypeName, 
-						processedCount, 
-						ex.Message));
+					MigrationLogger.LogError(string.Format(ValidationFailed, 
+						itemTypeName, processedCount, ex.Message));
 
 					if (strictValidation)
 					{
-						throw new ValidationException(string.Format(
-							MigrationDataConstants.StrictValidationFailed, 
-							itemTypeName, 
-							processedCount, 
-							ex.Message), 
-							ex);
+						throw new ValidationException(string.Format(StrictValidationFailed, 
+							itemTypeName, processedCount, ex.Message), ex);
 					}
 				}
 				catch (Exception ex)
 				{
 					errorCount++;
-					_logger?.LogError(string.Format(
-						MigrationDataConstants.UnexpectedValidationError, 
-						itemTypeName, 
-						processedCount, 
-						ex.Message), 
-						ex);
+					MigrationLogger.LogError(string.Format(UnexpectedValidationError, 
+						itemTypeName, processedCount, ex.Message), ex);
 
 					if (strictValidation)
 					{
-						throw new InvalidOperationException(string.Format(
-							MigrationDataConstants.ValidationProcessFailed, 
-							itemTypeName, processedCount, 
-							ex.Message), 
-							ex);
+						throw new InvalidOperationException(string.Format(ValidationProcessFailed, 
+							itemTypeName, processedCount, ex.Message), ex);
 					}
 				}
 			}
 
 			if (errorCount > 0)
 			{
-				_logger?.LogWarning(string.Format(
-					MigrationDataConstants.ValidationCompletedWithErrors,
-					itemTypeName,
-					validItems.Count,
-					errorCount,
-					processedCount));
+				MigrationLogger.LogWarning(string.Format(ValidationCompletedWithErrors, 
+					itemTypeName, validItems.Count, errorCount, processedCount));
 			}
 			else
-			{
-				_logger?.LogInformation(string.Format(
-					MigrationDataConstants.AllItemsValidatedSuccessfully,
-					processedCount,
-					itemTypeName));
+			{	
+				MigrationLogger.LogInformation(string.Format(AllItemsValidatedSuccessfully, 
+					processedCount, itemTypeName));
 			}
 
 			return validItems;

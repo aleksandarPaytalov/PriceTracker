@@ -14,6 +14,8 @@ builder.Services.AddSingleton<IAppLogger>(provider =>
 	return new FileLogger(logPath, logToConsole: true);
 });
 
+
+
 //Services registration
 builder.Services.DataBaseServiceExtensions(builder.Configuration);
 builder.Services.AddIdentityServiceExtensions();
@@ -26,10 +28,15 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
 	var logger = scope.ServiceProvider.GetRequiredService<IAppLogger>();
+
+	// Set runtime logger for MigrationLogger (new approach)
+	MigrationLogger.SetRuntimeLogger(logger);
+
+	// Set logger for MigrationDataHelper (backward compatibility)
 	MigrationDataHelper.SetLogger(logger);
 
-	// Log application startup
-	logger.LogInformation("PriceTracker application starting up with seeding validation enabled");
+	// Log application startup with enhanced information
+	logger.LogInformation("PriceTracker application starting up with MigrationLogger support enabled");
 }
 
 // Configure the HTTP request pipeline.

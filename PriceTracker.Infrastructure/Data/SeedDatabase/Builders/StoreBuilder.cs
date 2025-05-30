@@ -1,13 +1,14 @@
-﻿using PriceTracker.Infrastructure.Data.Models;
-using PriceTracker.Infrastructure.Common;
+﻿using PriceTracker.Infrastructure.Common;
+using PriceTracker.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using static PriceTracker.Infrastructure.Constants.DataConstants;
-using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.StoreConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 {
 	/// <summary>
 	/// Store builder class used for data seeding and validation before data being imported in database 
+	/// Enhanced with in-memory duplication tracking
 	/// </summary>
 	public class StoreBuilder : IBuilder<Store>
 	{
@@ -46,18 +47,54 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 		public Store Build() => _store;
 
+		/// <summary>
+		/// Clear tracking collections for new seeding session
+		/// Call this before starting a new migration or seeding operation
+		/// </summary>
+		public static void ResetTracking()
+		{
+			_existingStoreNames.Clear();
+		}
+
+		/// <summary>
+		/// Get count of currently tracked stores in this session
+		/// </summary>
+		public static int GetTrackedStoreCount()
+		{
+			return _existingStoreNames.Count;
+		}
+
+		/// <summary>
+		/// Check if a store name is already tracked in current session
+		/// </summary>
+		/// <param name="name">Store name to check</param>
+		/// <returns>True if already tracked, false otherwise</returns>
+		public static bool IsNameTracked(string name)
+		{
+			return _existingStoreNames.Contains(name);
+		}
+
+		/// <summary>
+		/// Get all tracked store names in current session
+		/// </summary>
+		/// <returns>Collection of tracked store names</returns>
+		public static IEnumerable<string> GetTrackedNames()
+		{
+			return _existingStoreNames.AsEnumerable();
+		}
+
 		private void ValidateStoreInputData(string name)
 		{
 			// Name validations
 			if (string.IsNullOrWhiteSpace(name))
 			{
-				throw new ValidationException(StoreConstants.NameRequired);
+				throw new ValidationException(NameRequired);
 			}
 
 			if (name.Length < storeNameMinLength || name.Length > storeNameMaxLength)
 			{
 				throw new ValidationException(
-					string.Format(StoreConstants.InvalidNameLength,
+					string.Format(InvalidNameLength,
 						storeNameMinLength,
 						storeNameMaxLength));
 			}
@@ -66,7 +103,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			if (_existingStoreNames.Contains(name))
 			{
 				throw new ValidationException(
-					string.Format(StoreConstants.StoreAlreadyExists, name));
+					string.Format(StoreAlreadyExists, name));
 			}
 
 			// Check for duplicate in database if repository is provided
@@ -79,7 +116,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 				if (storeExists)
 				{
 					throw new ValidationException(
-						string.Format(StoreConstants.StoreAlreadyExistsInDb, name));
+						string.Format(StoreAlreadyExistsInDb, name));
 				}
 			}
 		}
