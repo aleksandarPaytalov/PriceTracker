@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using PriceTracker.Infrastructure.Data.SeedDatabase.JsonModels;
 using System.ComponentModel.DataAnnotations;
-using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.BuilderConstants;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.RoleConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 {
@@ -27,7 +28,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 			catch (Exception ex) when (ex is not ValidationException)
 			{
-				throw new ValidationException($"Failed to create role from JSON: {ex.Message}");
+				throw new ValidationException(string.Format(FailedToCreateRoleFromJson, ex.Message));
 			}
 		}
 
@@ -56,7 +57,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 			catch (Exception ex) when (ex is not ValidationException)
 			{
-				throw new ValidationException($"Failed to create role: {ex.Message}");
+				throw new ValidationException(string.Format(FailedToCreateRole, ex.Message));
 			}
 		}
 
@@ -71,7 +72,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			{
 				if (existingRole == null)
 				{
-					throw new ArgumentNullException(nameof(existingRole), RoleConstants.RoleRequired);
+					throw new ArgumentNullException(nameof(existingRole), RoleRequired);
 				}
 
 				ValidateExistingRole(existingRole);
@@ -79,7 +80,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 			catch (Exception ex) when (ex is not ValidationException)
 			{
-				throw new ValidationException($"Failed to validate existing role: {ex.Message}");
+				throw new ValidationException(string.Format(FailedToValidateExistingRole, ex.Message));
 			}
 		}
 
@@ -98,7 +99,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (roleDto == null)
 			{
-				throw new ValidationException(RoleConstants.RoleRequired);
+				throw new ValidationException(RoleRequired);
 			}
 
 			// Standard model validation
@@ -108,7 +109,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			if (!Validator.TryValidateObject(roleDto, validationContext, validationResults, true))
 			{
 				var errors = string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
-				throw new ValidationException($"Role validation failed: {errors}");
+				throw new ValidationException(string.Format(RoleValidationFailed, errors));
 			}
 
 			// Business logic validation
@@ -167,13 +168,13 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (string.IsNullOrWhiteSpace(roleId))
 			{
-				throw new ValidationException(RoleConstants.RoleIdRequired);
+				throw new ValidationException(RoleIdRequired);
 			}
 
 			// Validate GUID format
 			if (!Guid.TryParse(roleId, out _))
 			{
-				throw new ValidationException(string.Format(RoleConstants.InvalidRoleIdFormat, roleId));
+				throw new ValidationException(string.Format(InvalidRoleIdFormat, roleId));
 			}
 		}
 
@@ -186,25 +187,25 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (string.IsNullOrWhiteSpace(roleName))
 			{
-				throw new ValidationException(RoleConstants.RoleNameRequired);
+				throw new ValidationException(RoleNameRequired);
 			}
 
 			// Length validation
 			if (roleName.Length < 2 || roleName.Length > 256)
 			{
-				throw new ValidationException(string.Format(RoleConstants.InvalidRoleNameLength, 2, 256));
+				throw new ValidationException(string.Format(InvalidRoleNameLength, 2, 256));
 			}
 
 			// Security validation - check for forbidden patterns
 			if (ContainsForbiddenContent(roleName))
 			{
-				throw new ValidationException(string.Format(RoleConstants.RoleNameContainsForbiddenContent, roleName));
+				throw new ValidationException(string.Format(RoleNameContainsForbiddenContent, roleName));
 			}
 
 			// Business rules validation
 			if (!IsValidRoleNameFormat(roleName))
 			{
-				throw new ValidationException(string.Format(RoleConstants.InvalidRoleNameFormat, roleName));
+				throw new ValidationException(string.Format(InvalidRoleNameFormat, roleName));
 			}
 		}
 
@@ -217,13 +218,13 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (string.IsNullOrWhiteSpace(normalizedName))
 			{
-				throw new ValidationException(RoleConstants.NormalizedNameRequired);
+				throw new ValidationException(NormalizedNameRequired);
 			}
 
 			// Ensure it's actually normalized (uppercase)
 			if (normalizedName != normalizedName.ToUpperInvariant())
 			{
-				throw new ValidationException(RoleConstants.NormalizedNameNotUppercase);
+				throw new ValidationException(NormalizedNameNotUppercase);
 			}
 		}
 
@@ -236,7 +237,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (_existingRoleNames.Contains(roleName))
 			{
-				throw new ValidationException(string.Format(RoleConstants.DuplicateRoleName, roleName));
+				throw new ValidationException(string.Format(DuplicateRoleName, roleName));
 			}
 
 			_existingRoleNames.Add(roleName);

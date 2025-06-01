@@ -3,7 +3,8 @@ using PriceTracker.Infrastructure.Data.Models;
 using PriceTracker.Infrastructure.Data.SeedDatabase.JsonModels;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
-using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.BuilderConstants;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.UserConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 {
@@ -31,7 +32,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 			catch (Exception ex) when (ex is not ValidationException)
 			{
-				throw new ValidationException($"Failed to create user from JSON: {ex.Message}");
+				throw new ValidationException(string.Format(FailedToCreateUserFromJson, ex.Message));
 			}
 		}
 
@@ -72,7 +73,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 			catch (Exception ex) when (ex is not ValidationException)
 			{
-				throw new ValidationException($"Failed to create user: {ex.Message}");
+				throw new ValidationException(string.Format(FailedToCreateUser, ex.Message));
 			}
 		}
 
@@ -89,7 +90,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			{
 				if (existingUser == null)
 				{
-					throw new ArgumentNullException(nameof(existingUser), UserConstants.UserRequired);
+					throw new ArgumentNullException(nameof(existingUser), UserRequired);
 				}
 
 				ValidateExistingUser(existingUser, password);
@@ -103,7 +104,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 			catch (Exception ex) when (ex is not ValidationException)
 			{
-				throw new ValidationException($"Failed to validate and hash password for existing user: {ex.Message}");
+				throw new ValidationException(string.Format(FailedToValidateExistingUser, ex.Message));
 			}
 		}
 
@@ -122,7 +123,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (userDto == null)
 			{
-				throw new ValidationException(UserConstants.UserRequired);
+				throw new ValidationException(UserRequired);
 			}
 
 			// Standard model validation
@@ -132,7 +133,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			if (!Validator.TryValidateObject(userDto, validationContext, validationResults, true))
 			{
 				var errors = string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
-				throw new ValidationException($"User validation failed: {errors}");
+				throw new ValidationException(string.Format(UserValidationFailed, errors));
 			}
 
 			// Business logic validation
@@ -197,13 +198,13 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (string.IsNullOrWhiteSpace(userId))
 			{
-				throw new ValidationException(UserConstants.UserIdRequired);
+				throw new ValidationException(UserIdRequired);
 			}
 
 			// Validate GUID format
 			if (!Guid.TryParse(userId, out _))
 			{
-				throw new ValidationException(string.Format(UserConstants.InvalidUserIdFormat, userId));
+				throw new ValidationException(string.Format(InvalidUserIdFormat, userId));
 			}
 		}
 
@@ -216,19 +217,19 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (string.IsNullOrWhiteSpace(userName))
 			{
-				throw new ValidationException(UserConstants.UserNameRequired);
+				throw new ValidationException(UserNameRequired);
 			}
 
 			// Length validation
 			if (userName.Length < 3 || userName.Length > 256)
 			{
-				throw new ValidationException(string.Format(UserConstants.InvalidUserNameLength, 3, 256));
+				throw new ValidationException(string.Format(InvalidUserNameLength, 3, 256));
 			}
 
 			// Security validation
 			if (ContainsForbiddenContent(userName))
 			{
-				throw new ValidationException(string.Format(UserConstants.UserNameContainsForbiddenContent, userName));
+				throw new ValidationException(string.Format(UserNameContainsForbiddenContent, userName));
 			}
 		}
 
@@ -241,25 +242,25 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (string.IsNullOrWhiteSpace(email))
 			{
-				throw new ValidationException(UserConstants.EmailRequired);
+				throw new ValidationException(EmailRequired);
 			}
 
 			// Length validation
 			if (email.Length < 5 || email.Length > 256)
 			{
-				throw new ValidationException(string.Format(UserConstants.InvalidEmailLength, 5, 256));
+				throw new ValidationException(string.Format(InvalidEmailLength, 5, 256));
 			}
 
 			// Format validation
 			if (!IsValidEmail(email))
 			{
-				throw new ValidationException(UserConstants.InvalidEmailFormat);
+				throw new ValidationException(InvalidEmailFormat);
 			}
 
 			// Security validation
 			if (ContainsForbiddenContent(email))
 			{
-				throw new ValidationException(string.Format(UserConstants.EmailContainsForbiddenContent, email));
+				throw new ValidationException(string.Format(EmailContainsForbiddenContent, email));
 			}
 
 			// Business rules validation
@@ -276,19 +277,19 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			var emailParts = email.Split('@');
 			if (emailParts.Length != 2)
 			{
-				throw new ValidationException(UserConstants.InvalidEmailFormat);
+				throw new ValidationException(InvalidEmailFormat);
 			}
 
 			// Local part validations
 			var localPart = emailParts[0];
 			if (localPart.Length < 3)
 			{
-				throw new ValidationException(UserConstants.EmailLocalPartTooShort);
+				throw new ValidationException(EmailLocalPartTooShort);
 			}
 
 			if (localPart.StartsWith('.') || localPart.EndsWith('.'))
 			{
-				throw new ValidationException(UserConstants.EmailLocalPartInvalidDot);
+				throw new ValidationException(EmailLocalPartInvalidDot);
 			}
 
 			// Domain validations
@@ -296,13 +297,13 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			var forbiddenDomains = new[] { "temp.com", "temporary.com", "disposable.com", "fake.com" };
 			if (forbiddenDomains.Any(d => domain.EndsWith(d, StringComparison.OrdinalIgnoreCase)))
 			{
-				throw new ValidationException(UserConstants.EmailDomainNotAllowed);
+				throw new ValidationException(EmailDomainNotAllowed);
 			}
 
 			// Multiple @ check
 			if (email.Count(c => c == '@') > 1)
 			{
-				throw new ValidationException(UserConstants.EmailMultipleAtSymbols);
+				throw new ValidationException(EmailMultipleAtSymbols);
 			}
 		}
 
@@ -315,13 +316,13 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (string.IsNullOrWhiteSpace(password))
 			{
-				throw new ValidationException(UserConstants.PasswordRequired);
+				throw new ValidationException(PasswordRequired);
 			}
 
 			// Length validation
 			if (password.Length < 6 || password.Length > 100)
 			{
-				throw new ValidationException(string.Format(UserConstants.InvalidPasswordLength, 6, 100));
+				throw new ValidationException(string.Format(InvalidPasswordLength, 6, 100));
 			}
 
 			// Strength validation (configurable rules)
@@ -356,7 +357,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 			if (issues.Any())
 			{
-				throw new ValidationException($"Password must contain: {string.Join(", ", issues)}");
+				throw new ValidationException(string.Format(PasswordMustContain, string.Join(", ", issues)));
 			}
 		}
 
@@ -371,13 +372,13 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			// Check username uniqueness
 			if (_existingUserNames.Contains(userName))
 			{
-				throw new ValidationException(string.Format(UserConstants.DuplicateUserName, userName));
+				throw new ValidationException(string.Format(DuplicateUserName, userName));
 			}
 
 			// Check email uniqueness  
 			if (_existingEmails.Contains(email))
 			{
-				throw new ValidationException(string.Format(UserConstants.DuplicateEmail, email));
+				throw new ValidationException(string.Format(DuplicateEmail, email));
 			}
 
 			_existingUserNames.Add(userName);
@@ -487,7 +488,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 		/// <summary>
 		/// Clear tracking collections for new seeding session
-		/// Call this before starting a new migration or seeding operation
 		/// </summary>
 		public static void ResetTracking()
 		{

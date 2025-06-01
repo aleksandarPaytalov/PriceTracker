@@ -25,6 +25,81 @@
 			public const string AllItemsValidatedSuccessfully = "All {0} {1}s validated successfully";
 		}
 
+		// ================================
+		// BUILDER ERROR MESSAGES
+		// ================================
+
+		internal static class BuilderConstants
+		{
+			// Common builder error messages
+			public const string FailedToCreateEntity = "Failed to create {0}: {1}";
+			public const string ValidationFailed = "{0} validation failed: {1}";
+
+			// User builder specific
+			public const string FailedToCreateUserFromJson = "Failed to create user from JSON: {0}";
+			public const string FailedToCreateUser = "Failed to create user: {0}";
+			public const string FailedToValidateExistingUser = "Failed to validate and hash password for existing user: {0}";
+			public const string UserValidationFailed = "User validation failed: {0}";
+			public const string PasswordMustContain = "Password must contain: {0}";
+
+			// Role builder specific
+			public const string FailedToCreateRoleFromJson = "Failed to create role from JSON: {0}";
+			public const string FailedToCreateRole = "Failed to create role: {0}";
+			public const string FailedToValidateExistingRole = "Failed to validate existing role: {0}";
+			public const string RoleValidationFailed = "Role validation failed: {0}";
+
+			// UserRole builder specific
+			public const string FailedToCreateUserRoleFromJson = "Failed to create user-role mapping from JSON: {0}";
+			public const string FailedToCreateUserRole = "Failed to create user-role mapping: {0}";
+			public const string FailedToValidateExistingUserRole = "Failed to validate existing user-role mapping: {0}";
+			public const string UserRoleValidationFailed = "User-role mapping validation failed: {0}";
+
+			// Product builder specific
+			public const string FailedToCreateProduct = "Failed to create product: {0}";
+			public const string DuplicateProductInSession = "Duplicate product in current seed session: '{0}' by '{1}'";
+
+			// Store builder specific
+			public const string FailedToCreateStore = "Failed to create store: {0}";
+
+			// Price builder specific
+			public const string FailedToCreatePrice = "Failed to create price: {0}";
+
+			// Expense builder specific
+			public const string FailedToCreateExpense = "Failed to create Expense: {0}";
+
+			// MonthlyBudget builder specific
+			public const string FailedToCreateMonthlyBudget = "Failed to create Monthly budget: {0}";
+
+			// Notification builder specific
+			public const string FailedToCreateNotification = "Failed to create Notification: {0}";
+
+			// ToDoItem builder specific
+			public const string FailedToCreateTask = "Failed to create task: {0}";
+		}
+
+		// ================================
+		// CONFIGURATION LOGGING MESSAGES
+		// ================================
+
+		internal static class ConfigurationLoggingConstants
+		{
+			// Success messages
+			public const string LoadedFromJsonWithValidation = "✅ Loaded {0} {1} from JSON with Builder validation";
+			public const string LoadedFromJsonWithPasswordHashing = "✅ Loaded {0} users from JSON with Builder validation and password hashing";
+			public const string UsingDefaultSeedDataWithValidation = "✅ Using default seed data for {0} with Builder validation: {1} {0}";
+			public const string UsingDefaultUsersWithPasswordHashing = "✅ Using default seed data for users with Builder validation and password hashing: {0} users";
+
+			// Warning messages
+			public const string NoItemsFoundInJson = "No {0} found in {1} file";
+			public const string UsingDefaultSeedData = "Using default seed data for {0}";
+
+			// Error messages
+			public const string FailedToLoadFromJson = "Failed to load {0} from JSON: {1}";
+			public const string FailedToValidateDefaultData = "Failed to validate default {0} data: {1}";
+			public const string FailedToSeedDefaultData = "Failed to seed default {0} data: {1}";
+			public const string LoadingFailed = "{0} loading failed: {1}";
+		}
+
 		internal static class UserConstants
 		{
 			public const string UserRequired = "User is required";
