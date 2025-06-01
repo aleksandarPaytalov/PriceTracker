@@ -3,6 +3,10 @@ using PriceTracker.Infrastructure.Data.Models;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase
 {
+	/// <summary>
+	/// Clean SeedData class containing only default hardcoded data
+	/// No validation logic, no JSON logic - pure data definitions
+	/// </summary>
 	public class SeedData
 	{
 		public Store Store1 { get; set; } = null!;
@@ -67,6 +71,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 
 		public SeedData() { }
 
+		/// <summary>
+		/// Initialize all default data - no validation, pure data assignment
+		/// </summary>
 		public void Initialize()
 		{
 			SeedStores();
@@ -83,6 +90,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 			SeedBudgets();
 		}
 
+		/// <summary>
+		/// Default roles - hardcoded, no validation
+		/// </summary>
 		private void SeedRoles()
 		{
 			AdminRole = new IdentityRole()
@@ -110,10 +120,12 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 			};
 		}
 
+		/// <summary>
+		/// Default users - hardcoded, no validation, no password hashing
+		/// Password hashing will be done in UserBuilder
+		/// </summary>
 		private void SeedUsers()
 		{
-			var passwordHasher = new PasswordHasher<User>();
-
 			Guest = new User()
 			{
 				Id = "cf41999b-9cad-4b75-977d-a2fdb3d02e77",
@@ -121,10 +133,12 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 				NormalizedUserName = "GUEST@MAIL.COM",
 				Email = "guest@mail.com",
 				NormalizedEmail = "GUEST@MAIL.COM",
+				EmailConfirmed = true,
+				SecurityStamp = Guid.NewGuid().ToString(),
+				ConcurrencyStamp = Guid.NewGuid().ToString(),
 				CreatedAt = new DateTime(2025, 05, 18)
+				// PasswordHash will be set by UserBuilder
 			};
-
-			Guest.PasswordHash = passwordHasher.HashPassword(Guest, "qew12!");
 
 			// Regular user
 			User = new User()
@@ -133,12 +147,14 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 				UserName = "user@mail.com",
 				NormalizedUserName = "USER@MAIL.COM",
 				Email = "user@mail.com",
-				NormalizedEmail = "USER@MAIL.COM"
+				NormalizedEmail = "USER@MAIL.COM",
+				EmailConfirmed = true,
+				SecurityStamp = Guid.NewGuid().ToString(),
+				ConcurrencyStamp = Guid.NewGuid().ToString(),
+				CreatedAt = new DateTime(2025, 05, 18)
+				// PasswordHash will be set by UserBuilder
 			};
-
-			User.PasswordHash = passwordHasher.HashPassword(User, "user123!");
-
-
+			
 			//Administrator
 			Administrator = new User()
 			{
@@ -146,12 +162,18 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 				UserName = "admin@mail.com",
 				NormalizedUserName = "ADMIN@MAIL.COM",
 				Email = "admin@mail.com",
-				NormalizedEmail = "ADMIN@MAIL.COM"
+				NormalizedEmail = "ADMIN@MAIL.COM",
+				EmailConfirmed = true,
+				SecurityStamp = Guid.NewGuid().ToString(),
+				ConcurrencyStamp = Guid.NewGuid().ToString(),
+				CreatedAt = new DateTime(2025, 05, 18)
+				// PasswordHash will be set by UserBuilder
 			};
-
-			Administrator.PasswordHash = passwordHasher.HashPassword(Administrator, "admin123!");
 		}
 
+		/// <summary>
+		/// Default user-role mappings - hardcoded, no validation
+		/// </summary>
 		private void SeedUserRoles()
 		{
 			AdminUserRole = new IdentityUserRole<string> 
@@ -172,7 +194,21 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 				RoleId = GuestRole.Id
 			};
 		}
-		
+
+		/// <summary>
+		/// Gets default password for a given user (for Builder usage)
+		/// </summary>
+		public static string GetDefaultPasswordForUser(string email)
+		{
+			return email switch
+			{
+				"admin@mail.com" => "Adin132!",
+				"user@mail.com" => "Usr132!",
+				"guest@mail.com" => "Qew12!",
+				_ => "Default123!"
+			};
+		}
+
 		private void SeedStores()
 		{
 			Store1 = new Store()
