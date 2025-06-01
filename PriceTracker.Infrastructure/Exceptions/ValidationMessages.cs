@@ -99,6 +99,38 @@
 			public const string FailedToValidateDefaultData = "Failed to validate default {0} data: {1}";
 			public const string FailedToSeedDefaultData = "Failed to seed default {0} data: {1}";
 			public const string LoadingFailed = "{0} loading failed: {1}";
+
+			// Expense Configuration
+			public const string LoadedExpensesFromJson = "✅ Loaded {0} expenses from JSON with Builder validation";
+			public const string NoExpensesFoundInJson = "No expenses found in expenses.json file";
+			public const string UsingDefaultExpenseData = "✅ Using default seed data for expenses with Builder validation: {0} expenses";
+			public const string FailedToLoadExpensesFromJson = "Failed to load expenses from JSON: {0}";
+			public const string ExpenseLoadingFailed = "Expense loading failed: {0}";
+			public const string FailedToSeedDefaultExpenseData = "Failed to seed default expense data: {0}";
+
+			// MonthlyBudget Configuration  
+			public const string LoadedBudgetsFromJson = "✅ Loaded {0} monthly budgets from JSON with Builder validation";
+			public const string NoBudgetsFoundInJson = "No monthly budgets found in budgets.json file";
+			public const string UsingDefaultBudgetData = "✅ Using default seed data for budgets with Builder validation: {0} budgets";
+			public const string FailedToLoadBudgetsFromJson = "Failed to load monthly budgets from JSON: {0}";
+			public const string BudgetLoadingFailed = "Monthly budget loading failed: {0}";
+			public const string FailedToSeedDefaultBudgetData = "Failed to seed default budget data: {0}";
+
+			// ToDoItem Configuration
+			public const string LoadedTasksFromJson = "✅ Loaded {0} tasks from JSON with Builder validation";
+			public const string NoTasksFoundInJson = "No tasks found in tasks.json file";
+			public const string UsingDefaultTaskData = "✅ Using default seed data for tasks with Builder validation: {0} tasks";
+			public const string FailedToLoadTasksFromJson = "Failed to load tasks from JSON: {0}";
+			public const string TaskLoadingFailed = "Task loading failed: {0}";
+			public const string FailedToSeedDefaultTaskData = "Failed to seed default task data: {0}";
+
+			// Notification Configuration
+			public const string LoadedNotificationsFromJson = "✅ Loaded {0} notifications from JSON with Builder validation";
+			public const string NoNotificationsFoundInJson = "No notifications found in notifications.json file";
+			public const string UsingDefaultNotificationData = "✅ Using default seed data for notifications with Builder validation: {0} notifications";
+			public const string FailedToLoadNotificationsFromJson = "Failed to load notifications from JSON: {0}";
+			public const string NotificationLoadingFailed = "Notification loading failed: {0}";
+			public const string FailedToSeedDefaultNotificationData = "Failed to seed default notification data: {0}";
 		}
 
 		internal static class UserConstants
@@ -161,6 +193,11 @@
 			public const string InvalidAmount = "Budget amount must be greater than zero. Provided value: {0:C}";
 			public const string ExceedsMaxAmount = "Budget amount exceeds maximum allowed value of {0:C}. Provided value: {1:C}";
 			public const string InvalidMonth = "Invalid month value: {0}";
+			public const string InvalidBudgetId = "Budget ID must be a positive number. Provided value: {0}";
+			public const string UserNotFoundForBudget = "User with ID {0} not found during budget validation";
+			public const string UserIdRequired = "User ID must be specified";
+			public const string BudgetTooLow = "Budget amount is unreasonably low: {0:C}. Minimum recommended: 10.00";
+			public const string DuplicateBudgetInSession = "Duplicate budget in current seed session: User '{0}', Month '{1}'";
 		}
 
 		internal static class ExpenseConstants
@@ -173,6 +210,16 @@
 			public const string ExceedsMaxAmount = "Amount cannot exceed {0:C}. Provided value: {1:C}";
 			public const string FutureDate = "Date cannot be in the future. Current date: {0:g}, Provided date: {1:g}";
 			public const string DescriptionTooLong = "Description length ({0}) exceeds maximum allowed length ({1}).";
+			public const string InvalidExpenseId = "Expense ID must be a positive number. Provided value: {0}";
+			public const string UserNotFound = "User with ID {0} not found during expense validation";
+			public const string ProductNotFoundForExpense = "Product with ID {0} not found during expense validation";
+			public const string StoreNotFoundForExpense = "Store with ID {0} not found during expense validation";
+			public const string UserIdRequired = "User ID must be specified";
+			public const string ProductIdRequired = "Product ID must be specified";
+			public const string StoreIdRequired = "Store ID must be specified";
+			public const string InvalidDateFormat = "Invalid date format provided";
+			public const string DescriptionContainsForbiddenContent = "Description contains forbidden content";
+			public const string DuplicateExpenseInSession = "Duplicate expense in current seed session: User '{0}', Product '{1}', Store '{2}', Date '{3}', Amount '{4}'";
 		}
 
 		internal static class NotificationConstants
@@ -190,6 +237,16 @@
 			public const string InvalidNotificationTimeFormat = "Invalid notification time format provided";
 			public const string InvalidCreatedAtFormat = "Invalid creation time format provided";
 			public const string InvalidIsReadValue = "IsRead must be a valid boolean value (true/false)";
+			public const string InvalidNotificationId = "Notification ID must be a positive number. Provided value: {0}";
+			public const string UserNotFoundForNotification = "User with ID {0} not found during notification validation";
+			public const string TaskNotFoundForNotification = "Task with ID {0} not found during notification validation";
+			public const string MessageTooShort = "Message must be at least {0} characters long";
+			public const string MessageContainsForbiddenContent = "Message contains forbidden content";
+			public const string TaskDoesNotBelongToUser = "Task with ID '{0}' does not belong to user '{1}'";
+			public const string NotificationAfterTaskDue = "Notification time cannot be after task due date plus one day";
+			public const string NotificationTooFarInFuture = "Notification cannot be scheduled more than one year in the future";
+			public const string NotificationTooOld = "Notification creation date cannot be more than one year in the past";
+			public const string DuplicateNotificationInSession = "Duplicate notification in current seed session: User '{0}', Task '{1}', Time '{2}'";
 		}
 
 		internal static class ProductConstants
@@ -242,7 +299,6 @@
 			public const string ExceedsMaxPrice = "Price exceeds maximum allowed value of {0:C}. Provided value: {1:C}";
 			public const string InvalidDateFormat = "Invalid date format provided";
 			public const string FutureDate = "Price check date cannot be in the future. Current date: {0:g}, Provided date: {1:g}";
-
 			public const string InvalidPriceId = "Price ID must be a positive number. Provided value: {0}";
 			public const string ProductNotFound = "Product with ID {0} not found during price validation";
 			public const string StoreNotFound = "Store with ID {0} not found during price validation";
@@ -267,6 +323,15 @@
 			public const string InvalidDescriptionLength = "Task description cannot be longer than {0} characters";
 			public const string InvalidDueDate = "Invalid due date format";
 			public const string DueDateInPast = "Due date cannot be in the past";
+			public const string InvalidTaskId = "Task ID must be a positive number. Provided value: {0}";
+			public const string UserNotFoundForTask = "User with ID {0} not found during task validation";
+			public const string TitleContainsForbiddenContent = "Title contains forbidden content";
+			public const string DescriptionTooShort = "Description must be at least {0} characters long";
+			public const string DescriptionContainsForbiddenContent = "Description contains forbidden content";
+			public const string DueDateTooFarInFuture = "Due date cannot be more than 2 years in the future";
+			public const string InvalidPriority = "Invalid priority value: {0}";
+			public const string InvalidTaskStatus = "Invalid task status value: {0}";
+			public const string DuplicateTaskInSession = "Duplicate task in current seed session: User '{0}', Title '{1}', Due Date '{2}'";
 		}
 	}
 }

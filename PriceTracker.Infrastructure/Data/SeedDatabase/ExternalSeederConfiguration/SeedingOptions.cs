@@ -87,10 +87,10 @@ public class SeedingOptions
 			{ "Product", true },
 			{ "Store", true },
 			{ "Price", true },
-			{ "Expense", false },
-			{ "Task", false },
-			{ "Notification", false },
-			{ "Budget", false },
+			{ "Expense", true },
+			{ "Task", true },
+			{ "Notification", true },
+			{ "Budget", true },
 			
 			// Identity seeders
 			{ "Role", true },
