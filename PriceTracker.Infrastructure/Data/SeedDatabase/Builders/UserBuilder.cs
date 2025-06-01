@@ -368,10 +368,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		/// <exception cref="ValidationException">Thrown when duplicate found</exception>
 		private static void ValidateUserUniqueness(string userName, string email)
 		{
-			// TODO: Temporary disable for seeding - re-enable after fixing tracking issue
-			return;
-
-			/*
 			// Check username uniqueness
 			if (_existingUserNames.Contains(userName))
 			{
@@ -386,7 +382,6 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 			_existingUserNames.Add(userName);
 			_existingEmails.Add(email);
-			*/
 		}
 
 		/// <summary>
