@@ -9,6 +9,7 @@ using PriceTracker.Infrastructure.Data.SeedDatabase.Helpers;
 using PriceTracker.Infrastructure.Data.SeedDatabase.JsonModels;
 using System.ComponentModel.DataAnnotations;
 using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ConfigurationConstants;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ConfigurationLoggingConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityConfiguration
 {
@@ -62,12 +63,13 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 			// Seed data using JSON + Builder approach with password hashing
 			if (_options.Value.UseExternalSource && _options.Value.EnabledSeeders.GetValueOrDefault("User", false))
 			{
-				var validatedUsers = LoadAndValidateUsersFromJson();
+				var validatedUsers = LoadAndValidateUsersFromJsonAsync();
 
 				if (validatedUsers.Any())
 				{
 					builder.HasData(validatedUsers);
-					MigrationLogger.LogInformation($"✅ Loaded {validatedUsers.Count()} users from JSON with Builder validation and password hashing");
+					MigrationLogger.LogInformation(string.Format(
+						LoadedFromJsonWithPasswordHashing, validatedUsers.Count()));
 				}
 				else
 				{
@@ -81,9 +83,11 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 				// Use default seed data with Builder validation and password hashing
 				if (!_options.Value.UseExternalSource || _options.Value.EnabledSeeders.GetValueOrDefault("User", true))
 				{
-					var validatedUsers = LoadAndValidateDefaultUsers();
+					var validatedUsers = LoadAndValidateDefaultUsersAsync();
 					builder.HasData(validatedUsers);
-					MigrationLogger.LogInformation($"✅ Using default seed data for users with Builder validation and password hashing: {validatedUsers.Count()} users");
+					MigrationLogger.LogInformation(string.Format(
+						UsingDefaultUsersWithPasswordHashing, 
+						validatedUsers.Count()));
 				}
 			}
 		}
@@ -91,7 +95,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 		/// <summary>
 		/// Loads users from JSON and validates them using UserBuilder with password hashing
 		/// </summary>
-		private IEnumerable<User> LoadAndValidateUsersFromJson()
+		private IEnumerable<User> LoadAndValidateUsersFromJsonAsync()
 		{
 			try
 			{
@@ -103,7 +107,8 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 
 				if (!jsonUsers.Any())
 				{
-					MigrationLogger.LogWarning("No users found in users.json file");
+					MigrationLogger.LogWarning(string.Format(
+						NoItemsFoundInJson, "users", "users.json"));
 					return Enumerable.Empty<User>();
 				}
 
@@ -113,7 +118,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 				// Validate using UserBuilder with password hashing - returns only valid items
 				var validatedUsers = MigrationDataHelper.ValidateItems(
 					jsonUsers,
-					userDto => ValidateUserWithBuilder(userDto, passwordHasher),
+					userDto => ValidateUserWithBuilderAsync(userDto, passwordHasher),
 					"user",
 					_options.Value.StrictValidation);
 
@@ -121,15 +126,17 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 			}
 			catch (Exception ex) when (!(ex is ValidationException))
 			{
-				MigrationLogger.LogError($"Failed to load users from JSON: {ex.Message}", ex);
-				throw new InvalidOperationException($"User loading failed: {ex.Message}", ex);
+				MigrationLogger.LogError(string.Format(
+					FailedToLoadFromJson, "users", ex.Message), ex);
+				throw new InvalidOperationException(string.Format(
+					LoadingFailed, "User", ex.Message), ex);
 			}
 		}
 
 		/// <summary>
 		/// Loads and validates default users using UserBuilder with password hashing
 		/// </summary>
-		private IEnumerable<User> LoadAndValidateDefaultUsers()
+		private IEnumerable<User> LoadAndValidateDefaultUsersAsync()
 		{
 			try
 			{
@@ -163,7 +170,11 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 					}
 					catch (ValidationException ex)
 					{
-						MigrationLogger.LogError($"Failed to validate default user {userWithPassword.User.Email}: {ex.Message}", ex);
+						MigrationLogger.LogError(string.Format(
+							FailedToValidateDefaultData, 
+							$"user {userWithPassword.User.Email}", 
+							ex.Message), 
+							ex);
 
 						if (_options.Value.StrictValidation)
 						{
@@ -176,7 +187,11 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 			}
 			catch (Exception ex)
 			{
-				MigrationLogger.LogError($"Failed to validate default user data: {ex.Message}", ex);
+				MigrationLogger.LogError(string.Format(
+					FailedToValidateDefaultData, 
+					"user", 
+					ex.Message), 
+					ex);
 				throw;
 			}
 		}
@@ -184,7 +199,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 		/// <summary>
 		/// Validates a UserJsonDto using UserBuilder validation logic with password hashing
 		/// </summary>
-		private static User ValidateUserWithBuilder(UserJsonDto userDto, IPasswordHasher<User> passwordHasher)
+		private static User ValidateUserWithBuilderAsync(UserJsonDto userDto, IPasswordHasher<User> passwordHasher)
 		{
 			// Use UserBuilder for comprehensive validation and password hashing
 			var userBuilder = new UserBuilder(userDto, passwordHasher);

@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Options;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Builders;
-using PriceTracker.Infrastructure.Data.SeedDatabase.ExternalSeederConfiguration;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Helpers;
 using PriceTracker.Infrastructure.Data.SeedDatabase.JsonModels;
 using System.ComponentModel.DataAnnotations;
 using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ConfigurationConstants;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ConfigurationLoggingConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityConfiguration
 {
@@ -41,11 +41,14 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 				if (validatedRoles.Any())
 				{
 					builder.HasData(validatedRoles);
-					MigrationLogger.LogInformation($"✅ Loaded {validatedRoles.Count()} roles from JSON with Builder validation");
+					MigrationLogger.LogInformation(string.Format(
+						LoadedFromJsonWithValidation, 
+						validatedRoles.Count(), "roles"));
 				}
 				else
 				{
-					var errorMessage = string.Format(ExternalSourceEnabledButNoData, "roles.json");
+					var errorMessage = string.Format(
+						ExternalSourceEnabledButNoData, "roles.json");
 					MigrationLogger.LogError(errorMessage);
 					throw new InvalidOperationException(errorMessage);
 				}
@@ -57,7 +60,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 				{
 					var validatedRoles = LoadAndValidateDefaultRoles();
 					builder.HasData(validatedRoles);
-					MigrationLogger.LogInformation($"✅ Using default seed data for roles with Builder validation: {validatedRoles.Count()} roles");
+					MigrationLogger.LogInformation(string.Format(
+						UsingDefaultSeedDataWithValidation, 
+						"roles", validatedRoles.Count()));
 				}
 			}
 		}
@@ -77,7 +82,8 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 
 				if (!jsonRoles.Any())
 				{
-					MigrationLogger.LogWarning("No roles found in roles.json file");
+					MigrationLogger.LogWarning(string.Format(
+						NoItemsFoundInJson, "roles", "roles.json"));
 					return Enumerable.Empty<IdentityRole>();
 				}
 
@@ -92,15 +98,17 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 			}
 			catch (Exception ex) when (!(ex is ValidationException))
 			{
-				MigrationLogger.LogError($"Failed to load roles from JSON: {ex.Message}", ex);
-				throw new InvalidOperationException($"Role loading failed: {ex.Message}", ex);
+				MigrationLogger.LogError(string.Format(
+					FailedToLoadFromJson, "roles", ex.Message), ex);
+				throw new InvalidOperationException(string.Format(
+					LoadingFailed, "Role", ex.Message), ex);
 			}
 		}
 
 		/// <summary>
 		/// Loads and validates default roles using RoleBuilder
 		/// </summary>
-		private IEnumerable<IdentityRole> LoadAndValidateDefaultRoles()
+		private static IEnumerable<IdentityRole> LoadAndValidateDefaultRoles()
 		{
 			try
 			{
@@ -129,7 +137,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 			}
 			catch (Exception ex)
 			{
-				MigrationLogger.LogError($"Failed to validate default role data: {ex.Message}", ex);
+				MigrationLogger.LogError(string.Format(
+					FailedToValidateDefaultData,
+					"role", ex.Message), ex);
 				throw;
 			}
 		}
