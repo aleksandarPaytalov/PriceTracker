@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using PriceTracker.Infrastructure.Data.Models;
+using System;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase
 {
@@ -535,10 +536,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 			Notification1 = new Notification()
 			{
 				NotificationId = 1,
-				CreatedAt = new DateTime(2025, 01, 20),
+				CreatedAt = DateTime.UtcNow,
 				IsRead = true,
 				Message = "Reminder to buy a food for next two week",
-				NotificationTime = new DateTime(2025, 01, 20).AddDays(1),
+				NotificationTime = DateTime.UtcNow.AddDays(5),
 				TaskId = Task1.TaskId, 
 				UserId = Administrator.Id
 			};
@@ -546,10 +547,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 			Notification2 = new Notification()
 			{
 				NotificationId = 2,
-				CreatedAt = new DateTime(2025, 05, 18),
+				CreatedAt = DateTime.UtcNow,
 				IsRead = false,
 				Message = "Reminder to fill up the car with gas and check it, so it is ready for the trip next week.",
-				NotificationTime = new DateTime(2025, 05, 18).AddDays(4),
+				NotificationTime = DateTime.Now.AddDays(5),
 				TaskId = Task2.TaskId,
 				UserId = Administrator.Id
 			};
@@ -557,10 +558,10 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 			Notification3 = new Notification()
 			{
 				NotificationId = 3,
-				CreatedAt = new DateTime(2025, 05, 20),
+				CreatedAt = DateTime.UtcNow,
 				IsRead = true,
 				Message = "Check and pay the bills",
-				NotificationTime = new DateTime(2025, 05, 20).AddDays(7),
+				NotificationTime = DateTime.UtcNow.AddDays(5),
 				TaskId = Task3.TaskId,
 				UserId = Administrator.Id
 			};
@@ -571,9 +572,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 			Task1 = new ToDoItem()
 			{
 				TaskId = 1,
-				CreatedAt = new DateTime(2025, 01, 20),
+				CreatedAt = DateTime.UtcNow.AddDays(-1),
 				Description = "Buy food for the next two weeks",
-				DueDate = new DateTime(2025, 01, 20).AddDays(2),
+				DueDate = DateTime.UtcNow.AddDays(10),
 				TaskStatus = Models.TaskStatus.Pending,
 				Title = "Shopping",
 				UserId = Administrator.Id
@@ -582,9 +583,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 			Task2 = new ToDoItem()
 			{
 				TaskId = 2,
-				CreatedAt = new DateTime(2025, 05, 18),
+				CreatedAt = DateTime.UtcNow.AddDays(-2),
 				Description = "Get the car ready for the trip",
-				DueDate = new DateTime(2025, 05, 18).AddDays(5),
+				DueDate = DateTime.UtcNow.AddDays(10),
 				TaskStatus = Models.TaskStatus.InProgress,
 				Title = "Fill with fuel",
 				UserId = Administrator.Id
@@ -593,9 +594,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase
 			Task3 = new ToDoItem()
 			{
 				TaskId = 3,
-				CreatedAt = new DateTime(2025, 05, 20),
+				CreatedAt = DateTime.UtcNow.AddDays(-3),
 				Description = "Pay the bills for this month.",
-				DueDate = new DateTime(2025, 05, 20).AddDays(10),
+				DueDate = DateTime.Now.AddDays(10),
 				TaskStatus = Models.TaskStatus.Completed,
 				Title = "House bills",
 				UserId = Administrator.Id
