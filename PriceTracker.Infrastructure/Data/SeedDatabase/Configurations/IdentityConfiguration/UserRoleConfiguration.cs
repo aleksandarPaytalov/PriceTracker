@@ -8,6 +8,7 @@ using PriceTracker.Infrastructure.Data.SeedDatabase.Helpers;
 using PriceTracker.Infrastructure.Data.SeedDatabase.JsonModels;
 using System.ComponentModel.DataAnnotations;
 using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ConfigurationConstants;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.ConfigurationLoggingConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityConfiguration
 {
@@ -46,11 +47,14 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 				if (validatedUserRoles.Any())
 				{
 					builder.HasData(validatedUserRoles);
-					MigrationLogger.LogInformation($"✅ Loaded {validatedUserRoles.Count()} user-role mappings from JSON");
+					MigrationLogger.LogInformation(string.Format(
+						LoadedFromJsonWithValidation, 
+						validatedUserRoles.Count(), "user-role mappings"));
 				}
 				else
 				{
-					var errorMessage = string.Format(ExternalSourceEnabledButNoData, "userroles.json");
+					var errorMessage = string.Format(
+						ExternalSourceEnabledButNoData, "userroles.json");
 					MigrationLogger.LogError(errorMessage);
 					throw new InvalidOperationException(errorMessage);
 				}
@@ -62,7 +66,8 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 				{
 					var validatedUserRoles = LoadAndValidateDefaultUserRoles();
 					builder.HasData(validatedUserRoles);
-					MigrationLogger.LogInformation($"✅ Using default user-role mappings: {validatedUserRoles.Count()} mappings");
+					MigrationLogger.LogInformation(string.Format(
+						UsingDefaultUserRoleMappings, validatedUserRoles.Count()));
 				}
 			}
 		}
@@ -78,7 +83,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 
 				if (!jsonUserRoles.Any())
 				{
-					MigrationLogger.LogWarning("No user-role mappings found in userroles.json file");
+					MigrationLogger.LogWarning(string.Format(
+						NoItemsFoundInJson, 
+						"user-role mappings", "userroles.json"));
 					return Enumerable.Empty<IdentityUserRole<string>>();
 				}
 
@@ -93,15 +100,19 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 			}
 			catch (Exception ex) when (!(ex is ValidationException))
 			{
-				MigrationLogger.LogError($"Failed to load user-role mappings from JSON: {ex.Message}", ex);
-				throw new InvalidOperationException($"User-role mapping loading failed: {ex.Message}", ex);
+				MigrationLogger.LogError(string.Format(
+					FailedToLoadFromJson, 
+					"user-role mappings", ex.Message), ex);
+				throw new InvalidOperationException(string.Format(
+					LoadingFailed, 
+					"User-role mapping", ex.Message), ex);
 			}
 		}
 
 		/// <summary>
 		/// Loads default user-role mappings - simplified
 		/// </summary>
-		private IEnumerable<IdentityUserRole<string>> LoadAndValidateDefaultUserRoles()
+		private static IEnumerable<IdentityUserRole<string>> LoadAndValidateDefaultUserRoles()
 		{
 			try
 			{
@@ -126,7 +137,9 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Configurations.IdentityC
 			}
 			catch (Exception ex)
 			{
-				MigrationLogger.LogError($"Failed to validate default user-role mapping data: {ex.Message}", ex);
+				MigrationLogger.LogError(string.Format(
+					FailedToValidateDefaultData, 
+					"user-role mapping", ex.Message), ex);
 				throw;
 			}
 		}

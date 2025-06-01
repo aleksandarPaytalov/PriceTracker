@@ -88,6 +88,7 @@
 			public const string LoadedFromJsonWithPasswordHashing = "✅ Loaded {0} users from JSON with Builder validation and password hashing";
 			public const string UsingDefaultSeedDataWithValidation = "✅ Using default seed data for {0} with Builder validation: {1} {0}";
 			public const string UsingDefaultUsersWithPasswordHashing = "✅ Using default seed data for users with Builder validation and password hashing: {0} users";
+			public const string UsingDefaultUserRoleMappings = "✅ Using default user-role mappings: {0} mappings";
 
 			// Warning messages
 			public const string NoItemsFoundInJson = "No {0} found in {1} file";

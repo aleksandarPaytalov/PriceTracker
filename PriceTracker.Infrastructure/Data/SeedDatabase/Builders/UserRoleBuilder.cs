@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using PriceTracker.Infrastructure.Data.Models;
 using PriceTracker.Infrastructure.Data.SeedDatabase.JsonModels;
 using System.ComponentModel.DataAnnotations;
-using static PriceTracker.Infrastructure.Exceptions.ValidationMessages;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.BuilderConstants;
+using static PriceTracker.Infrastructure.Exceptions.ValidationMessages.UserRoleConstants;
 
 namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 {
@@ -27,7 +27,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 			catch (Exception ex) when (ex is not ValidationException)
 			{
-				throw new ValidationException($"Failed to create user-role mapping from JSON: {ex.Message}");
+				throw new ValidationException(string.Format(FailedToCreateUserRoleFromJson, ex.Message));
 			}
 		}
 
@@ -53,7 +53,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 			catch (Exception ex) when (ex is not ValidationException)
 			{
-				throw new ValidationException($"Failed to create user-role mapping: {ex.Message}");
+				throw new ValidationException(string.Format(FailedToCreateUserRole, ex.Message));
 			}
 		}
 
@@ -66,7 +66,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			{
 				if (existingUserRole == null)
 				{
-					throw new ArgumentNullException(nameof(existingUserRole), UserRoleConstants.UserRoleRequired);
+					throw new ArgumentNullException(nameof(existingUserRole), UserRoleRequired);
 				}
 
 				ValidateExistingUserRole(existingUserRole);
@@ -78,7 +78,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			}
 			catch (Exception ex) when (ex is not ValidationException)
 			{
-				throw new ValidationException($"Failed to validate existing user-role mapping: {ex.Message}");
+				throw new ValidationException(string.Format(FailedToValidateExistingUserRole, ex.Message));
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (userRoleDto == null)
 			{
-				throw new ValidationException(UserRoleConstants.UserRoleRequired);
+				throw new ValidationException(UserRoleRequired);
 			}
 
 			// Standard model validation
@@ -101,7 +101,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 			if (!Validator.TryValidateObject(userRoleDto, validationContext, validationResults, true))
 			{
 				var errors = string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
-				throw new ValidationException($"User-role mapping validation failed: {errors}");
+				throw new ValidationException(string.Format(UserRoleValidationFailed, errors));
 			}
 
 			// Basic validation
@@ -131,17 +131,17 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (string.IsNullOrWhiteSpace(userId))
 			{
-				throw new ValidationException(UserRoleConstants.UserIdRequired);
+				throw new ValidationException(UserIdRequired);
 			}
 
 			if (!Guid.TryParse(userId, out _))
 			{
-				throw new ValidationException(string.Format(UserRoleConstants.InvalidUserIdFormat, userId));
+				throw new ValidationException(string.Format(InvalidUserIdFormat, userId));
 			}
 
 			if (ContainsForbiddenContent(userId))
 			{
-				throw new ValidationException(string.Format(UserRoleConstants.UserIdContainsForbiddenContent, userId));
+				throw new ValidationException(string.Format(UserIdContainsForbiddenContent, userId));
 			}
 		}
 
@@ -152,17 +152,17 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 		{
 			if (string.IsNullOrWhiteSpace(roleId))
 			{
-				throw new ValidationException(UserRoleConstants.RoleIdRequired);
+				throw new ValidationException(RoleIdRequired);
 			}
 
 			if (!Guid.TryParse(roleId, out _))
 			{
-				throw new ValidationException(string.Format(UserRoleConstants.InvalidRoleIdFormat, roleId));
+				throw new ValidationException(string.Format(InvalidRoleIdFormat, roleId));
 			}
 
 			if (ContainsForbiddenContent(roleId))
 			{
-				throw new ValidationException(string.Format(UserRoleConstants.RoleIdContainsForbiddenContent, roleId));
+				throw new ValidationException(string.Format(RoleIdContainsForbiddenContent, roleId));
 			}
 		}
 
@@ -175,7 +175,7 @@ namespace PriceTracker.Infrastructure.Data.SeedDatabase.Builders
 
 			if (_existingUserRolePairs.Contains(userRolePair))
 			{
-				throw new ValidationException(string.Format(UserRoleConstants.DuplicateUserRoleMapping, userId, roleId));
+				throw new ValidationException(string.Format(DuplicateUserRoleMapping, userId, roleId));
 			}
 		}
 
