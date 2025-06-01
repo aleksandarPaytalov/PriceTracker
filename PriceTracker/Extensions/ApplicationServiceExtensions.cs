@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PriceTracker.Constants;
 using PriceTracker.Infrastructure.Common;
 using PriceTracker.Infrastructure.Data.Models;
-using PriceTracker.Infrastructure.Data.SeedDatabase.ExternalSeederConfiguration;
+using PriceTracker.Infrastructure.Data.SeedDatabase.Helpers;
 
 namespace PriceTracker.Extensions
 {
@@ -40,6 +41,7 @@ namespace PriceTracker.Extensions
 
 			return services;
 		}
+
 		/// <summary>
 		/// Configures seeding options and validates JSON files if external source is enabled
 		/// </summary>
@@ -58,17 +60,17 @@ namespace PriceTracker.Extensions
 				ValidateJsonFiles(seedingOptions);
 
 				// Log configuration summary
-				Console.WriteLine($"✅ External seeding source enabled with validation");
-				Console.WriteLine($"   - Strict validation: {seedingOptions.StrictValidation}");
-				Console.WriteLine($"   - Validation logging: {seedingOptions.EnableValidationLogging}");
-				Console.WriteLine($"   - Max errors to log: {seedingOptions.MaxValidationErrorsToLog}");
+				Console.WriteLine(Messages.ExternalSeedingEnabled);
+				Console.WriteLine(Messages.StrictValidationTemplate, seedingOptions.StrictValidation);
+				Console.WriteLine(Messages.ValidationLoggingTemplate, seedingOptions.EnableValidationLogging);
+				Console.WriteLine(Messages.MaxErrorsToLogTemplate, seedingOptions.MaxValidationErrorsToLog);
 
 				var enabledSeeders = seedingOptions.EnabledSeeders.Where(kvp => kvp.Value).Select(kvp => kvp.Key);
-				Console.WriteLine($"   - Enabled seeders: {string.Join(", ", enabledSeeders)}");
+				Console.WriteLine(Messages.EnabledSeedersTemplate, string.Join(", ", enabledSeeders));
 			}
 			else
 			{
-				Console.WriteLine("✅ Using default seed data (external source disabled)");
+				Console.WriteLine(Messages.DefaultSeedDataUsed);
 			}
 
 			return services;
@@ -97,59 +99,96 @@ namespace PriceTracker.Extensions
 					_ => null
 				};
 
-				Console.WriteLine($"🔍 FileName for {enabledSeeder.Key}: {fileName}");
+				Console.WriteLine(Messages.FileNameTemplate, enabledSeeder.Key, fileName);
 
 				if (!string.IsNullOrEmpty(fileName))
 				{
 					var filePath = Path.Combine(dataPath, fileName);
-					Console.WriteLine($"🔍 Full file path: {filePath}");
-					Console.WriteLine($"🔍 File exists: {File.Exists(filePath)}");
+					Console.WriteLine(Messages.FullFilePathTemplate, filePath);
+					Console.WriteLine(Messages.FileExistsTemplate, File.Exists(filePath));
 
 					if (!File.Exists(filePath))
 					{
-						Console.WriteLine($"❌ FILE MISSING: {filePath}");
+						Console.WriteLine(Messages.FileMissingTemplate, filePath);
 						missingFiles.Add($"{enabledSeeder.Key}: {filePath}");
 					}
 					else
 					{
 						// Check if file has content
 						var fileInfo = new FileInfo(filePath);
-						Console.WriteLine($"🔍 File size: {fileInfo.Length} bytes");
+						Console.WriteLine(Messages.FileSizeTemplate, fileInfo.Length);
 
 						if (fileInfo.Length == 0)
 						{
-							Console.WriteLine($"❌ FILE EMPTY: {filePath}");
+							Console.WriteLine(Messages.FileEmptyTemplate, filePath);
 							missingFiles.Add($"{enabledSeeder.Key}: {filePath} (file is empty)");
 						}
 						else
 						{
-							Console.WriteLine($"✅ File OK: {fileName} ({fileInfo.Length} bytes)");
+							Console.WriteLine(Messages.FileOkTemplate, fileName, fileInfo.Length);
 							var content = File.ReadAllText(filePath);
-							Console.WriteLine($"🔍 Content preview: {content.Substring(0, Math.Min(50, content.Length))}...");
+							Console.WriteLine(Messages.ContentPreviewTemplate,
+								content.Substring(0, Math.Min(50, content.Length)));
 						}
 					}
 				}
 				else
 				{
-					Console.WriteLine($"⚠️ No filename mapped for seeder: {enabledSeeder.Key}");
+					Console.WriteLine(Messages.NoFilenameMappedTemplate, enabledSeeder.Key);
 				}
 			}
 
 			if (missingFiles.Count != 0)
 			{
-				Console.WriteLine($"❌ Missing files detected: {missingFiles.Count}");
+				Console.WriteLine(Messages.MissingFilesDetectedTemplate, missingFiles.Count);
 				foreach (var missing in missingFiles)
 				{
-					Console.WriteLine($"   - {missing}");
+					Console.WriteLine(Messages.MissingFileItemTemplate, missing);
 				}
 
-				var errorMessage = "Required JSON files are missing or empty:" + Environment.NewLine +
+				var errorMessage = Messages.RequiredJsonFilesMissing + Environment.NewLine +
 								 string.Join(Environment.NewLine, missingFiles.Select(f => $" - {f}")) + Environment.NewLine +
-								 "Either provide the missing files or disable the corresponding seeders in EnabledSeeders configuration.";
+								 Messages.JsonFilesErrorSuffix;
 
 				throw new FileNotFoundException(errorMessage);
 			}
-			Console.WriteLine("✅ All JSON files validation passed");
+
+			Console.WriteLine(Messages.AllJsonFilesValidationPassed);
+		}
+
+		/// <summary>
+		/// Configures migration loggers and logs application startup
+		/// </summary>
+		public static void ConfigureMigrationLoggersAsync(this WebApplication app)
+		{
+			using var scope = app.Services.CreateScope();
+			var logger = scope.ServiceProvider.GetRequiredService<IAppLogger>();
+
+			// Set runtime logger for MigrationLogger (new approach)
+			MigrationLogger.SetRuntimeLogger(logger);
+
+			// Set logger for MigrationDataHelper (backward compatibility)
+			MigrationDataHelper.SetLogger(logger);
+
+			// Log application startup with enhanced information
+			logger.LogInformation(Messages.ApplicationStartupMessage);
+		}
+
+		/// <summary>
+		/// Registers logging services and configures file logger
+		/// </summary>
+		public static IServiceCollection AddLoggingConfiguration(
+			this IServiceCollection services)
+		{
+			// Register FileLogger as IAppLogger
+			services.AddSingleton<IAppLogger>(provider =>
+			{
+				var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+				return new FileLogger(logPath, logToConsole: true);
+			});
+
+			return services;
 		}
 	}
 }
+
