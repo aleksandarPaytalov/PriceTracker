@@ -1,0 +1,112 @@
+[
+  {
+    "taskId": 1,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "title": "Shopping",
+    "description": "Buy food for the next two weeks",
+    "dueDate": "2025-06-08T00:00:00",
+    "priority": 2,
+    "taskStatus": 1,
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "taskId": 2,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "title": "Fill with fuel",
+    "description": "Get the car ready for the trip",
+    "dueDate": "2025-06-10T00:00:00",
+    "priority": 3,
+    "taskStatus": 2,
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "taskId": 3,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "title": "House bills",
+    "description": "Pay the bills for this month.",
+    "dueDate": "2025-06-15T00:00:00",
+    "priority": 2,
+    "taskStatus": 3,
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "taskId": 4,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "title": "Weekly grocery shopping",
+    "description": "Buy groceries for the upcoming week including fresh vegetables and dairy products",
+    "dueDate": "2025-06-08T00:00:00",
+    "priority": 2,
+    "taskStatus": 1,
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "taskId": 5,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "title": "Schedule dentist appointment",
+    "description": "Book routine dental checkup for next month",
+    "dueDate": "2025-06-15T00:00:00",
+    "priority": 1,
+    "taskStatus": 1,
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "taskId": 6,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "title": "Read book",
+    "description": "Finish reading 'The Clean Coder' by Robert Martin",
+    "dueDate": "2025-06-30T00:00:00",
+    "priority": 1,
+    "taskStatus": 2,
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "taskId": 7,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "title": "Exercise routine",
+    "description": "Complete 30-minute workout session",
+    "dueDate": "2025-06-02T00:00:00",
+    "priority": 2,
+    "taskStatus": 1,
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "taskId": 8,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "title": "Plan vacation",
+    "description": "Research and book summer vacation destination and accommodation",
+    "dueDate": "2025-06-20T00:00:00",
+    "priority": 1,
+    "taskStatus": 1,
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "taskId": 9,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "title": "Update resume",
+    "description": "Add recent projects and skills to professional resume",
+    "dueDate": "2025-06-12T00:00:00",
+    "priority": 2,
+    "taskStatus": 1,
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "taskId": 10,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "title": "Learn new technology",
+    "description": "Complete online course on React.js fundamentals",
+    "dueDate": "2025-07-15T00:00:00",
+    "priority": 1,
+    "taskStatus": 1,
+    "createdAt": "2025-06-01T00:00:00"
+  }
+]
+
+// Забележки за полетата:
+// taskId: положително число, уникален идентификатор
+// userId: трябва да съответства на съществуващи потребители в users.json или default данни
+// title: задължителен текст между 5-255 символа
+// description: опционален текст до 255 символа (може да е null)
+// dueDate: опционална дата в ISO формат, не може да е в миналото (може да е null)
+// priority: 1=Low, 2=Medium, 3=High
+// taskStatus: 1=Pending, 2=InProgress, 3=Completed  
+// createdAt: дата на създаване в ISO формат, не може да е в бъдещето

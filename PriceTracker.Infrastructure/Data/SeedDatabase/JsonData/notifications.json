@@ -1,0 +1,102 @@
+[
+  {
+    "notificationId": 1,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "taskId": 1,
+    "message": "Reminder to buy a food for next two week",
+    "isRead": true,
+    "notificationTime": "2025-06-07T08:00:00",
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "notificationId": 2,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "taskId": 2,
+    "message": "Reminder to fill up the car with gas and check it, so it is ready for the trip next week.",
+    "isRead": false,
+    "notificationTime": "2025-06-09T08:00:00",
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "notificationId": 3,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "taskId": 3,
+    "message": "Check and pay the bills",
+    "isRead": true,
+    "notificationTime": "2025-06-14T09:00:00",
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "notificationId": 4,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "taskId": 4,
+    "message": "Don't forget your weekly grocery shopping is due tomorrow!",
+    "isRead": false,
+    "notificationTime": "2025-06-07T08:00:00",
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "notificationId": 5,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "taskId": 5,
+    "message": "Time to schedule your dentist appointment",
+    "isRead": false,
+    "notificationTime": "2025-06-10T09:00:00",
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "notificationId": 6,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "taskId": 6,
+    "message": "Reading time! Your book deadline is approaching",
+    "isRead": false,
+    "notificationTime": "2025-06-25T19:00:00",
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "notificationId": 7,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "taskId": 7,
+    "message": "Daily workout reminder - let's get moving!",
+    "isRead": true,
+    "notificationTime": "2025-06-02T07:00:00",
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "notificationId": 8,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "taskId": 8,
+    "message": "Start planning your vacation - deadline coming up!",
+    "isRead": false,
+    "notificationTime": "2025-06-15T10:00:00",
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "notificationId": 9,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "taskId": 9,
+    "message": "Time to update your resume with recent achievements",
+    "isRead": false,
+    "notificationTime": "2025-06-11T14:00:00",
+    "createdAt": "2025-06-01T00:00:00"
+  },
+  {
+    "notificationId": 10,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "taskId": 10,
+    "message": "Learning reminder: Continue with your React.js course",
+    "isRead": false,
+    "notificationTime": "2025-07-01T18:00:00",
+    "createdAt": "2025-06-01T00:00:00"
+  }
+]
+
+// Забележки за полетата:
+// notificationId: положително число, уникален идентификатор
+// userId: трябва да съответства на съществуващи потребители в users.json или default данни
+// taskId: трябва да съответства на съществуващи задачи в tasks.json или default данни
+// message: задължителен текст между 5-255 символа
+// isRead: булева стойност (true/false) за проследяване дали е прочетена нотификацията
+// notificationTime: дата и час когато трябва да се покаже нотификацията в ISO формат
+// createdAt: дата на създаване в ISO формат, не може да е в бъдещето
+// notificationTime трябва да е след или равно на createdAt

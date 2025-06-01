@@ -1,0 +1,110 @@
+[
+  {
+    "expenseId": 1,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "expenseType": 5,
+    "productId": 7,
+    "storeId": 8,
+    "description": "Заредена газ за пътуване до София",
+    "amountSpent": 31.59,
+    "dateSpent": "2025-05-17T00:00:00"
+  },
+  {
+    "expenseId": 2,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "expenseType": 2,
+    "productId": 1,
+    "storeId": 1,
+    "description": "Покупка на яйца размер L",
+    "amountSpent": 4.50,
+    "dateSpent": "2025-05-17T00:00:00"
+  },
+  {
+    "expenseId": 3,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "expenseType": 2,
+    "productId": 2,
+    "storeId": 1,
+    "description": "Кашкавал",
+    "amountSpent": 14.50,
+    "dateSpent": "2025-05-17T00:00:00"
+  },
+  {
+    "expenseId": 4,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "expenseType": 5,
+    "productId": 4,
+    "storeId": 8,
+    "description": "Бензин",
+    "amountSpent": 50.00,
+    "dateSpent": "2025-05-17T00:00:00"
+  },
+  {
+    "expenseId": 5,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "expenseType": 2,
+    "productId": 3,
+    "storeId": 5,
+    "description": "Сирене за баница",
+    "amountSpent": 12.50,
+    "dateSpent": "2025-05-17T00:00:00"
+  },
+  {
+    "expenseId": 6,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "expenseType": 2,
+    "productId": 6,
+    "storeId": 2,
+    "description": "Месо за мезе",
+    "amountSpent": 12.50,
+    "dateSpent": "2025-05-15T00:00:00"
+  },
+  {
+    "expenseId": 7,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "expenseType": 2,
+    "productId": 5,
+    "storeId": 3,
+    "description": "Кисело мляко за закуска",
+    "amountSpent": 3.20,
+    "dateSpent": "2025-05-16T00:00:00"
+  },
+  {
+    "expenseId": 8,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "expenseType": 6,
+    "productId": 8,
+    "storeId": 5,
+    "description": "Хляб за домакински нужди",
+    "amountSpent": 2.50,
+    "dateSpent": "2025-05-16T00:00:00"
+  },
+  {
+    "expenseId": 9,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "expenseType": 2,
+    "productId": 9,
+    "storeId": 3,
+    "description": "Прясно мляко с лешник",
+    "amountSpent": 5.50,
+    "dateSpent": "2025-05-18T00:00:00"
+  },
+  {
+    "expenseId": 10,
+    "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
+    "expenseType": 3,
+    "productId": 41,
+    "storeId": 16,
+    "description": "Месечна сметка за ток",
+    "amountSpent": 125.80,
+    "dateSpent": "2025-05-01T00:00:00"
+  }
+]
+
+// Забележки за полетата:
+// expenseType: 1=Shopping, 2=Food, 3=Utilities, 4=Health, 5=Car, 6=Hobby, 7=Financing, 8=Education, 9=Subscriptions, 10=Other
+// userId: трябва да съответства на съществуващи потребители в users.json или default данни
+// productId: трябва да съответства на съществуващи продукти в products.json или default данни  
+// storeId: трябва да съответства на съществуващи магазини в stores.json или default данни
+// amountSpent: положително число с до 2 десетични знака
+// dateSpent: дата в ISO формат, не може да е в бъдещето
