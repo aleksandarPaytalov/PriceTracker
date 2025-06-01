@@ -27,28 +27,56 @@
 
 		internal static class UserConstants
 		{
+			public const string UserRequired = "User is required";
+			public const string UserIdRequired = "User ID is required";
+			public const string InvalidUserIdFormat = "User ID must be a valid GUID format. Provided value: {0}";
 			public const string UserNameRequired = "Username is required";
 			public const string InvalidUserNameLength = "Username must be between {0} and {1} characters";
-			public const string UserNameExistsInSeed = "Username '{0}' is already taken in current seed data";
-			public const string UserNameExistsInDb = "Username '{0}' already exists in database";
+			public const string UserNameContainsForbiddenContent = "Username contains forbidden content: {0}";
+			public const string DuplicateUserName = "Username '{0}' is already taken in current seed data";
 
 			public const string EmailRequired = "Email address is required";
 			public const string InvalidEmailLength = "Email must be between {0} and {1} characters";
 			public const string InvalidEmailFormat = "Invalid email format";
-			public const string EmailExistsInSeed = "Email address '{0}' is already taken in current seed data";
-			public const string EmailExistsInDb = "Email address '{0}' already exists in database";
+			public const string EmailContainsForbiddenContent = "Email contains forbidden content: {0}";
+			public const string DuplicateEmail = "Email address '{0}' is already taken in current seed data";
 			public const string EmailLocalPartTooShort = "Email local part must be at least 3 characters long";
 			public const string EmailLocalPartInvalidDot = "Email local part cannot start or end with a dot";
 			public const string EmailDomainNotAllowed = "Email domain not allowed";
-			public const string EmailContainsForbiddenChars = "Email contains forbidden characters";
 			public const string EmailMultipleAtSymbols = "Email cannot contain multiple @ symbols";
-			public const string EmailContainsHtmlChars = "Email contains forbidden HTML characters";
 
-			public const string PasswordHashRequired = "Password hash is required";
-			public const string InvalidPasswordHashLength = "Password hash must be between {0} and {1} characters";
+			public const string PasswordRequired = "Password is required";
+			public const string InvalidPasswordLength = "Password must be between {0} and {1} characters";
 			public const string SqlInjectionAttempt = "Potential SQL injection attempt detected. Input contains forbidden SQL keywords";
 			public const string XssAttempt = "Potential XSS attack attempt detected. Input contains forbidden script patterns";
+		}
 
+		internal static class RoleConstants
+		{
+			public const string RoleRequired = "Role is required";
+			public const string RoleIdRequired = "Role ID is required";
+			public const string InvalidRoleIdFormat = "Role ID must be a valid GUID format. Provided value: {0}";
+			public const string RoleNameRequired = "Role name is required";
+			public const string InvalidRoleNameLength = "Role name must be between {0} and {1} characters";
+			public const string RoleNameContainsForbiddenContent = "Role name contains forbidden content: {0}";
+			public const string InvalidRoleNameFormat = "Role name contains invalid characters: {0}";
+			public const string NormalizedNameRequired = "Normalized role name is required";
+			public const string NormalizedNameNotUppercase = "Normalized role name must be uppercase";
+			public const string DuplicateRoleName = "Role name '{0}' is already taken in current seed data";
+		}
+
+		internal static class UserRoleConstants
+		{
+			public const string UserRoleRequired = "User-role mapping is required";
+			public const string UserIdRequired = "User ID is required for user-role mapping";
+			public const string RoleIdRequired = "Role ID is required for user-role mapping";
+			public const string InvalidUserIdFormat = "User ID must be a valid GUID format. Provided value: {0}";
+			public const string InvalidRoleIdFormat = "Role ID must be a valid GUID format. Provided value: {0}";
+			public const string UserIdContainsForbiddenContent = "User ID contains forbidden content: {0}";
+			public const string RoleIdContainsForbiddenContent = "Role ID contains forbidden content: {0}";
+			public const string DuplicateUserRoleMapping = "User-role mapping already exists: User '{0}' -> Role '{1}'";
+			public const string UserNotFound = "User with ID '{0}' not found in available users. Available IDs: {1}";
+			public const string RoleNotFound = "Role with ID '{0}' not found in available roles. Available IDs: {1}";
 		}
 
 		internal static class MonthlyBudgetConstants

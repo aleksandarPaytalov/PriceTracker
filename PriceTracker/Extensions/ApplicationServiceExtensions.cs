@@ -91,40 +91,65 @@ namespace PriceTracker.Extensions
 					"task" => options.TaskJsonFile,
 					"notification" => options.NotificationJsonFile,
 					"budget" => options.BudgetJsonFile,
+					"role" => options.RoleJsonFile,
+					"user" => options.UserJsonFile,
+					"userrole" => options.UserRoleJsonFile,
 					_ => null
 				};
+
+				Console.WriteLine($"🔍 FileName for {enabledSeeder.Key}: {fileName}");
 
 				if (!string.IsNullOrEmpty(fileName))
 				{
 					var filePath = Path.Combine(dataPath, fileName);
+					Console.WriteLine($"🔍 Full file path: {filePath}");
+					Console.WriteLine($"🔍 File exists: {File.Exists(filePath)}");
+
 					if (!File.Exists(filePath))
 					{
+						Console.WriteLine($"❌ FILE MISSING: {filePath}");
 						missingFiles.Add($"{enabledSeeder.Key}: {filePath}");
 					}
 					else
 					{
 						// Check if file has content
 						var fileInfo = new FileInfo(filePath);
+						Console.WriteLine($"🔍 File size: {fileInfo.Length} bytes");
+
 						if (fileInfo.Length == 0)
 						{
+							Console.WriteLine($"❌ FILE EMPTY: {filePath}");
 							missingFiles.Add($"{enabledSeeder.Key}: {filePath} (file is empty)");
 						}
 						else
 						{
-							Console.WriteLine($"✅ Found data file for {enabledSeeder.Key}: {fileName} ({fileInfo.Length} bytes)");
+							Console.WriteLine($"✅ File OK: {fileName} ({fileInfo.Length} bytes)");
+							var content = File.ReadAllText(filePath);
+							Console.WriteLine($"🔍 Content preview: {content.Substring(0, Math.Min(50, content.Length))}...");
 						}
 					}
+				}
+				else
+				{
+					Console.WriteLine($"⚠️ No filename mapped for seeder: {enabledSeeder.Key}");
 				}
 			}
 
 			if (missingFiles.Count != 0)
 			{
+				Console.WriteLine($"❌ Missing files detected: {missingFiles.Count}");
+				foreach (var missing in missingFiles)
+				{
+					Console.WriteLine($"   - {missing}");
+				}
+
 				var errorMessage = "Required JSON files are missing or empty:" + Environment.NewLine +
 								 string.Join(Environment.NewLine, missingFiles.Select(f => $" - {f}")) + Environment.NewLine +
 								 "Either provide the missing files or disable the corresponding seeders in EnabledSeeders configuration.";
 
 				throw new FileNotFoundException(errorMessage);
 			}
+			Console.WriteLine("✅ All JSON files validation passed");
 		}
 	}
 }

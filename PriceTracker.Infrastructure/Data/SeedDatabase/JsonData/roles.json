@@ -1,0 +1,12 @@
+[
+  {
+    "id": "c3a2cde1-caac-4a6c-a24f-1b5d35b47f59",
+    "name": "Administrator",
+    "normalizedName": "ADMINISTRATOR"
+  },
+  {
+    "id": "c3a2cde1-caac-4a6c-a24f-1b5d35b47f60",
+    "name": "User", 
+    "normalizedName": "USER"
+  }
+]
