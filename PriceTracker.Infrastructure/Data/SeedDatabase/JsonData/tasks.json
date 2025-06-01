@@ -33,7 +33,7 @@
     "taskId": 4,
     "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
     "title": "Weekly grocery shopping",
-    "description": "Buy groceries for the upcoming week including fresh vegetables and dairy products",
+    "description": "Buy groceries",
     "dueDate": "2025-06-08T00:00:00",
     "priority": 2,
     "taskStatus": 1,
@@ -82,7 +82,7 @@
   {
     "taskId": 9,
     "userId": "56f4b198-3f3e-4f72-9a80-7d903bf24a1e",
-    "title": "Update resume",
+    "title": "The resume must be updated",
     "description": "Add recent projects and skills to professional resume",
     "dueDate": "2025-06-12T00:00:00",
     "priority": 2,
