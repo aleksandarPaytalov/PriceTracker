@@ -2,7 +2,6 @@
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using PriceTracker.Core.Services;
 using PriceTracker.Infrastructure.Common;
 using PriceTracker.Infrastructure.Configuration;
 
