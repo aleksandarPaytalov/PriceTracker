@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using PriceTracker.Constants;
+using PriceTracker.Core.Services;
 using PriceTracker.Infrastructure.Common;
+using PriceTracker.Infrastructure.Configuration;
 using PriceTracker.Infrastructure.Data.Models;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Helpers;
+using PriceTracker.Infrastructure.Services;
 
 namespace PriceTracker.Extensions
 {
@@ -13,8 +17,11 @@ namespace PriceTracker.Extensions
 			this IServiceCollection services,
 			IConfiguration configuration)
 		{
-			string dbConnection = configuration.GetConnectionString("DbConnection") ?? throw new InvalidOperationException("Connection string not found");
-			services.AddDbContext<PriceTrackerDbContext>(options => options.UseSqlServer(dbConnection));
+			string dbConnection = configuration.GetConnectionString("DbConnection") ??
+				throw new InvalidOperationException("Connection string not found");
+
+			services.AddDbContext<PriceTrackerDbContext>(options =>
+				options.UseSqlServer(dbConnection));
 
 			services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 			services.AddDatabaseDeveloperPageExceptionFilter();
@@ -27,12 +34,29 @@ namespace PriceTracker.Extensions
 		{
 			services.AddIdentity<User, IdentityRole>(options =>
 			{
-				options.SignIn.RequireConfirmedAccount = false;
+				// Email confirmation required
+				options.SignIn.RequireConfirmedAccount = true;
+				options.SignIn.RequireConfirmedEmail = true;
+
+				// Password requirements
 				options.Password.RequireDigit = true;
 				options.Password.RequireLowercase = true;
 				options.Password.RequireUppercase = true;
 				options.Password.RequireNonAlphanumeric = true;
-				options.Password.RequiredLength = 6;
+				options.Password.RequiredLength = 8;
+				options.Password.RequiredUniqueChars = 1;
+
+				// User settings
+				options.User.RequireUniqueEmail = true;
+
+				// Lockout settings
+				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+				options.Lockout.MaxFailedAccessAttempts = 5;
+				options.Lockout.AllowedForNewUsers = true;
+
+				// Token settings
+				options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
+				options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
 			})
 			.AddRoles<IdentityRole>()
 			.AddEntityFrameworkStores<PriceTrackerDbContext>()
@@ -42,9 +66,20 @@ namespace PriceTracker.Extensions
 			return services;
 		}
 
-		/// <summary>
-		/// Configures seeding options and validates JSON files if external source is enabled
-		/// </summary>
+		public static IServiceCollection AddEmailServices(
+			this IServiceCollection services,
+			IConfiguration configuration)
+		{
+			// Configure email settings
+			services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+
+			// Register email services
+			services.AddScoped<IEmailService, EmailService>();
+			services.AddScoped<IEmailSender, CustomEmailSender>();
+
+			return services;
+		}
+
 		public static IServiceCollection AddSeedingConfiguration(
 			this IServiceCollection services,
 			IConfiguration configuration)
@@ -156,9 +191,6 @@ namespace PriceTracker.Extensions
 			Console.WriteLine(Messages.AllJsonFilesValidationPassed);
 		}
 
-		/// <summary>
-		/// Configures migration loggers and logs application startup
-		/// </summary>
 		public static void ConfigureMigrationLoggersAsync(this WebApplication app)
 		{
 			using var scope = app.Services.CreateScope();
@@ -174,9 +206,6 @@ namespace PriceTracker.Extensions
 			logger.LogInformation(Messages.ApplicationStartupMessage);
 		}
 
-		/// <summary>
-		/// Registers logging services and configures file logger
-		/// </summary>
 		public static IServiceCollection AddLoggingConfiguration(
 			this IServiceCollection services)
 		{
@@ -191,4 +220,3 @@ namespace PriceTracker.Extensions
 		}
 	}
 }
-

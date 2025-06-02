@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Email Status";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">📧 Email Status</h4>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(TempData["StatusMessage"]?.ToString()))
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["StatusMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(TempData["ErrorMessage"]?.ToString()))
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Current Email:</h5>
+                            <p class="text-muted">@ViewBag.Email</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Status:</h5>
+                            @if (ViewBag.IsEmailConfirmed)
+                            {
+                                <span class="badge bg-success fs-6">✅ Confirmed</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning fs-6">⚠️ Not Confirmed</span>
+                            }
+                        </div>
+                    </div>
+
+                    @if (!ViewBag.IsEmailConfirmed)
+                    {
+                        <hr>
+                        <div class="alert alert-warning">
+                            <h6><i class="fas fa-exclamation-triangle"></i> Email Not Confirmed</h6>
+                            <p class="mb-2">Your email address needs to be confirmed to:</p>
+                            <ul class="mb-3">
+                                <li>Receive important notifications</li>
+                                <li>Reset your password if needed</li>
+                                <li>Access all features securely</li>
+                            </ul>
+
+                            <form asp-controller="Account" asp-action="ResendEmailConfirmation" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Resend Confirmation Email
+                                </button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <hr>
+                        <div class="alert alert-success">
+                            <h6><i class="fas fa-check-circle"></i> Email Confirmed</h6>
+                            <p class="mb-0">Your email is confirmed and you have access to all features!</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
