@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PriceTracker.Infrastructure.Data.Models
+@inject UserManager<User> UserManager
+@inject SignInManager<User> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User);
+    var isEmailConfirmed = await UserManager.IsEmailConfirmedAsync(user);
+
+    if (!isEmailConfirmed)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Email not confirmed!</strong>
+            Please check your email and confirm your address to access all features.
+            <a asp-controller="Account" asp-action="EmailStatus" class="alert-link">Manage Email</a>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+}
