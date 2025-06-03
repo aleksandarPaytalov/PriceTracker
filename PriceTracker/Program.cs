@@ -1,4 +1,6 @@
-﻿using PriceTracker.Extensions;
+﻿using Microsoft.Extensions.Options;
+using PriceTracker.Extensions;
+using PriceTracker.Infrastructure.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

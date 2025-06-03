@@ -8,6 +8,7 @@ using PriceTracker.Infrastructure.Configuration;
 using PriceTracker.Infrastructure.Data.Models;
 using PriceTracker.Infrastructure.Data.SeedDatabase.Helpers;
 using PriceTracker.Infrastructure.Services;
+using PriceTracker.Services;
 
 namespace PriceTracker.Extensions
 {
@@ -76,6 +77,7 @@ namespace PriceTracker.Extensions
 			// Register email services
 			services.AddScoped<IEmailService, EmailService>();
 			services.AddScoped<IEmailSender, CustomEmailSender>();
+			services.AddScoped<IEmailTemplateService, RazorEmailTemplateService>();
 
 			return services;
 		}

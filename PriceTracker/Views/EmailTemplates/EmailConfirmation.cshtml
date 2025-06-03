@@ -1,0 +1,113 @@
+﻿@model PriceTracker.Models.EmailConfirmationViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmation - PriceTracker</title>
+    <style>
+        /* Inline CSS for email compatibility */
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .email-header {
+            background: linear-gradient(135deg, #1b6ec2, #0056b3);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .email-content {
+            padding: 30px;
+            background-color: #ffffff;
+        }
+
+        .email-button {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .email-footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .link-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            word-break: break-all;
+            margin: 20px 0;
+            border: 1px solid #dee2e6;
+        }
+
+        .warning {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .text-center {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .divider {
+            margin: 30px 0;
+            border: none;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>🎉 Welcome to PriceTracker!</h1>
+            <p>Your journey to smart price tracking starts here</p>
+        </div>
+        <div class="email-content">
+            <h2>Email Confirmation Required</h2>
+            <p>Thank you for registering with PriceTracker! We're excited to have you on board.</p>
+            <p>To complete your registration and secure your account, please confirm your email address by clicking the button below:</p>
+
+            <div class="text-center">
+                <a href="@Model.CallbackUrl" class="email-button">✉️ Confirm Email Address</a>
+            </div>
+
+            <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
+            <div class="link-box">@Model.CallbackUrl</div>
+
+            <p class="warning">⚠️ This link will expire in 24 hours for security reasons.</p>
+
+            <hr class="divider">
+
+            <h3>What's next?</h3>
+            <ul>
+                <li>✅ Confirm your email (you're doing this now!)</li>
+                <li>🏪 Add your favorite stores</li>
+                <li>🛍️ Track product prices</li>
+                <li>💰 Save money with price alerts</li>
+            </ul>
+        </div>
+        <div class="email-footer">
+            <p>If you didn't create an account with PriceTracker, please ignore this email.</p>
+            <p>&copy; 2025 PriceTracker. All rights reserved.</p>
+            <p>📧 Need help? Contact us at support@pricetracker.com</p>
+        </div>
+    </div>
+</body>
+</html>
