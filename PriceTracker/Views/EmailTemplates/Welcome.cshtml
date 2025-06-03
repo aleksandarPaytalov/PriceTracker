@@ -1,0 +1,114 @@
+﻿@model PriceTracker.Models.WelcomeViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to PriceTracker</title>
+    <style>
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .email-header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .email-content {
+            padding: 30px;
+            background-color: #ffffff;
+        }
+
+        .email-button {
+            background: linear-gradient(135deg, #1b6ec2, #0056b3);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .email-footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .feature-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .text-center {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .footer-link {
+            color: #1b6ec2;
+            text-decoration: none;
+        }
+
+            .footer-link:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>🎉 Welcome aboard, @Model.UserName!</h1>
+            <p>Your account is now active and ready to use</p>
+        </div>
+        <div class="email-content">
+            <h2>Thanks for joining PriceTracker!</h2>
+            <p>Your email has been successfully confirmed and your account is now fully activated.</p>
+
+            <div class="text-center">
+                <a href="https://your-domain.com" class="email-button">🚀 Start Tracking Prices</a>
+            </div>
+
+            <h3>🌟 What you can do now:</h3>
+
+            <div class="feature-box">
+                <h4>🏪 Add Stores</h4>
+                <p>Add your favorite stores and start tracking products from them.</p>
+            </div>
+
+            <div class="feature-box">
+                <h4>📊 Track Prices</h4>
+                <p>Monitor price changes and get notified when prices drop.</p>
+            </div>
+
+            <div class="feature-box">
+                <h4>💰 Manage Budget</h4>
+                <p>Set monthly budgets and track your expenses.</p>
+            </div>
+
+            <div class="feature-box">
+                <h4>📝 Create Tasks</h4>
+                <p>Organize your shopping tasks and get notifications.</p>
+            </div>
+        </div>
+        <div class="email-footer">
+            <p>Need help getting started? Check out our <a href="#" class="footer-link">User Guide</a> or contact support.</p>
+            <p>&copy; 2025 PriceTracker. All rights reserved.</p>
+            <p>📧 Questions? Reach us at support@pricetracker.com</p>
+        </div>
+    </div>
+</body>
+</html>

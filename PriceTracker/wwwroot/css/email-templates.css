@@ -1,0 +1,111 @@
+/* Email Templates CSS */
+.email-container {
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.email-header {
+    color: white;
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+}
+
+    .email-header.confirmation {
+        background: linear-gradient(135deg, #1b6ec2, #0056b3);
+    }
+
+    .email-header.password-reset {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+    }
+
+    .email-header.welcome {
+        background: linear-gradient(135deg, #28a745, #20c997);
+    }
+
+.email-content {
+    padding: 30px;
+    background-color: #ffffff;
+}
+
+.email-button {
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+    .email-button.confirmation {
+        background: linear-gradient(135deg, #28a745, #20c997);
+    }
+
+    .email-button.password-reset {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+    }
+
+    .email-button.welcome {
+        background: linear-gradient(135deg, #1b6ec2, #0056b3);
+    }
+
+.email-footer {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    border-radius: 0 0 8px 8px;
+}
+
+.link-box {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    word-break: break-all;
+    margin: 20px 0;
+    border: 1px solid #dee2e6;
+}
+
+.warning {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.security-tips {
+    background-color: #fff3cd;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #ffc107;
+    margin: 20px 0;
+}
+
+.feature-box {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 6px;
+    margin: 15px 0;
+    border-left: 4px solid #28a745;
+}
+
+.divider {
+    margin: 30px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+.text-center {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.footer-link {
+    color: #1b6ec2;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
