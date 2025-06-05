@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLoggingConfiguration();
 builder.Services.AddSeedingConfiguration(builder.Configuration);
 builder.Services.DataBaseServiceExtensions(builder.Configuration);
-builder.Services.AddIdentityServiceExtensions();
+builder.Services.AddIdentityServiceExtensions(builder.Configuration);
 builder.Services.AddEmailServices(builder.Configuration);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
