@@ -31,7 +31,8 @@ namespace PriceTracker.Extensions
 		}
 
 		public static IServiceCollection AddIdentityServiceExtensions(
-			this IServiceCollection services)
+			this IServiceCollection services,
+			IConfiguration configuration)
 		{
 			services.AddIdentity<User, IdentityRole>(options =>
 			{
@@ -63,6 +64,22 @@ namespace PriceTracker.Extensions
 			.AddEntityFrameworkStores<PriceTrackerDbContext>()
 			.AddDefaultTokenProviders()
 			.AddDefaultUI();
+
+			// Add Google OAuth Authentication
+			var googleConfig = configuration.GetSection("Authentication:Google");
+			if (!string.IsNullOrEmpty(googleConfig["ClientId"]))
+			{
+				services.AddAuthentication()
+					.AddGoogle(options =>
+					{
+						options.ClientId = googleConfig["ClientId"]!;
+						options.ClientSecret = googleConfig["ClientSecret"]!;
+						options.SignInScheme = IdentityConstants.ExternalScheme;
+						options.Scope.Add("email");
+						options.Scope.Add("profile");
+						options.SaveTokens = true;
+					});
+			}
 
 			return services;
 		}
