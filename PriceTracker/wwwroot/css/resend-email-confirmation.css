@@ -202,7 +202,7 @@ form {
 /* IMPROVED: Email label - Maximum visibility without white shadow */
 .form-control:focus + .form-label,
 .form-control:not(:placeholder-shown) + .form-label {
-    top: -19px; /* Higher position to avoid border completely */
+    top: 10px; /* Higher position to avoid border completely */
     left: 16px;
     font-size: 1rem; /* Larger font for better visibility */
     color: blue; /* Blue color as requested */
