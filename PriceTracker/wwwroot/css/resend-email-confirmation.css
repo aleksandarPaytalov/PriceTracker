@@ -1,0 +1,425 @@
+﻿/* ResendEmailConfirmation.css - Fixed All Issues */
+
+/* CSS Custom Properties */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 75%, #f5576c 100%);
+    --text-primary: #2d3748;
+    --text-secondary: #718096;
+    --text-white: #ffffff;
+    --background-light: #f7fafc;
+    --background-card: #ffffff;
+    --border-color: #e2e8f0;
+    --shadow-large: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Body Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--background-gradient);
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+    color: var(--text-primary);
+    position: relative;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+    /* Animated background */
+    body::before {
+        content: '';
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: floating 20s ease-in-out infinite;
+        z-index: -1;
+    }
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(1deg);
+    }
+}
+
+/* IMPROVED: Header Styling - Better visibility */
+h1 {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    font-weight: 800; /* Bolder font */
+    font-size: 2.8rem; /* Larger size */
+    margin-bottom: 12px;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+h2 {
+    color: #2d3748; /* Darker color for better contrast */
+    text-align: center;
+    font-size: 1.6rem; 
+    font-weight: 600; 
+    margin-bottom: 32px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); 
+}
+
+/* HR Divider */
+hr {
+    width: 60px;
+    height: 4px;
+    background: var(--secondary-gradient);
+    border: none;
+    border-radius: 2px;
+    margin: 24px auto;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scaleX(1.2);
+        opacity: 0.8;
+    }
+}
+
+/* FIXED: Bootstrap Row Styling - No borders at all */
+.row {
+    background: var(--background-card);
+    border-radius: 24px;
+    padding: 48px;
+    box-shadow: var(--shadow-large);
+    max-width: 480px;
+    width: 100%;
+    border: none; /* REMOVED: all borders including the blue one */
+    transition: var(--transition-smooth);
+    position: relative;
+    animation: fadeInUp 0.8s ease-out;
+    margin: 0 auto;
+}
+
+    .row:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35);
+    }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Bootstrap Column */
+.col-md-4 {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+}
+
+/* Form Styling */
+form {
+    width: 100%;
+}
+
+/* FIXED: Form Floating - Remove problematic positioning */
+.form-floating {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+    .form-floating.mb-3 {
+        margin-bottom: 24px;
+    }
+
+/* FIXED: Form Control - Text centered vertically */
+.form-control {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--background-light);
+    transition: var(--transition-smooth);
+    outline: none;
+    /* FIXED: Center text vertically in the input field */
+    height: 60px; /* Fixed height for consistent centering */
+    line-height: 28px; /* Centers text vertically (60px - 32px padding = 28px) */
+    display: flex;
+    align-items: center; /* Additional vertical centering */
+}
+
+    .form-control:focus {
+        border-color: #667eea;
+        background: var(--background-card);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .form-control::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.7;
+    }
+
+/* FIXED: Form Label - Better visibility */
+.form-label {
+    position: absolute;
+    left: 20px;
+    top: 18px; /* Adjusted to match new input height */
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: var(--transition-smooth);
+    pointer-events: none;
+    background: transparent;
+    padding: 0 4px;
+    z-index: 5; /* Higher z-index to be above border */
+}
+
+/* IMPROVED: Email label - Maximum visibility without white shadow */
+.form-control:focus + .form-label,
+.form-control:not(:placeholder-shown) + .form-label {
+    top: -19px; /* Higher position to avoid border completely */
+    left: 16px;
+    font-size: 1rem; /* Larger font for better visibility */
+    color: blue; /* Blue color as requested */
+    background: transparent; /* NO background to avoid white shadow */
+    padding: 0 4px;
+    font-weight: 600; /* Bold for better readability */
+    letter-spacing: 0.5px; /* Better letter spacing for clarity */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.95), -2px -2px 4px rgba(255, 255, 255, 0.95), 2px -2px 4px rgba(255, 255, 255, 0.95), -2px 2px 4px rgba(255, 255, 255, 0.95), 0 0 6px rgba(255, 255, 255, 0.8); /* Strong white outline for maximum contrast */
+    z-index: 10;
+}
+
+/* REMOVED: Problematic email icon that was causing layout issues */
+
+/* IMPROVED: Button Styling - Smaller size but larger text */
+.btn-primary {
+    width: 100%;
+    padding: 12px; /* Kept smaller padding */
+    background: var(--primary-gradient);
+    color: var(--text-white);
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem; /* Increased text size */
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px -12px rgba(102, 126, 234, 0.4);
+        border-color: transparent;
+    }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+    .btn-primary:active {
+        transform: translateY(-1px);
+    }
+
+/* Bootstrap classes */
+.w-100 {
+    width: 100%;
+}
+
+.btn-lg {
+    padding: 14px; /* Kept smaller padding */
+    font-size: 1.2rem; /* Increased text size to match btn-primary */
+}
+
+/* FIXED: Individual field validation messages - Show only when error exists */
+.text-danger {
+    color: #e53e3e !important;
+    font-size: 0.875rem;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(229, 62, 62, 0.1);
+    border-left: 4px solid #e53e3e;
+    border-radius: 0 6px 6px 0;
+    animation: slideInLeft 0.3s ease-out;
+    display: block;
+}
+
+    /* FIXED: Hide empty error messages */
+    .text-danger:empty {
+        display: none !important;
+        margin: 0;
+        padding: 0;
+    }
+
+/* FIXED: Hide validation spans when they have no content */
+span.text-danger:not([data-valmsg-for]):empty,
+span.text-danger[data-valmsg-for=""]:empty {
+    display: none !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* HIDDEN: Validation summary - Hide the top error box */
+.text-danger[role="alert"] {
+    display: none !important; /* HIDDEN: Remove the top validation summary box */
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Success message */
+.alert-success {
+    background: var(--success-gradient);
+    color: var(--text-white);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+    margin: 24px 0;
+    border: none;
+    animation: slideInUp 0.5s ease-out;
+}
+
+    .alert-success::before {
+        content: '✅ ';
+        font-size: 1.5rem;
+        margin-right: 8px;
+    }
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .row {
+        padding: 32px 24px;
+        margin: 12px;
+        border-radius: 16px;
+    }
+
+    h1 {
+        font-size: 2.3rem; /* Adjusted for mobile */
+    }
+
+    h2 {
+        font-size: 1.3rem; /* Adjusted for mobile */
+    }
+
+    .form-control {
+        padding: 14px 16px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        height: 56px; /* Slightly smaller on mobile */
+        line-height: 28px; /* Adjusted for mobile */
+    }
+
+    .form-label {
+        top: 16px; /* Adjusted for mobile input height */
+    }
+
+    .btn-primary,
+    .btn-lg {
+        padding: 10px; /* Kept smaller padding for mobile */
+        font-size: 1.1rem; /* Larger text on mobile too */
+    }
+}
+
+@media (max-width: 480px) {
+    .row {
+        padding: 24px 20px;
+        margin: 8px;
+    }
+
+    h1 {
+        font-size: 2rem; /* Smaller on very small screens */
+    }
+
+    h2 {
+        font-size: 1.2rem; /* Smaller on very small screens */
+    }
+}
+
+/* Focus Management */
+.form-control:focus-visible {
+    outline: 3px solid rgba(102, 126, 234, 0.5);
+    outline-offset: 2px;
+}
+
+.btn-primary:focus-visible {
+    outline: 3px solid rgba(102, 126, 234, 0.5);
+    outline-offset: 2px;
+}
+
+/* Button States */
+.btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
