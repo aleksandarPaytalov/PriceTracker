@@ -1,0 +1,209 @@
+﻿/* Colorful Register Confirmation Page Styles */
+
+.confirmation-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.confirmation-card {
+    max-width: 500px;
+    width: 100%;
+    padding: 2.5rem;
+    text-align: center;
+    position: relative;
+}
+
+.icon-success {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.confirmation-card h1 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-size: 1.85rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.message {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.email-info {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.25rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.label {
+    display: block;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.5rem;
+}
+
+.email {
+    font-weight: 600;
+    color: white;
+    word-break: break-all;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.actions {
+    margin: 2rem 0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.875rem 1.75rem;
+    margin: 0.5rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #5a67d8, #6b46c1);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+.btn-secondary {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+}
+
+    .btn-secondary:hover {
+        background: linear-gradient(135deg, #26d0ce, #2a9d8f);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(78, 205, 196, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+.help {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border-left: 4px solid #ff6b6b;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+    .help p {
+        margin-bottom: 1rem;
+        color: white;
+        font-weight: 600;
+    }
+
+    .help ul {
+        color: rgba(255, 255, 255, 0.9);
+        padding-left: 1.5rem;
+        margin: 0;
+    }
+
+    .help li {
+        margin-bottom: 0.75rem;
+        position: relative;
+    }
+
+        .help li::marker {
+            color: #ff6b6b;
+        }
+
+/* Development mode styles */
+.dev-mode {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+    .dev-mode p {
+        color: white;
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+
+.dev-note {
+    font-size: 0.9rem;
+    margin-top: 1rem !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+    .dev-note a {
+        color: #4fc3f7;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .dev-note a:hover {
+            text-decoration: underline;
+            color: white;
+        }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .confirmation-page {
+        padding: 1rem;
+    }
+
+    .confirmation-card {
+        padding: 2rem 1.5rem;
+    }
+
+        .confirmation-card h1 {
+            font-size: 1.6rem;
+        }
+
+    .btn {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+
+    .icon-success {
+        width: 60px;
+        height: 60px;
+        font-size: 1.75rem;
+    }
+}

@@ -1,8 +1,66 @@
 ﻿@page
 @model ConfirmEmailModel
 @{
-    ViewData["Title"] = "Confirm email";
+    ViewData["Title"] = "Confirm Email";
 }
 
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+@section Styles {
+    <link rel="stylesheet" href="~/css/confirm-email.css" asp-append-version="true" />
+}
+
+<div class="confirm-email-container">
+    <h1>@ViewData["Title"]</h1>
+    
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        @if (Model.StatusMessage.Contains("Thank you"))
+        {
+            <!-- Success Case -->
+            <div class="success-icon"></div>
+            <div class="status-message success">
+                @Model.StatusMessage
+            </div>
+            
+            <div class="email-info">
+                <strong>Your email has been successfully confirmed!</strong><br>
+                You can now access all features of PriceTracker.
+            </div>
+            
+            <div class="action-buttons">
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Go to Login</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Explore PriceTracker</a>
+            </div>
+        }
+        else
+        {
+            <!-- Error Case -->
+            <div class="error-icon"></div>
+            <div class="status-message error">
+                @Model.StatusMessage
+            </div>
+            
+            <div class="email-info">
+                <strong>Something went wrong!</strong><br>
+                The confirmation link may have expired or already been used.
+            </div>
+            
+            <div class="action-buttons">
+                <a asp-area="Identity" asp-page="/Account/ResendEmailConfirmation" class="btn btn-primary">Resend Confirmation</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
+            </div>
+        }
+    }
+    else
+    {
+        <!-- Default Case (shouldn't happen normally) -->
+        <div class="error-icon"></div>
+        <div class="status-message error">
+            No confirmation status available.
+        </div>
+        
+        <div class="action-buttons">
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Register</a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
+        </div>
+    }
+</div>
