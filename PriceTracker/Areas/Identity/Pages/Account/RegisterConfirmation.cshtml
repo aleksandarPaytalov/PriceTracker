@@ -1,23 +1,57 @@
 ﻿@page
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Register confirmation";
+    ViewData["Title"] = "Registration Confirmation";
 }
 
-<h1>@ViewData["Title"]</h1>
-@{
-    if (@Model.DisplayConfirmAccountLink)
-    {
-<p>
-    This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-</p>
-    }
-    else
-    {
-<p>
-        Please check your email to confirm your account.
-</p>
-    }
+@section Styles {
+    <link rel="stylesheet" href="~/css/register-confirmation.css" asp-append-version="true" />
 }
 
+<div class="confirmation-page">
+    <div class="confirmation-card">
+        <div class="icon-success">
+            ✓
+        </div>
+
+        <h1>@ViewData["Title"]</h1>
+
+        @if (Model.DisplayConfirmAccountLink)
+        {
+            <div class="dev-mode">
+                <p>This app does not currently have a real email sender registered.</p>
+                <a id="confirm-link" href="@Model.EmailConfirmationUrl" class="btn btn-primary">
+                    Click here to confirm your account
+                </a>
+            </div>
+        }
+        else
+        {
+            <p class="message">
+                Please check your email to confirm your account.
+            </p>
+
+            @if (!string.IsNullOrEmpty(Model.Email))
+            {
+                <div class="email-info">
+                    <span class="label">Email sent to:</span>
+                    <span class="email">@Model.Email</span>
+                </div>
+            }
+        }
+
+        <div class="actions">
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Go to Login</a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
+        </div>
+
+        <div class="help">
+            <p><strong>Didn't receive the email?</strong></p>
+            <ul>
+                <li>Check your spam folder</li>
+                <li>Make sure the email address is correct</li>
+                <li>Contact support if needed</li>
+            </ul>
+        </div>
+    </div>
+</div>
