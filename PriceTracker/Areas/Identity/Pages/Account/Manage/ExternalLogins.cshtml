@@ -5,49 +5,116 @@
     ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
 }
 
-<partial name="_StatusMessage" for="StatusMessage" />
-@if (Model.CurrentLogins?.Count > 0)
-{
-    <h3>Registered Logins</h3>
-    <table class="table">
-        <tbody>
-            @foreach (var login in Model.CurrentLogins)
-            {
-                <tr>
-                    <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName</td>
-                    <td>
-                        @if (Model.ShowRemoveButton)
-                        {
-                            <form id="@($"remove-login-{login.LoginProvider}")" asp-page-handler="RemoveLogin" method="post">
-                                <div>
+
+    <link rel="stylesheet" href="~/css/accountManage/external-login.css" asp-append-version="true" />
+
+
+<div class="external-logins-page">
+    <h3>@ViewData["Title"]</h3>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    @if (Model.CurrentLogins?.Count > 0)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Current Logins Section -->
+                <div class="section-title">
+                    🔗 Connected Accounts
+                </div>
+
+                <div class="current-logins-section">
+                    @foreach (var login in Model.CurrentLogins)
+                    {
+                        <div class="login-provider-card">
+                            <div class="provider-info">
+                                <div class="provider-icon provider-@login.LoginProvider.ToLower()">
+                                    <span>@login.LoginProvider.Substring(0, 1)</span>
+                                </div>
+                                <div class="provider-details">
+                                    <div class="provider-name" data-provider="@login.LoginProvider">@login.ProviderDisplayName</div>
+                                    <div class="provider-status">Connected</div>
+                                </div>
+                            </div>
+
+                            @if (Model.ShowRemoveButton)
+                            {
+                                <form id="@($"remove-login-{login.LoginProvider}")" asp-page-handler="RemoveLogin" method="post" class="remove-form">
                                     <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
                                     <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
-                                    <button type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">Remove</button>
-                                </div>
-                            </form>
-                        }
-                        else
-                        {
-                            @: &nbsp;
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-@if (Model.OtherLogins?.Count > 0)
-{
-    <h4>Add another service to log in.</h4>
-    <hr />
-    <form id="link-login-form" asp-page-handler="LinkLogin" method="post" class="form-horizontal">
-        <div id="socialLoginList">
-            <p>
-                @foreach (var provider in Model.OtherLogins)
-                {
-                    <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                }
-            </p>
+                                    <button type="submit" class="btn btn-danger btn-remove" title="Remove this @login.ProviderDisplayName login from your account">
+                                        Remove
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <div class="helper-text">
+                    You can remove external login providers that you no longer want to use. Note that you must have at least one way to sign in.
+                </div>
+            </div>
         </div>
-    </form>
+    }
+
+    @if (Model.OtherLogins?.Count > 0)
+    {
+        <div class="row add-login-section">
+            <div class="col-md-6">
+                <!-- Add New Logins Section -->
+                <div class="section-title">
+                    ➕ Add New Login Provider
+                </div>
+
+                <div class="add-providers-info">
+                    Connect additional login providers to make signing in easier and more secure.
+                </div>
+
+                <form id="link-login-form" asp-page-handler="LinkLogin" method="post" class="add-providers-form">
+                    <div class="available-providers">
+                        @foreach (var provider in Model.OtherLogins)
+                        {
+                            <button id="@($"link-login-button-{provider.Name}")"
+                                    type="submit"
+                                    class="btn btn-outline-primary provider-add-btn"
+                                    name="provider"
+                                    value="@provider.Name"
+                                    title="Connect your @provider.DisplayName account">
+                                <div class="add-provider-icon provider-@provider.Name.ToLower()">
+                                    <span>@provider.DisplayName.Substring(0, 1)</span>
+                                </div>
+                                <span>Connect @provider.DisplayName</span>
+                            </button>
+                        }
+                    </div>
+                </form>
+
+                <div class="security-notice">
+                    <div class="notice-icon">🛡️</div>
+                    <div class="notice-content">
+                        <h5>Security Benefits</h5>
+                        <p>Adding multiple login providers increases your account security and provides backup access options.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model.CurrentLogins?.Count == 0 && Model.OtherLogins?.Count == 0)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="no-providers-message">
+                    <div class="no-providers-icon">🔒</div>
+                    <h4>No External Login Providers Available</h4>
+                    <p>External login providers have not been configured for this application.</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
