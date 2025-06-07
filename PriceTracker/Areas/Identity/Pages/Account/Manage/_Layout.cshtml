@@ -1,5 +1,5 @@
 ﻿@{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
     {
         Layout = parentLayout.ToString();
     }
@@ -10,7 +10,6 @@
 }
 
 <h1>Manage your account</h1>
-
 <div>
     <h2>Change your account settings</h2>
     <hr />
@@ -23,6 +22,10 @@
         </div>
     </div>
 </div>
+
+@section Styles {
+    @RenderSection("Styles", required: false)
+}
 
 @section Scripts {
     @RenderSection("Scripts", required: false)

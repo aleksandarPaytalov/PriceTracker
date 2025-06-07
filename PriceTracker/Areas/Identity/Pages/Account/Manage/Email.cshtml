@@ -5,37 +5,84 @@
     ViewData["ActivePage"] = ManageNavPages.Email;
 }
 
-<h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="email-form" method="post">
-            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
-            @if (Model.IsEmailConfirmed)
-            {
-                <div class="form-floating mb-3 input-group">
-                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
-                        <div class="input-group-append">
-                            <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+@section Styles {
+    <link rel="stylesheet" href="~/css/accountManage/manage-email.css" asp-append-version="true" />
+}
+
+<div class="manage-email-page">
+    <h3>@ViewData["Title"]</h3>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form id="email-form" method="post">
+                <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+
+                <!-- Current Email Section -->
+                <div class="email-section-title">Current Email Address</div>
+
+                @if (Model.IsEmailConfirmed)
+                {
+                    <div class="email-status-section email-confirmed">
+                        <div class="status-indicator status-verified">
+                            <span>✓</span>
+                            <span>Verified</span>
                         </div>
-                    <label asp-for="Email" class="form-label"></label>
-                </div>
-            }
-            else
-            {
+
+                        <div class="form-floating mb-3 input-group">
+                            <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
+                            <div class="input-group-append">
+                                <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                            </div>
+                            <label asp-for="Email" class="form-label"></label>
+                        </div>
+
+                        <div class="helper-text">
+                            Your email address is verified and active. You can change it below if needed.
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="email-status-section email-unconfirmed">
+                        <div class="status-indicator status-pending">
+                            <span>⚠</span>
+                            <span>Unverified</span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
+                            <label asp-for="Email" class="form-label"></label>
+                        </div>
+
+                        <div class="helper-text">
+                            Your email address needs verification.
+                            <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">
+                                Send verification email
+                            </button>
+                        </div>
+                    </div>
+                }
+
+                <!-- Change Email Section -->
+                <div class="email-section-title">Change Email Address</div>
+
                 <div class="form-floating mb-3">
-                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
-                    <label asp-for="Email" class="form-label"></label>
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                    <input asp-for="Input.NewEmail" class="form-control" autocomplete="off" aria-required="true" placeholder="Please enter new email." />
+                    <label asp-for="Input.NewEmail" class="form-label"></label>
+                    <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
                 </div>
-            }
-            <div class="form-floating mb-3">
-                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Please enter new email." />
-                <label asp-for="Input.NewEmail" class="form-label"></label>
-                <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
-            </div>
-            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">Change email</button>
-        </form>
+
+                <div class="helper-text">
+                    Enter a new email address to update your account. You'll need to verify the new email before it becomes active.
+                </div>
+
+                <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">
+                    Change Email Address
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 
