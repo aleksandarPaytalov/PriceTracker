@@ -1,8 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PriceTracker.Infrastructure.Data.Models;
@@ -10,92 +6,133 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PriceTracker.Areas.Identity.Pages.Account.Manage
 {
-    public class DeletePersonalDataModel : PageModel
-    {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<DeletePersonalDataModel> _logger;
+	public class DeletePersonalDataModel : PageModel
+	{
+		private readonly UserManager<User> _userManager;
+		private readonly SignInManager<User> _signInManager;
+		private readonly ILogger<DeletePersonalDataModel> _logger;
 
-        public DeletePersonalDataModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-        }
+		public DeletePersonalDataModel(
+			UserManager<User> userManager,
+			SignInManager<User> signInManager,
+			ILogger<DeletePersonalDataModel> logger)
+		{
+			_userManager = userManager;
+			_signInManager = signInManager;
+			_logger = logger;
+		}
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [BindProperty]
-        public InputModel Input { get; set; }
+		/// <summary>
+		/// Input model for account deletion
+		/// </summary>
+		[BindProperty]
+		public InputModel Input { get; set; } = new();
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public class InputModel
-        {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [DataType(DataType.Password)]
-            public string Password { get; set; }
-        }
+		/// <summary>
+		/// Input model class for deletion form
+		/// </summary>
+		public class InputModel
+		{
+			/// <summary>
+			/// User's current password for verification
+			/// </summary>
+			[Required]
+			[DataType(DataType.Password)]
+			public string Password { get; set; } = string.Empty;
+		}
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public bool RequirePassword { get; set; }
+		/// <summary>
+		/// Whether password is required for this user
+		/// </summary>
+		public bool RequirePassword { get; set; }
 
-        public async Task<IActionResult> OnGet()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+		/// <summary>
+		/// Load the deletion page
+		/// </summary>
+		public async Task<IActionResult> OnGet()
+		{
+			var user = await _userManager.GetUserAsync(User);
+			if (user == null)
+			{
+				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+			}
 
-            RequirePassword = await _userManager.HasPasswordAsync(user);
-            return Page();
-        }
+			RequirePassword = await _userManager.HasPasswordAsync(user);
+			return Page();
+		}
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+		/// <summary>
+		/// Handle account deletion request
+		/// </summary>
+		public async Task<IActionResult> OnPostAsync()
+		{
+			var user = await _userManager.GetUserAsync(User);
+			if (user == null)
+			{
+				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+			}
 
-            RequirePassword = await _userManager.HasPasswordAsync(user);
-            if (RequirePassword)
-            {
-                if (!await _userManager.CheckPasswordAsync(user, Input.Password))
-                {
-                    ModelState.AddModelError(string.Empty, "Incorrect password.");
-                    return Page();
-                }
-            }
+			RequirePassword = await _userManager.HasPasswordAsync(user);
+			if (RequirePassword)
+			{
+				if (!await _userManager.CheckPasswordAsync(user, Input.Password))
+				{
+					ModelState.AddModelError(string.Empty, "Incorrect password.");
+					return Page();
+				}
+			}
 
-            var result = await _userManager.DeleteAsync(user);
-            var userId = await _userManager.GetUserIdAsync(user);
-            if (!result.Succeeded)
-            {
-                throw new InvalidOperationException($"Unexpected error occurred deleting user.");
-            }
+			_logger.LogWarning("User with ID '{UserId}' is deleting their account.", user.Id);
 
-            await _signInManager.SignOutAsync();
+			try
+			{
+				// Delete all user-related data before deleting the user
+				await DeleteUserRelatedDataAsync(user);
 
-            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+				// Delete the user account
+				var result = await _userManager.DeleteAsync(user);
+				var userId = await _userManager.GetUserIdAsync(user);
 
-            return Redirect("~/");
-        }
-    }
+				if (!result.Succeeded)
+				{
+					throw new InvalidOperationException($"Unexpected error occurred deleting user.");
+				}
+
+				// Sign out the user
+				await _signInManager.SignOutAsync();
+
+				_logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+
+				return Redirect("~/");
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error occurred while deleting account for user {UserId}", user.Id);
+				ModelState.AddModelError(string.Empty, "An error occurred while deleting your account. Please try again.");
+				return Page();
+			}
+		}
+
+		/// <summary>
+		/// Delete all user-related data before deleting the account
+		/// </summary>
+		private async Task DeleteUserRelatedDataAsync(User user)
+		{
+			_logger.LogInformation("Deleting all related data for user {UserId}", user.Id);
+
+			// This is where you would delete all user-related data from your application
+			// For example:
+			// - Price tracking data
+			// - User preferences  
+			// - Notifications
+			// - etc.
+
+			// TODO: Implement deletion of user-related data when services are available
+			// await _priceTrackingService.DeleteUserDataAsync(user.Id);
+			// await _notificationService.DeleteUserNotificationsAsync(user.Id);
+			// await _userPreferencesService.DeleteUserPreferencesAsync(user.Id);
+
+			await Task.CompletedTask; // Placeholder
+		}
+	}
 }

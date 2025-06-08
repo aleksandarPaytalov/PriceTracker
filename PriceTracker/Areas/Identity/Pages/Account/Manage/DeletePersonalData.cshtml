@@ -5,29 +5,79 @@
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@ViewData["Title"]</h3>
+<link rel="stylesheet" href="~/css/accountManage/delete-personal-data.css" asp-append-version="true" />
 
-<div class="alert alert-warning" role="alert">
-    <p>
-        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-    </p>
-</div>
+<div class="delete-personal-data-page">
+    <h3>@ViewData["Title"]</h3>
 
-<div>
-    <form id="delete-user" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-        @if (Model.RequirePassword)
-        {
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Please enter your password." />
-                <label asp-for="Input.Password" class="form-label"></label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Warning Section -->
+            <div class="section-title danger-title">
+                ⚠️ Critical Warning
             </div>
-        }
-        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete data and close my account</button>
-    </form>
+
+            <div class="warning-section">
+                <div class="warning-card">
+                    <div class="warning-content">
+                        <div class="alert alert-warning" role="alert">
+                            <p>
+                                <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+                            </p>
+                        </div>
+
+                        <p>This action will permanently remove:</p>
+                        <ul>
+                            <li>Your personal information</li>
+                            <li>All price tracking data</li>
+                            <li>Account settings and preferences</li>
+                            <li>All historical data</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- Deletion Form Section -->
+            <div class="section-title">
+                🗑️ Account Deletion
+            </div>
+
+            <div class="deletion-form-section">
+                <form id="delete-user" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                    @if (Model.RequirePassword)
+                    {
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Please enter your password." />
+                            <label asp-for="Input.Password" class="form-label"></label>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                    }
+
+                    <button class="w-100 btn btn-lg btn-danger" type="submit">Delete data and close my account</button>
+                </form>
+
+                <!-- Alternative Actions -->
+                <div class="alternative-actions">
+                    <p class="mt-4 mb-3"><strong>Before you delete your account, consider:</strong></p>
+                    <div class="action-links">
+                        <a href="~/Identity/Account/Manage/PersonalData" class="btn btn-outline-primary btn-sm">
+                            📥 Download Your Data First
+                        </a>
+                        <a href="~/Identity/Account/Manage" class="btn btn-outline-secondary btn-sm">
+                            ↩️ Go Back to Account Settings
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/delete-personal-data.js" asp-append-version="true"></script>
 }
