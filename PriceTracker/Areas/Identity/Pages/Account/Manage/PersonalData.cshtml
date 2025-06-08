@@ -5,20 +5,56 @@
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@ViewData["Title"]</h3>
+<link rel="stylesheet" href="~/css/accountManage/personal-data.css" asp-append-version="true" />
 
-<div class="row">
-    <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
-        <form id="download-data" asp-page="DownloadPersonalData" method="post">
-            <button class="btn btn-primary" type="submit">Download</button>
-        </form>
-        <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Delete</a>
-        </p>
+<div class="personal-data-page">
+    <h3>@ViewData["Title"]</h3>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Data Management Section -->
+            <div class="section-title">
+                🔐 Your Personal Data
+            </div>
+
+            <div class="data-management-section">
+                <div class="info-card">
+                    <div class="card-content">
+                        <p>Your account contains personal data that you have given us. This page allows you to:</p>
+                        <ul>
+                            <li>Download a copy of your personal data</li>
+                            <li>Delete your account and associated data</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="actions-container">
+                    <div class="action-card">
+                        <div class="action-icon">📥</div>
+                        <div class="action-details">
+                            <h4>Download Your Data</h4>
+                            <p>Get a copy of all your personal information</p>
+                            <form id="download-data" asp-page="DownloadPersonalData" method="post">
+                                <button class="btn btn-primary action-button" type="submit">
+                                    Download Data
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="action-card warning">
+                        <div class="action-icon">⚠️</div>
+                        <div class="action-details">
+                            <h4>Delete Account</h4>
+                            <p class="warning-text">Deleting this data will permanently remove your account, and this cannot be recovered.</p>
+                            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger action-button">
+                                Delete Account
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
