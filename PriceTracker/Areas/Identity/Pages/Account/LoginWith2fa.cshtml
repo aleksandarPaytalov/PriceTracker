@@ -2,38 +2,207 @@
 @model LoginWith2faModel
 @{
     ViewData["Title"] = "Two-factor authentication";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
-<p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
-            <input asp-for="RememberMe" type="hidden" />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />
-                <label asp-for="Input.TwoFactorCode" class="form-label"></label>
-                <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
+<!-- Add some nice styling without conflicts -->
+<style>
+    .auth-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 2rem 1rem;
+    }
+
+    .auth-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .auth-header {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .auth-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        animation: pulse 2s infinite;
+    }   
+
+    .code-input {
+        font-size: 24px !important;
+        text-align: center !important;
+        letter-spacing: 4px !important;
+        font-family: 'Courier New', monospace !important;
+        padding: 15px !important;
+        border: 2px solid #e9ecef !important;
+        border-radius: 10px !important;
+        transition: border-color 0.3s ease !important;
+    }
+
+        .code-input:focus {
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
+        }
+
+    .btn-auth {
+        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+        border: none !important;
+        padding: 12px 24px !important;
+        font-weight: 600 !important;
+        border-radius: 10px !important;
+        transition: transform 0.2s ease !important;
+    }
+
+        .btn-auth:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3) !important;
+        }
+
+    .debug-info {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1.5rem;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+    }
+</style>
+
+<div class="auth-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="auth-card">
+
+                    <!-- Beautiful Header -->
+                    <div class="auth-header">
+                        <div class="auth-icon">🛡️</div>
+                        <h2 class="mb-0">Two-Factor Authentication</h2>
+                        <p class="mb-0 mt-2 opacity-75">Enter your authenticator code to complete sign in</p>
+                    </div>
+
+                    <!-- Form Body -->
+                    <div class="p-4">
+                        <!-- WORKING FORM (keep this structure!) -->
+                        <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+
+                            <input asp-for="RememberMe" type="hidden" />
+
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                            <!-- Enhanced 2FA Code Input -->
+                            <div class="mb-4">
+                                <label asp-for="Input.TwoFactorCode" class="form-label fw-semibold">
+                                    <i class="bi bi-shield-lock me-2"></i>Authenticator Code
+                                </label>
+                                <input asp-for="Input.TwoFactorCode"
+                                       class="form-control code-input"
+                                       type="text"
+                                       maxlength="6"
+                                       autocomplete="off"
+                                       placeholder="000000"
+                                       title="Enter the 6-digit code from your authenticator app" />
+                                <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
+                                <div class="form-text mt-2">
+                                    <small class="text-muted">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Enter the 6-digit code from your authenticator app
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Remember Machine Checkbox -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input asp-for="Input.RememberMachine"
+                                           type="checkbox"
+                                           class="form-check-input" />
+                                    <label asp-for="Input.RememberMachine" class="form-check-label">
+                                        <i class="bi bi-laptop me-2"></i>
+                                        @Html.DisplayNameFor(m => m.Input.RememberMachine)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-auth w-100 text-white">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Verify & Sign In
+                            </button>
+                        </form>
+
+                        <!-- Alternative Link -->
+                        <div class="text-center mt-4">
+                            <p class="mb-2">Having trouble?</p>
+                            <a asp-page="./LoginWithRecoveryCode"
+                               asp-route-returnUrl="@Model.ReturnUrl"
+                               class="text-decoration-none">
+                                <i class="bi bi-key me-1"></i>
+                                Use a recovery code
+                            </a>
+                        </div>
+
+                        <!-- Security Notice -->
+                        <div class="alert alert-info mt-4" role="alert">
+                            <i class="bi bi-shield-exclamation me-2"></i>
+                            <strong>Security Notice:</strong> Never share your authenticator codes with anyone.
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="checkbox mb-3">
-                <label asp-for="Input.RememberMachine" class="form-label">
-                    <input asp-for="Input.RememberMachine" />
-                    @Html.DisplayNameFor(m => m.Input.RememberMachine)
-                </label>
-            </div>
-            <div>
-                <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-<p>
-    Don't have access to your authenticator device? You can
-    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">log in with a recovery code</a>.
-</p>
 
-@section Scripts {
+ @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <!-- Simple, non-conflicting JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-focus on the code input
+            const codeInput = document.querySelector('input[name="Input.TwoFactorCode"]');
+            if (codeInput) {
+                codeInput.focus();
+
+                // Auto-format input (numbers only)
+                codeInput.addEventListener('input', function(e) {
+                    // Only allow numbers
+                    this.value = this.value.replace(/[^0-9]/g, '');
+
+                    // Auto-submit when 6 digits entered (optional)
+                    if (this.value.length === 6) {
+                        // Add subtle visual feedback
+                        this.style.borderColor = '#28a745';
+                        this.style.backgroundColor = '#f8fff9';
+                    } else {
+                        this.style.borderColor = '#667eea';
+                        this.style.backgroundColor = 'white';
+                    }
+                });
+
+                // Handle paste events
+                codeInput.addEventListener('paste', function(e) {
+                    setTimeout(() => {
+                        this.value = this.value.replace(/[^0-9]/g, '').substring(0, 6);
+                    }, 10);
+                });
+            }
+
+            // Form submission feedback
+            document.querySelector('form').addEventListener('submit', function() {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="spinner-border spinner-border-sm me-2"></i>Verifying...';
+                submitBtn.disabled = true;
+            });
+        });
+    </script>
 }
