@@ -2,38 +2,99 @@
 @model LoginWith2faModel
 @{
     ViewData["Title"] = "Two-factor authentication";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
-<p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
-            <input asp-for="RememberMe" type="hidden" />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />
-                <label asp-for="Input.TwoFactorCode" class="form-label"></label>
-                <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
+<link href="~/css/login-with-2fa.css" rel="stylesheet" />
+
+<link href=""/>
+<div class="auth-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="auth-card">
+
+                    <!-- Beautiful Header -->
+                    <div class="auth-header">
+                        <div class="auth-icon">🛡️</div>
+                        <h2 class="mb-0">Two-Factor Authentication</h2>
+                        <p class="mb-0 mt-2 opacity-75">Enter your authenticator code to complete sign in</p>
+                    </div>
+
+                    <!-- Form Body -->
+                    <div class="p-4">
+                        <!-- WORKING FORM (keep this structure!) -->
+                        <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+
+                            <input asp-for="RememberMe" type="hidden" />
+
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                            <!-- Enhanced 2FA Code Input -->
+                            <div class="mb-4">
+                                <label asp-for="Input.TwoFactorCode" class="form-label fw-semibold">
+                                    <i class="bi bi-shield-lock me-2"></i>Authenticator Code
+                                </label>
+                                <input asp-for="Input.TwoFactorCode"
+                                       class="form-control code-input"
+                                       type="text"
+                                       maxlength="6"
+                                       autocomplete="off"
+                                       placeholder="000000"
+                                       title="Enter the 6-digit code from your authenticator app" />
+                                <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
+                                <div class="form-text mt-2">
+                                    <small class="text-muted">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Enter the 6-digit code from your authenticator app
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Remember Machine Checkbox -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input asp-for="Input.RememberMachine"
+                                           type="checkbox"
+                                           class="form-check-input" />
+                                    <label asp-for="Input.RememberMachine" class="form-check-label">
+                                        <i class="bi bi-laptop me-2"></i>
+                                        @Html.DisplayNameFor(m => m.Input.RememberMachine)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-auth w-100 text-white">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Verify & Sign In
+                            </button>
+                        </form>
+
+                        <!-- Alternative Link -->
+                        <div class="text-center mt-4">
+                            <p class="mb-2">Having trouble?</p>
+                            <a asp-page="./LoginWithRecoveryCode"
+                               asp-route-returnUrl="@Model.ReturnUrl"
+                               class="text-decoration-none">
+                                <i class="bi bi-key me-1"></i>
+                                Use a recovery code
+                            </a>
+                        </div>
+
+                        <!-- Security Notice -->
+                        <div class="alert alert-info mt-4" role="alert">
+                            <i class="bi bi-shield-exclamation me-2"></i>
+                            <strong>Security Notice:</strong> Never share your authenticator codes with anyone.
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="checkbox mb-3">
-                <label asp-for="Input.RememberMachine" class="form-label">
-                    <input asp-for="Input.RememberMachine" />
-                    @Html.DisplayNameFor(m => m.Input.RememberMachine)
-                </label>
-            </div>
-            <div>
-                <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-<p>
-    Don't have access to your authenticator device? You can
-    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">log in with a recovery code</a>.
-</p>
 
-@section Scripts {
+ @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/login-with-2fa.js" asp-append-version="true"></script>
 }

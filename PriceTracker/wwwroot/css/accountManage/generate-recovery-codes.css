@@ -1,0 +1,285 @@
+﻿/* Generate Recovery Codes - Simple & Clean Design */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --danger-gradient: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    --background-light: #f8fafc;
+    --background-card: #ffffff;
+    --text-dark: #2d3748;
+    --text-medium: #4a5568;
+    --text-light: #718096;
+    --text-white: #ffffff;
+    --text-danger: #dc2626;
+    --border-color: #e2e8f0;
+    --border-danger: #dc2626;
+    --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* Base Styles */
+.generate-recovery-codes-page {
+    background: var(--background-light);
+    min-height: calc(100vh - 200px);
+    padding: 2rem 1rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Headers */
+h3 {
+    color: var(--text-dark);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Main Content */
+.main-content {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--background-card);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+}
+
+    .main-content:hover {
+        box-shadow: var(--shadow-hover);
+    }
+
+/* Warning Section */
+.warning-section {
+    margin-bottom: 2rem;
+}
+
+.warning-card {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    border: 2px solid var(--border-danger);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+    .warning-card h4 {
+        color: var(--text-danger);
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .warning-card p {
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+
+        .warning-card p:last-child {
+            margin-bottom: 0;
+        }
+
+.info-card {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border: 2px solid #3b82f6;
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: var(--text-dark);
+}
+
+    .info-card p {
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .info-card a {
+        color: #1d4ed8;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .info-card a:hover {
+            text-decoration: underline;
+        }
+
+/* Generation Section */
+.generation-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.generation-form {
+    padding: 1.5rem;
+    background: rgba(220, 38, 38, 0.05);
+    border-radius: 12px;
+    border: 2px solid rgba(220, 38, 38, 0.2);
+}
+
+/* Generate Button */
+.generate-btn {
+    background: var(--danger-gradient);
+    color: var(--text-white);
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    min-width: 200px;
+}
+
+    .generate-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+        color: var(--text-white);
+    }
+
+    .generate-btn:active {
+        transform: translateY(0);
+    }
+
+    .generate-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+/* Back Section */
+.back-section {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.back-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+    .back-link:hover {
+        color: #5a67d8;
+        text-decoration: underline;
+        transform: translateX(-2px);
+    }
+
+/* Status Messages */
+.alert {
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    border: none;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    color: #065f46;
+    border-left: 4px solid #10b981;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+/* Loading State */
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+}
+
+    .btn-loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .generate-recovery-codes-page {
+        padding: 1rem 0.5rem;
+    }
+
+    .main-content {
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .warning-card,
+    .info-card {
+        padding: 1.25rem;
+    }
+
+    .generation-form {
+        padding: 1.25rem;
+    }
+
+    .generate-btn {
+        width: 100%;
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .generate-recovery-codes-page {
+        padding: 0.5rem 0.25rem;
+    }
+
+    .main-content {
+        padding: 1rem;
+        margin: 0;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    .warning-card,
+    .info-card,
+    .generation-form {
+        padding: 1rem;
+    }
+}
+
+/* Focus Management for Accessibility */
+.generate-btn:focus-visible,
+.back-link:focus-visible {
+    outline: 3px solid rgba(102, 126, 234, 0.5);
+    outline-offset: 2px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

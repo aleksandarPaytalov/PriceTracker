@@ -1,0 +1,67 @@
+﻿.auth-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.auth-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.auth-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+}
+
+.code-input {
+    font-size: 24px !important;
+    text-align: center !important;
+    letter-spacing: 4px !important;
+    font-family: 'Courier New', monospace !important;
+    padding: 15px !important;
+    border: 2px solid #e9ecef !important;
+    border-radius: 10px !important;
+    transition: border-color 0.3s ease !important;
+}
+
+    .code-input:focus {
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
+    }
+
+.btn-auth {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    transition: transform 0.2s ease !important;
+}
+
+    .btn-auth:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3) !important;
+    }
+
+.debug-info {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+}

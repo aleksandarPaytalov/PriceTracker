@@ -1,6 +1,6 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
+﻿// ==========================================
+// COMPLETE LoginWith2fa.cshtml.cs (Areas/Identity/Pages/Account/)
+// ==========================================
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,118 +10,245 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PriceTracker.Areas.Identity.Pages.Account
 {
-    public class LoginWith2faModel : PageModel
-    {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
-        private readonly ILogger<LoginWith2faModel> _logger;
+	public class LoginWith2faModel : PageModel
+	{
+		private readonly SignInManager<User> _signInManager;
+		private readonly UserManager<User> _userManager;
+		private readonly ILogger<LoginWith2faModel> _logger;
 
-        public LoginWith2faModel(
-            SignInManager<User> signInManager,
-            UserManager<User> userManager,
-            ILogger<LoginWith2faModel> logger)
-        {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _logger = logger;
-        }
+		public LoginWith2faModel(
+			SignInManager<User> signInManager,
+			UserManager<User> userManager,
+			ILogger<LoginWith2faModel> logger)
+		{
+			_signInManager = signInManager;
+			_userManager = userManager;
+			_logger = logger;
+		}
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [BindProperty]
-        public InputModel Input { get; set; }
+		// ==========================================
+		// CRITICAL: Properly bound properties
+		// ==========================================
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public bool RememberMe { get; set; }
+		[BindProperty]
+		public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public string ReturnUrl { get; set; }
+		public bool RememberMe { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public class InputModel
-        {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Text)]
-            [Display(Name = "Authenticator code")]
-            public string TwoFactorCode { get; set; }
+		public string ReturnUrl { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Display(Name = "Remember this machine")]
-            public bool RememberMachine { get; set; }
-        }
+		// ==========================================
+		// FIXED: Enhanced InputModel with validation
+		// ==========================================
+		public class InputModel
+		{
+			[Required(ErrorMessage = "Please enter your authenticator code.")]
+			[StringLength(6, ErrorMessage = "The authenticator code must be exactly {1} digits.", MinimumLength = 6)]
+			[DataType(DataType.Text)]
+			[Display(Name = "Authenticator code")]
+			[RegularExpression(@"^\d{6}$", ErrorMessage = "Please enter exactly 6 digits.")]
+			public string TwoFactorCode { get; set; } = string.Empty; // Initialize to prevent null
 
-        public async Task<IActionResult> OnGetAsync(bool rememberMe, string returnUrl = null)
-        {
-            // Ensure the user has gone through the username & password screen first
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+			[Display(Name = "Remember this machine")]
+			public bool RememberMachine { get; set; }
+		}
 
-            if (user == null)
-            {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
-            }
+		// ==========================================
+		// OnGetAsync with debugging
+		// ==========================================
+		public async Task<IActionResult> OnGetAsync(bool rememberMe, string returnUrl = null)
+		{
+			_logger.LogInformation("=== 2FA GET REQUEST ===");
+			_logger.LogInformation($"RememberMe: {rememberMe}");
+			_logger.LogInformation($"ReturnUrl: {returnUrl}");
 
-            ReturnUrl = returnUrl;
-            RememberMe = rememberMe;
+			// Initialize Input if null
+			if (Input == null)
+			{
+				Input = new InputModel();
+				_logger.LogInformation("Input model initialized");
+			}
 
-            return Page();
-        }
+			// Check for TwoFactorUserId cookie
+			var twoFactorCookie = Request.Cookies[IdentityConstants.TwoFactorUserIdScheme];
+			_logger.LogInformation($"TwoFactorUserId cookie: {(string.IsNullOrEmpty(twoFactorCookie) ? "NULL" : "EXISTS")}");
 
-        public async Task<IActionResult> OnPostAsync(bool rememberMe, string returnUrl = null)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+			// Ensure the user has gone through the username & password screen first
+			var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
 
-            returnUrl = returnUrl ?? Url.Content("~/");
+			if (user == null)
+			{
+				_logger.LogError("Unable to load two-factor authentication user");
+				throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+			}
 
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
-            }
+			_logger.LogInformation($"2FA user loaded: {user.Email}");
 
-            var authenticatorCode = Input.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
+			ReturnUrl = returnUrl;
+			RememberMe = rememberMe;
 
-            var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, Input.RememberMachine);
+			return Page();
+		}
 
-            var userId = await _userManager.GetUserIdAsync(user);
+		// ==========================================
+		// OnPostAsync with comprehensive debugging
+		// ==========================================
+		public async Task<IActionResult> OnPostAsync(bool rememberMe, string returnUrl = null)
+		{
+			_logger.LogInformation("=== 2FA POST REQUEST START ===");
 
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User with ID '{UserId}' logged in with 2fa.", user.Id);
-                return LocalRedirect(returnUrl);
-            }
-            else if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User with ID '{UserId}' account locked out.", user.Id);
-                return RedirectToPage("./Lockout");
-            }
-            else
-            {
-                _logger.LogWarning("Invalid authenticator code entered for user with ID '{UserId}'.", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
-                return Page();
-            }
-        }
-    }
+			// ==========================================
+			// CRITICAL: Check Input object
+			// ==========================================
+			if (Input == null)
+			{
+				_logger.LogError("❌ Input object is NULL!");
+
+				// Try to create a new Input and bind manually
+				Input = new InputModel();
+
+				// Manual binding attempt
+				var twoFactorCodeValue = Request.Form["Input.TwoFactorCode"].FirstOrDefault()
+					?? Request.Form["TwoFactorCode"].FirstOrDefault()
+					?? Request.Form["Input_TwoFactorCode"].FirstOrDefault();
+
+				var rememberMachineValue = Request.Form["Input.RememberMachine"].FirstOrDefault()
+					?? Request.Form["RememberMachine"].FirstOrDefault()
+					?? Request.Form["Input_RememberMachine"].FirstOrDefault();
+
+				_logger.LogInformation($"Manual binding attempt:");
+				_logger.LogInformation($"  TwoFactorCode from form: '{twoFactorCodeValue}'");
+				_logger.LogInformation($"  RememberMachine from form: '{rememberMachineValue}'");
+
+				if (!string.IsNullOrEmpty(twoFactorCodeValue))
+				{
+					Input.TwoFactorCode = twoFactorCodeValue;
+				}
+
+				if (bool.TryParse(rememberMachineValue, out bool rememberMachineParsed))
+				{
+					Input.RememberMachine = rememberMachineParsed;
+				}
+			}
+
+			// ==========================================
+			// SAFE: Handle potentially null TwoFactorCode
+			// ==========================================
+			var rawCode = Input?.TwoFactorCode ?? string.Empty;
+			var cleanCode = rawCode.Replace(" ", "").Replace("-", "");
+
+			_logger.LogInformation($"Raw code: '{rawCode}'");
+			_logger.LogInformation($"Clean code: '{cleanCode}'");
+			_logger.LogInformation($"Code length: {cleanCode.Length}");
+			_logger.LogInformation($"RememberMe: {rememberMe}");
+			_logger.LogInformation($"Input.RememberMachine: {Input?.RememberMachine ?? false}");
+			_logger.LogInformation($"ReturnUrl: {returnUrl}");
+
+			// ==========================================
+			// DEBUG: Log all form data
+			// ==========================================
+			_logger.LogInformation("=== FORM DATA ===");
+			foreach (var formField in Request.Form)
+			{
+				_logger.LogInformation($"  {formField.Key} = '{formField.Value}'");
+			}
+
+			// ==========================================
+			// DEBUG: Check ModelState
+			// ==========================================
+			_logger.LogInformation($"ModelState.IsValid: {ModelState.IsValid}");
+			if (!ModelState.IsValid)
+			{
+				_logger.LogWarning("ModelState errors:");
+				foreach (var modelError in ModelState)
+				{
+					foreach (var error in modelError.Value.Errors)
+					{
+						_logger.LogWarning($"  [{modelError.Key}]: {error.ErrorMessage}");
+					}
+				}
+			}
+
+			// ==========================================
+			// VALIDATION: Check if code is provided
+			// ==========================================
+			if (string.IsNullOrWhiteSpace(cleanCode))
+			{
+				_logger.LogWarning("❌ No 2FA code provided");
+				ModelState.AddModelError(nameof(Input.TwoFactorCode), "Please enter your authenticator code.");
+				return Page();
+			}
+
+			if (cleanCode.Length != 6)
+			{
+				_logger.LogWarning($"❌ Invalid code length: {cleanCode.Length} (expected 6)");
+				ModelState.AddModelError(nameof(Input.TwoFactorCode), "Authenticator code must be exactly 6 digits.");
+				return Page();
+			}
+
+			returnUrl = returnUrl ?? Url.Content("~/");
+
+			// ==========================================
+			// Get and validate user
+			// ==========================================
+			var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+			if (user == null)
+			{
+				_logger.LogError("❌ GetTwoFactorAuthenticationUserAsync returned null");
+				throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+			}
+
+			_logger.LogInformation($"✅ 2FA user loaded: {user.Email}");
+
+			// ==========================================
+			// Check user's 2FA setup
+			// ==========================================
+			var authenticatorKey = await _userManager.GetAuthenticatorKeyAsync(user);
+			var isTwoFactorEnabled = await _userManager.GetTwoFactorEnabledAsync(user);
+
+			_logger.LogInformation($"Has authenticator key: {!string.IsNullOrEmpty(authenticatorKey)}");
+			_logger.LogInformation($"2FA enabled: {isTwoFactorEnabled}");
+
+			if (string.IsNullOrEmpty(authenticatorKey) || !isTwoFactorEnabled)
+			{
+				_logger.LogError("❌ 2FA not properly configured for user");
+				ModelState.AddModelError(string.Empty, "Two-factor authentication is not properly set up.");
+				return Page();
+			}
+
+			// ==========================================
+			// Manual TOTP verification
+			// ==========================================
+			_logger.LogInformation("=== MANUAL TOTP TEST ===");
+			var isValidManual = await _userManager.VerifyTwoFactorTokenAsync(
+				user, TokenOptions.DefaultAuthenticatorProvider, cleanCode);
+			_logger.LogInformation($"Manual verification: {isValidManual}");
+
+			// ==========================================
+			// Official sign-in attempt
+			// ==========================================
+			_logger.LogInformation("=== SIGN-IN ATTEMPT ===");
+			var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(
+				cleanCode, rememberMe, Input?.RememberMachine ?? false);
+
+			_logger.LogInformation($"SignIn result: Succeeded={result.Succeeded}, IsLockedOut={result.IsLockedOut}");
+
+			if (result.Succeeded)
+			{
+				_logger.LogInformation("✅ 2FA login successful!");
+				return LocalRedirect(returnUrl);
+			}
+			else if (result.IsLockedOut)
+			{
+				_logger.LogWarning("❌ User account locked out");
+				return RedirectToPage("./Lockout");
+			}
+			else
+			{
+				_logger.LogWarning("❌ 2FA login failed");
+				ModelState.AddModelError(string.Empty, "Invalid authenticator code. Please check your app and try again.");
+				return Page();
+			}
+		}
+	}
 }
