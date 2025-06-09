@@ -5,77 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Add some nice styling without conflicts -->
-<style>
-    .auth-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        padding: 2rem 1rem;
-    }
+<link href="~/css/login-with-2fa.css" rel="stylesheet" />
 
-    .auth-card {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-    }
-
-    .auth-header {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .auth-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        animation: pulse 2s infinite;
-    }   
-
-    .code-input {
-        font-size: 24px !important;
-        text-align: center !important;
-        letter-spacing: 4px !important;
-        font-family: 'Courier New', monospace !important;
-        padding: 15px !important;
-        border: 2px solid #e9ecef !important;
-        border-radius: 10px !important;
-        transition: border-color 0.3s ease !important;
-    }
-
-        .code-input:focus {
-            border-color: #667eea !important;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
-        }
-
-    .btn-auth {
-        background: linear-gradient(135deg, #667eea, #764ba2) !important;
-        border: none !important;
-        padding: 12px 24px !important;
-        font-weight: 600 !important;
-        border-radius: 10px !important;
-        transition: transform 0.2s ease !important;
-    }
-
-        .btn-auth:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3) !important;
-        }
-
-    .debug-info {
-        background: #f8f9fa;
-        border: 1px solid #dee2e6;
-        border-radius: 8px;
-        padding: 1rem;
-        margin-top: 1.5rem;
-        font-family: 'Courier New', monospace;
-        font-size: 12px;
-    }
-</style>
-
+<link href=""/>
 <div class="auth-container">
     <div class="container">
         <div class="row justify-content-center">
@@ -164,45 +96,5 @@
 
  @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
-    <!-- Simple, non-conflicting JavaScript -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Auto-focus on the code input
-            const codeInput = document.querySelector('input[name="Input.TwoFactorCode"]');
-            if (codeInput) {
-                codeInput.focus();
-
-                // Auto-format input (numbers only)
-                codeInput.addEventListener('input', function(e) {
-                    // Only allow numbers
-                    this.value = this.value.replace(/[^0-9]/g, '');
-
-                    // Auto-submit when 6 digits entered (optional)
-                    if (this.value.length === 6) {
-                        // Add subtle visual feedback
-                        this.style.borderColor = '#28a745';
-                        this.style.backgroundColor = '#f8fff9';
-                    } else {
-                        this.style.borderColor = '#667eea';
-                        this.style.backgroundColor = 'white';
-                    }
-                });
-
-                // Handle paste events
-                codeInput.addEventListener('paste', function(e) {
-                    setTimeout(() => {
-                        this.value = this.value.replace(/[^0-9]/g, '').substring(0, 6);
-                    }, 10);
-                });
-            }
-
-            // Form submission feedback
-            document.querySelector('form').addEventListener('submit', function() {
-                const submitBtn = this.querySelector('button[type="submit"]');
-                submitBtn.innerHTML = '<i class="spinner-border spinner-border-sm me-2"></i>Verifying...';
-                submitBtn.disabled = true;
-            });
-        });
-    </script>
+    <script src="~/js/login-with-2fa.js" asp-append-version="true"></script>
 }
