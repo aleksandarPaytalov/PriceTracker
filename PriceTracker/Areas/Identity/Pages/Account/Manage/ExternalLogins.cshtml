@@ -82,7 +82,7 @@
                                     value="@provider.Name"
                                     title="Connect your @provider.DisplayName account">
                                 <div class="add-provider-icon provider-@provider.Name.ToLower()">
-                                    <span>@provider.DisplayName.Substring(0, 1)</span>
+                                    <span>@provider.DisplayName?.Substring(0, 1)</span>
                                 </div>
                                 <span>Connect @provider.DisplayName</span>
                             </button>
