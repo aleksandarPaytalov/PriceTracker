@@ -41,6 +41,8 @@
                             <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
                             <!-- Recovery Code Input -->
+                            <!-- Обнови input полето в LoginWithRecoveryCode.cshtml: -->
+                            <!-- Recovery Code Input -->
                             <div class="mb-4">
                                 <label asp-for="Input.RecoveryCode" class="form-label fw-semibold">
                                     <i class="bi bi-key-fill me-2"></i>Recovery Code
@@ -49,14 +51,13 @@
                                        class="form-control recovery-input"
                                        type="text"
                                        autocomplete="off"
-                                       placeholder="Enter your recovery code"
-                                       maxlength="50"
-                                       title="Enter one of your backup recovery codes" />
+                                       placeholder="XXXXX-XXXXX"
+                                       maxlength="11"
+                                       pattern="[A-Z0-9]{5}-[A-Z0-9]{5}" />
                                 <span asp-validation-for="Input.RecoveryCode" class="text-danger"></span>
                                 <div class="form-text mt-2">
                                     <small class="text-muted">
                                         <i class="bi bi-info-circle me-1"></i>
-                                        Enter one of your saved backup recovery codes
                                     </small>
                                 </div>
                             </div>

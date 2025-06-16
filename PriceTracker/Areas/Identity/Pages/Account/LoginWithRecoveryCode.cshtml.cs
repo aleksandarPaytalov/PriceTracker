@@ -69,41 +69,99 @@ namespace PriceTracker.Areas.Identity.Pages.Account
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+		// Replace your existing OnPostAsync method in LoginWithRecoveryCode.cshtml.cs with this:
 
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
-            }
+		// Замени OnPostAsync метода в LoginWithRecoveryCode.cshtml.cs:
 
-            var recoveryCode = Input.RecoveryCode.Replace(" ", string.Empty);
+		public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+		{
+			if (!ModelState.IsValid)
+			{
+				_logger.LogWarning("Model state invalid for recovery code login");
+				return Page();
+			}
 
-            var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
+			var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+			if (user == null)
+			{
+				_logger.LogError("Unable to load two-factor authentication user for recovery code login");
+				throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+			}
 
-            var userId = await _userManager.GetUserIdAsync(user);
+			try
+			{
+				var originalCode = Input.RecoveryCode;
 
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User with ID '{UserId}' logged in with a recovery code.", user.Id);
-                return LocalRedirect(returnUrl ?? Url.Content("~/"));
-            }
-            if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User account locked out.");
-                return RedirectToPage("./Lockout");
-            }
-            else
-            {
-                _logger.LogWarning("Invalid recovery code entered for user with ID '{UserId}' ", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
-                return Page();
-            }
-        }
-    }
+				// ВАЖНО: НЕ почиствай кода! ASP.NET Identity очаква точния формат от базата
+				// Само премахни излишни spaces в началото/края
+				var recoveryCode = originalCode.Trim();
+
+				_logger.LogInformation("=== RECOVERY CODE DEBUG START ===");
+				_logger.LogInformation("User ID: {UserId}", user.Id);
+				_logger.LogInformation("Original Code: '{OriginalCode}'", originalCode);
+				_logger.LogInformation("Trimmed Code: '{TrimmedCode}'", recoveryCode);
+				_logger.LogInformation("Code Length: {Length}", recoveryCode.Length);
+
+				// Проверка на recovery codes
+				var remainingCodesBefore = await _userManager.CountRecoveryCodesAsync(user);
+				_logger.LogInformation("Recovery Codes Before: {RemainingCodes}", remainingCodesBefore);
+
+				if (remainingCodesBefore == 0)
+				{
+					_logger.LogWarning("User {UserId} has no recovery codes remaining", user.Id);
+					ModelState.AddModelError(string.Empty, "You have no recovery codes remaining.");
+					return Page();
+				}
+
+				// Опитай се да влезеш с точния код (С тире ако са въведени)
+				_logger.LogInformation("About to call TwoFactorRecoveryCodeSignInAsync with: '{Code}'", recoveryCode);
+				var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
+
+				// Проверка на recovery codes след опита
+				var remainingCodesAfter = await _userManager.CountRecoveryCodesAsync(user);
+				_logger.LogInformation("Recovery Codes After: {RemainingCodes}", remainingCodesAfter);
+				_logger.LogInformation("Result.Succeeded: {Succeeded}", result.Succeeded);
+				_logger.LogInformation("=== RECOVERY CODE DEBUG END ===");
+
+				if (result.Succeeded)
+				{
+					_logger.LogInformation("SUCCESS: User {UserId} logged in with recovery code", user.Id);
+					return LocalRedirect(returnUrl ?? Url.Content("~/"));
+				}
+
+				if (result.IsLockedOut)
+				{
+					_logger.LogWarning("LOCKOUT: User {UserId} account locked out", user.Id);
+					return RedirectToPage("./Lockout");
+				}
+
+				if (result.IsNotAllowed)
+				{
+					_logger.LogWarning("NOT ALLOWED: User {UserId} sign-in not allowed", user.Id);
+					ModelState.AddModelError(string.Empty, "Sign-in not allowed. Please verify your account.");
+					return Page();
+				}
+
+				// Анализ защо не успя
+				if (remainingCodesBefore > remainingCodesAfter)
+				{
+					_logger.LogWarning("ALREADY USED: Valid recovery code but already consumed");
+					ModelState.AddModelError(string.Empty, "This recovery code has already been used.");
+				}
+				else
+				{
+					_logger.LogWarning("INVALID CODE: Recovery code was not recognized");
+					ModelState.AddModelError(string.Empty, "Invalid recovery code. Please include the dash (e.g., TWQDK-V5C2F).");
+				}
+
+				return Page();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "EXCEPTION during recovery code login for user {UserId}", user?.Id);
+				ModelState.AddModelError(string.Empty, "An error occurred during login.");
+				return Page();
+			}
+		}
+	}
 }
