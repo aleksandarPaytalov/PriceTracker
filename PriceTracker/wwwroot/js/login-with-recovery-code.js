@@ -1,27 +1,22 @@
-﻿// Обнови JavaScript-a в login-with-recovery-code.js:
-
-/**
- * Format recovery code input - ЗАПАЗВА тирето!
+﻿/**
+ * Format recovery code input - keep the dash
  */
 function formatRecoveryCode(input) {
     let value = input.value;
 
-    // Премахни само spaces и нон-алфанумерични символи, НО ЗАПАЗИ тирето
     value = value.replace(/[^a-zA-Z0-9-]/g, '').toUpperCase();
 
     // Limit to reasonable length
     value = value.substring(0, 16);
 
-    // НЕ добавяй автоматично тире - остави user-a да въведе както иска
     input.value = value;
 }
 
 /**
- * Validate recovery code format - очаква формат с тире
+ * Validate recovery code format - expect a format with dash
  */
 function validateRecoveryCode(input) {
     const value = input.value.trim();
-    // Очакваме формат като XXXXX-XXXXX (5-5 символа с тире в средата)
     const isValidFormat = /^[A-Z0-9]{5}-[A-Z0-9]{5}$/.test(value) || value.length === 0;
 
     // Update input styling based on validation
@@ -45,7 +40,7 @@ function validateRecoveryCode(input) {
 }
 
 /**
- * Initialize form validation - НЕ почиствай кода
+ * Initialize form validation
  */
 function initializeFormValidation() {
     const recoveryForm = document.querySelector('form');
@@ -65,7 +60,6 @@ function initializeFormValidation() {
             return false;
         }
 
-        // НЕ променяй кода - изпрати го точно както е въведен
         return true;
     });
 }
