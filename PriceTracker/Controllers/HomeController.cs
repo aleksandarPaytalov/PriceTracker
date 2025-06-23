@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PriceTracker.Models;
 using System.Diagnostics;
@@ -15,15 +16,24 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
-    }
+		if (User.Identity.IsAuthenticated)
+		{
+			// Logged-in users see the app dashboard
+			return View(); // or return View();
+		}
+		else
+		{
+			// Anonymous users see the landing page
+			return View("LandingPage");
+		}
+	}
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+	public IActionResult LandingOption1()
+	{
+		return View();
+	}
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
