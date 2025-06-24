@@ -6,5 +6,6 @@ namespace PriceTracker.Controllers
 	[Authorize]
 	public class BaseController : Controller
 	{
+		protected bool IsUserAuthenticated => User?.Identity?.IsAuthenticated == true;
 	}
 }

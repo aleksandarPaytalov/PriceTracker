@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace PriceTracker.Controllers;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> _logger;
 
@@ -14,16 +14,16 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+	[AllowAnonymous]
     public IActionResult Index()
     {
-		if (User.Identity.IsAuthenticated)
+		if (IsUserAuthenticated)
 		{
-			// Logged-in users see the app dashboard
-			return View(); // or return View();
+			return View();
 		}
+
 		else
 		{
-			// Anonymous users see the landing page
 			return View("LandingPage");
 		}
 	}
