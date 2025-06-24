@@ -1,0 +1,340 @@
+﻿/* About Page Styles */
+.about-container {
+    min-height: 100vh;
+    padding-top: 0;
+}
+
+.about-hero {
+    background: linear-gradient(135deg, #1b6ec2 0%, #0056b3 100%);
+    color: white;
+    padding: 80px 0 60px;
+    text-align: center;
+}
+
+.about-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.about-subtitle {
+    font-size: 1.5rem;
+    font-weight: 300;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.about-content {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #2c3e50;
+    position: relative;
+}
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(135deg, #1b6ec2, #0056b3);
+        border-radius: 2px;
+    }
+
+/* App Description Section */
+.app-description {
+    margin-bottom: 80px;
+}
+
+    .app-description .lead {
+        font-size: 1.3rem;
+        font-weight: 400;
+        color: #495057;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .app-description p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #6c757d;
+        text-align: justify;
+    }
+
+/* Features Overview */
+.features-overview {
+    margin-bottom: 80px;
+}
+
+.feature-list {
+    margin-top: 3rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .feature-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 0.5rem;
+}
+
+.feature-content h4 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.feature-content p {
+    color: #6c757d;
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
+/* Developer Section */
+.developer-section {
+    margin-bottom: 80px;
+}
+
+.developer-card {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+}
+
+.developer-info h3 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.developer-title {
+    color: #1b6ec2;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.developer-description {
+    color: #6c757d;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.tech-stack, .developer-goals, .contact-info {
+    margin-top: 2.5rem;
+}
+
+    .tech-stack h4, .developer-goals h4, .contact-info h4 {
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.tech-tag {
+    background: linear-gradient(135deg, #1b6ec2, #0056b3);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.developer-goals ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.developer-goals li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #6c757d;
+    line-height: 1.6;
+}
+
+    .developer-goals li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: #28a745;
+        font-weight: 700;
+    }
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+    .social-link.github {
+        background-color: #333;
+        color: white;
+    }
+
+        .social-link.github:hover {
+            background-color: #000;
+            color: white;
+        }
+
+    .social-link.linkedin {
+        background-color: #0077b5;
+        color: white;
+    }
+
+        .social-link.linkedin:hover {
+            background-color: #005885;
+            color: white;
+        }
+
+    .social-link i {
+        margin-right: 0.5rem;
+    }
+
+/* CTA Section */
+.cta-section {
+    text-align: center;
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 16px;
+    margin: 2rem 0;
+}
+
+    .cta-section h2 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+    .cta-buttons .btn {
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+.btn-outline-primary {
+    border: 2px solid #1b6ec2;
+    color: #1b6ec2;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #1b6ec2;
+        color: white;
+    }
+
+/* Responsive Design */
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about-title {
+        font-size: 2.5rem;
+    }
+
+    .about-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .developer-card {
+        padding: 2rem;
+    }
+
+    .tech-tags {
+        justify-content: center;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .cta-buttons .btn {
+            width: 100%;
+            max-width: 280px;
+        }
+
+    .feature-item {
+        flex-direction: column;
+        text-align: center;
+        align-items: center; 
+    }
+
+    .feature-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        width: 100%; 
+    }
+
+    .feature-content {
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
+    }
+}

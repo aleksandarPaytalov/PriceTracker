@@ -28,6 +28,12 @@ public class HomeController : BaseController
 		}
 	}
 
+	[AllowAnonymous]
+	public IActionResult About()
+	{
+		return View();
+	}
+
 	public IActionResult LandingOption1()
 	{
 		return View();

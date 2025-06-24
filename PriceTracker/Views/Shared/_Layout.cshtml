@@ -17,9 +17,15 @@
         bool isAuthPage = ViewContext.RouteData.Values["page"]?.ToString()?.Contains("/Account/") == true ||
         ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Login") == true ||
         ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Register") == true;
+
+        // Add logic to hide navbar on About page
+        bool isAboutPage = ViewContext.RouteData.Values["controller"]?.ToString()?.Equals("Home", StringComparison.OrdinalIgnoreCase) == true &&
+        ViewContext.RouteData.Values["action"]?.ToString()?.Equals("About", StringComparison.OrdinalIgnoreCase) == true;
+
+        bool hideNavbar = isAuthPage || isAboutPage;
     }
 
-    @if (!isAuthPage)
+    @if (!hideNavbar)
     {
         <header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -51,9 +57,9 @@
         </header>
     }
 
-    <div class="@(isAuthPage ? "" : "container")">
-        <main role="main" class="@(isAuthPage ? "" : "pb-3")">
-            @if (!isAuthPage)
+    <div class="@(hideNavbar ? "" : "container")">
+        <main role="main" class="@(hideNavbar ? "" : "pb-3")">
+            @if (!hideNavbar)
             {
                 <partial name="_EmailStatusPartial" />
             }
@@ -61,11 +67,11 @@
         </main>
     </div>
 
-    @if (!isAuthPage)
+    @if (!hideNavbar)
     {
         <footer class="border-top footer text-muted">
             <div class="container">
-                &copy; 2025 - PriceTracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                &copy; 2025 - PriceTracker
             </div>
         </footer>
     }

@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "About - PriceTracker";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/landingPage/about.css" />
+}
+
+<div class="about-container">
+    <div class="about-hero">
+        <div class="container">
+            <h1 class="about-title">About PriceTracker</h1>
+            <p class="about-subtitle">Smart financial management made simple</p>
+        </div>
+    </div>
+
+    <div class="about-content">
+        <div class="container">
+            <!-- App Description Section -->
+            <section class="app-description">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2 class="section-title">Our Mission</h2>
+                        <p class="lead">
+                            PriceTracker is a comprehensive budget management and price tracking application designed to help you make informed financial decisions and take control of your spending habits.
+                        </p>
+                        <p>
+                            Our platform combines powerful price monitoring capabilities with intuitive budget management tools,
+                            allowing you to track product prices across multiple stores while keeping your monthly expenses organized.
+                            Whether you're planning a major purchase or simply trying to stick to a budget, PriceTracker provides
+                            the insights you need to save money and achieve your financial goals.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Overview -->
+            <section class="features-overview">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2 class="section-title">What Makes Us Different</h2>
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <div class="feature-icon">🎯</div>
+                                <div class="feature-content">
+                                    <h4>Smart Price Tracking</h4>
+                                    <p>Monitor prices across multiple stores and get notified when your desired products go on sale.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">💰</div>
+                                <div class="feature-content">
+                                    <h4>Comprehensive Budget Management</h4>
+                                    <p>Set budgets, track expenses, and gain insights into your spending patterns with detailed analytics.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">📊</div>
+                                <div class="feature-content">
+                                    <h4>Data-Driven Insights</h4>
+                                    <p>Make informed financial decisions with visual charts, trends analysis, and personalized recommendations.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Developer Section -->
+            <section class="developer-section">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2 class="section-title">About the Developer</h2>
+                        <div class="developer-card">
+                            <div class="developer-info">
+                                <h3>Aleksandar Paytalov</h3>
+                                <p class="developer-title">Junior .NET Developer</p>
+                                <p class="developer-description">
+                                    Hi! I'm a passionate junior .NET developer currently building this price tracking and budget management application
+                                    as part of my journey to improve my skills and create something functional and professional.
+                                </p>
+                                <p>
+                                    I have experience with C#, .NET Core, SQL, Entity Framework, and vanilla HTML, CSS, and JavaScript.
+                                    This project represents my commitment to learning best practices, clean architecture, and modern development techniques
+                                    while creating a real-world application that solves actual problems.
+                                </p>
+
+                                <div class="tech-stack">
+                                    <h4>Technologies Used</h4>
+                                    <div class="tech-tags">
+                                        <span class="tech-tag">ASP.NET Core 8</span>
+                                        <span class="tech-tag">C#</span>
+                                        <span class="tech-tag">Entity Framework</span>
+                                        <span class="tech-tag">SQL Server</span>
+                                        <span class="tech-tag">HTML5</span>
+                                        <span class="tech-tag">CSS3</span>
+                                        <span class="tech-tag">JavaScript</span>
+                                        <span class="tech-tag">Bootstrap</span>
+                                        <span class="tech-tag">Razor Pages</span>
+                                    </div>
+                                </div>
+
+                                <div class="developer-goals">
+                                    <h4>Project Goals</h4>
+                                    <ul>
+                                        <li>Apply SOLID principles and clean architecture patterns</li>
+                                        <li>Implement responsive, user-friendly design</li>
+                                        <li>Follow ASP.NET Core MVC best practices</li>
+                                        <li>Create a scalable, maintainable codebase</li>
+                                        <li>Build a real-world application that provides genuine value</li>
+                                    </ul>
+                                </div>
+
+                                <div class="contact-info">
+                                    <h4>Connect With Me</h4>
+                                    <div class="social-links">
+                                        <a href="https://github.com/aleksandarPaytalov" class="social-link github" target="_blank">
+                                            <i class="fab fa-github"></i> GitHub
+                                        </a>
+                                        <a href="https://www.linkedin.com/in/aleksandar-paytalov-a90535244/" class="social-link linkedin" target="_blank">
+                                            <i class="fab fa-linkedin"></i> LinkedIn
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="cta-section">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2>Ready to Start Your Financial Journey?</h2>
+                        <p>Join me in exploring smart financial management with PriceTracker.</p>
+                        <div class="cta-buttons">
+                            <a href="/Identity/Account/Register" class="btn btn-primary btn-lg">Get Started Free</a>
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-outline-primary btn-lg">Back to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
