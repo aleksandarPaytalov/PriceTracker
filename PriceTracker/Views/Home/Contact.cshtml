@@ -1,0 +1,256 @@
+﻿@model ContactViewModel
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<!-- Public Page Navigation for Contact -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Home")">
+                        <i class="fas fa-arrow-left me-1"></i>Back to Home Page
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Page Header -->
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-primary mb-3">Get in Touch</h1>
+                <p class="lead text-muted">
+                    Have questions about our price tracking features? Need help with budget management?
+                    We'd love to hear from you!
+                </p>
+            </div>
+
+            <div class="row g-5">
+                <!-- Contact Form Column -->
+                <div class="col-lg-8">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="card-title mb-0">
+                                <i class="fas fa-envelope me-2"></i>Send us a Message
+                            </h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- Success/Error Messages Area -->
+                            @if (TempData["ContactSuccess"] != null)
+                            {
+                                <div class="alert alert-success" role="alert">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <strong>Success!</strong> @TempData["ContactSuccess"]
+                                </div>
+                            }
+
+                            <div id="messageArea" class="d-none mb-4">
+                                <div id="successMessage" class="alert alert-success d-none" role="alert">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <strong>Message sent successfully!</strong> We'll get back to you within 24 hours.
+                                </div>
+                                <div id="errorMessage" class="alert alert-danger d-none" role="alert">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <strong>Oops!</strong> Something went wrong. Please try again or contact us directly.
+                                </div>
+                            </div>
+
+                            <!-- Contact Form -->
+                            <form id="contactForm" asp-action="Contact" method="post" novalidate>
+                                @Html.AntiForgeryToken()
+
+                                <!-- Name Field -->
+                                <div class="mb-4">
+                                    <label asp-for="Name" class="form-label fw-semibold">
+                                        <i class="fas fa-user me-1 text-primary"></i>Full Name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input asp-for="Name"
+                                           class="form-control form-control-lg"
+                                           placeholder="Enter your full name"
+                                           autocomplete="name" />
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+
+                                <!-- Email Field -->
+                                <div class="mb-4">
+                                    <label asp-for="Email" class="form-label fw-semibold">
+                                        <i class="fas fa-envelope me-1 text-primary"></i>Email Address
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input asp-for="Email"
+                                           type="email"
+                                           class="form-control form-control-lg"
+                                           placeholder="your.email@example.com"
+                                           autocomplete="email" />
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+
+                                <!-- Subject Field -->
+                                <div class="mb-4">
+                                    <label asp-for="Subject" class="form-label fw-semibold">
+                                        <i class="fas fa-tag me-1 text-primary"></i>Subject
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select asp-for="Subject" class="form-select form-select-lg">
+                                        <option value="">Select a topic...</option>
+                                        <option value="General Inquiry">General Inquiry</option>
+                                        <option value="Price Tracking Help">Price Tracking Help</option>
+                                        <option value="Budget Management Support">Budget Management Support</option>
+                                        <option value="Technical Issue">Technical Issue</option>
+                                        <option value="Feature Request">Feature Request</option>
+                                        <option value="Account Issue">Account Issue</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <span asp-validation-for="Subject" class="text-danger small"></span>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+
+                                <!-- Message Field -->
+                                <div class="mb-4">
+                                    <label asp-for="Message" class="form-label fw-semibold">
+                                        <i class="fas fa-comment-alt me-1 text-primary"></i>Message
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea asp-for="Message"
+                                              class="form-control"
+                                              rows="6"
+                                              placeholder="Tell us how we can help you..."
+                                              maxlength="2000"></textarea>
+                                    <div class="form-text d-flex justify-content-between">
+                                        <span class="text-muted">Please provide as much detail as possible</span>
+                                        <span id="charCounter" class="text-muted">0/2000 characters</span>
+                                    </div>
+                                    <span asp-validation-for="Message" class="text-danger small"></span>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+
+                                <!-- Anti-spam Checkbox -->
+                                <div class="mb-4">
+                                    <div class="form-check form-check-lg">
+                                        <input asp-for="IsNotRobot"
+                                               class="form-check-input"
+                                               type="checkbox"
+                                               id="robotCheck" />
+                                        <label class="form-check-label fw-semibold" for="robotCheck">
+                                            <i class="fas fa-shield-alt me-1 text-success"></i>
+                                            I'm not a robot <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="form-text text-muted">
+                                            This helps us prevent spam and keep our service secure
+                                        </div>
+                                        <span asp-validation-for="IsNotRobot" class="text-danger small"></span>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="d-grid gap-2">
+                                    <button type="submit"
+                                            id="submitBtn"
+                                            class="btn btn-primary btn-lg">
+                                        <span id="btnText">
+                                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                                        </span>
+                                        <span id="btnLoading" class="d-none">
+                                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                            Sending...
+                                        </span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information Sidebar -->
+                <div class="col-lg-4">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-light">
+                            <h4 class="card-title mb-0">
+                                <i class="fas fa-info-circle me-2 text-primary"></i>Contact Information
+                            </h4>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- Response Time -->
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-primary mb-2">
+                                    <i class="fas fa-clock me-2"></i>Response Time
+                                </h5>
+                                <p class="text-muted mb-0">
+                                    We typically respond to all inquiries within <strong>24 hours</strong>
+                                    during business days.
+                                </p>
+                            </div>
+
+                            <!-- Office Hours -->
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-primary mb-2">
+                                    <i class="fas fa-business-time me-2"></i>Support Hours
+                                </h5>
+                                <ul class="list-unstyled text-muted mb-0">
+                                    <li class="mb-1">
+                                        <strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM
+                                    </li>
+                                    <li class="mb-1">
+                                        <strong>Saturday:</strong> 10:00 AM - 4:00 PM
+                                    </li>
+                                    <li>
+                                        <strong>Sunday:</strong> Closed
+                                    </li>
+                                </ul>
+                                <small class="text-muted">(All times in your local timezone)</small>
+                            </div>
+
+                            <!-- Alternative Contact Methods -->
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-primary mb-3">
+                                    <i class="fas fa-phone-alt me-2"></i>Other Ways to Reach Us
+                                </h5>
+                                <div class="d-grid gap-2">
+                                    <a href="mailto:pricetrackertest89@gmail.com"
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-envelope me-2"></i>Email Support
+                                    </a>
+                                    <a href="https://github.com/aleksandarPaytalov" 
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="fab fa-github"></i> GitHub
+                                    </a>
+                                    <a href="https://www.linkedin.com/in/aleksandar-paytalov-a90535244/"
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="fab fa-linkedin"></i> LinkedIn
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Quick Tips -->
+                            <div class="bg-light rounded p-3">
+                                <h6 class="fw-bold text-primary mb-2">
+                                    <i class="fas fa-lightbulb me-1"></i>Quick Tips
+                                </h6>
+                                <ul class="small text-muted mb-0 ps-3">
+                                    <li>Include your account email for faster support</li>
+                                    <li>Describe the issue with specific steps</li>
+                                    <li>Attach screenshots if reporting a bug</li>
+                                    <li>Check our FAQ before submitting</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

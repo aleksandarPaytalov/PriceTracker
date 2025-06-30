@@ -18,14 +18,17 @@
         ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Login") == true ||
         ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Register") == true;
 
-        // Add logic to hide navbar on About page
-        bool isAboutPage = ViewContext.RouteData.Values["controller"]?.ToString()?.Equals("Home", StringComparison.OrdinalIgnoreCase) == true &&
-        ViewContext.RouteData.Values["action"]?.ToString()?.Equals("About", StringComparison.OrdinalIgnoreCase) == true;
+        // Also exclude public pages that should not show authenticated navigation
+        bool isPublicPage = ViewContext.RouteData.Values["action"]?.ToString() == "Contact" ||
+        ViewContext.RouteData.Values["action"]?.ToString() == "About" ||
+        ViewContext.RouteData.Values["action"]?.ToString() == "Pricing" ||
+        ViewContext.RouteData.Values["action"]?.ToString() == "Documentation" ||
+        ViewContext.RouteData.Values["action"]?.ToString() == "LandingPage";
 
-        bool hideNavbar = isAuthPage || isAboutPage;
+        bool shouldShowNavigation = !isAuthPage && !isPublicPage;
     }
 
-    @if (!hideNavbar)
+    @if (shouldShowNavigation)
     {
         <header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -57,9 +60,9 @@
         </header>
     }
 
-    <div class="@(hideNavbar ? "" : "container")">
-        <main role="main" class="@(hideNavbar ? "" : "pb-3")">
-            @if (!hideNavbar)
+    <div class="@(!shouldShowNavigation ? "" : "container")">
+        <main role="main" class="@(!shouldShowNavigation ? "" : "pb-3")">
+            @if (shouldShowNavigation)
             {
                 <partial name="_EmailStatusPartial" />
             }
@@ -67,7 +70,7 @@
         </main>
     </div>
 
-    @if (!hideNavbar)
+    @if (shouldShowNavigation)
     {
         <footer class="border-top footer text-muted">
             <div class="container">
