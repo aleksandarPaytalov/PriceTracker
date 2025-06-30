@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using PriceTracker.Core.Services;
 using PriceTracker.Models;
+using PriceTracker.Models.Email;
 
 namespace PriceTracker.Services
 {

@@ -1,4 +1,4 @@
-﻿namespace PriceTracker.Models
+﻿namespace PriceTracker.Models.Email
 {
 	public class EmailConfirmationViewModel
 	{
