@@ -2,6 +2,7 @@
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using PriceTracker.Core.Models.Email;
 using PriceTracker.Infrastructure.Common;
 using PriceTracker.Infrastructure.Configuration;
 
@@ -73,6 +74,43 @@ namespace PriceTracker.Core.Services
 			var subject = "Welcome to PriceTracker!";
 			var htmlMessage = await _templateService.RenderWelcomeAsync(userName);
 			await SendEmailAsync(email, subject, htmlMessage);
+		}
+
+		public async Task SendContactFormEmailAsync(ContactFormEmailViewModel contactForm)
+		{
+			try
+			{
+				// Send notification to admin/support team
+				var subject = $"New Contact Form: {contactForm.Subject} - from {contactForm.Name}";
+				var htmlMessage = await _templateService.RenderContactFormAsync(contactForm);
+
+				// Send to your support email from conficuration
+				var supportEmail = !string.IsNullOrEmpty(_emailSettings.SupportEmail)
+						  ? _emailSettings.SupportEmail
+						  : _emailSettings.FromEmail;
+
+				await SendEmailAsync(supportEmail, subject, htmlMessage);
+
+				// Optional: Send confirmation email to user
+				var confirmationSubject = "Thank you for contacting PriceTracker";
+				var confirmationMessage = $@"
+					<h2>Thank you for contacting us!</h2>
+					<p>Dear {contactForm.Name},</p>
+					<p>We have received your message regarding: <strong>{contactForm.Subject}</strong></p>
+					<p>We will get back to you within 24 hours during business days.</p>
+					<p>Thank you for using PriceTracker!</p>
+					<hr>
+					<p><small>This is an automated confirmation email.</small></p>";
+
+				await SendEmailAsync(contactForm.Email, confirmationSubject, confirmationMessage);
+
+				_logger.LogInformation($"Contact form email sent successfully from {contactForm.Email}");
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"Failed to send contact form email from {contactForm.Email}", ex);
+				throw;
+			}
 		}
 	}
 }

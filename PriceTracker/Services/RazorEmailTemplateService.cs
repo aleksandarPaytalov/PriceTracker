@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using PriceTracker.Core.Models.Email;
 using PriceTracker.Core.Services;
 using PriceTracker.Models;
 using PriceTracker.Models.Email;
@@ -97,6 +98,11 @@ namespace PriceTracker.Services
 				new[] { $"Unable to find view '{viewName}'. The following locations were searched:" }.Concat(searchedLocations));
 
 			throw new InvalidOperationException(errorMessage);
+		}
+
+		public async Task<string> RenderContactFormAsync(ContactFormEmailViewModel model)
+		{
+			return await RenderViewToStringAsync("ContactForm", model);
 		}
 	}
 }

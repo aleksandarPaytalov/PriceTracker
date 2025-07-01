@@ -8,5 +8,6 @@
 		public string Password { get; set; } = string.Empty;
 		public string DisplayName { get; set; } = string.Empty;
 		public bool EnableSsl { get; set; } = true;
+		public string SupportEmail { get; set; } = string.Empty;
 	}
 }

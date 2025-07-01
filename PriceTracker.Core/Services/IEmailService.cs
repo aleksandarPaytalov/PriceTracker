@@ -1,4 +1,6 @@
-﻿namespace PriceTracker.Core.Services
+﻿using PriceTracker.Core.Models.Email;
+
+namespace PriceTracker.Core.Services
 {
 	public interface IEmailService
 	{
@@ -6,5 +8,6 @@
 		Task SendEmailConfirmationAsync(string email, string callbackUrl);
 		Task SendPasswordResetEmailAsync(string email, string callbackUrl);
 		Task SendWelcomeEmailAsync(string email, string userName);
+		public Task SendContactFormEmailAsync(ContactFormEmailViewModel contactForm);
 	}
 }
