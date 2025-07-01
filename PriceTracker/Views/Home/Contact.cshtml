@@ -137,12 +137,12 @@
                                     <div class="invalid-feedback"></div>
                                 </div>
 
-                                <!-- Anti-spam Checkbox -->
+                                <!-- Anti-spam Checkbox - Fixed Version -->
                                 <div class="mb-4">
                                     <div class="form-check form-check-lg">
-                                        <input asp-for="IsNotRobot"
+                                        <input type="checkbox"
+                                               asp-for="IsNotRobot"
                                                class="form-check-input"
-                                               type="checkbox"
                                                id="robotCheck" />
                                         <label class="form-check-label fw-semibold" for="robotCheck">
                                             <i class="fas fa-shield-alt me-1 text-success"></i>
@@ -253,4 +253,28 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            console.log('Contact form JavaScript loaded');
+
+            // Debug checkbox state
+            $('#robotCheck').on('change', function() {
+                console.log('Checkbox changed to:', this.checked);
+                console.log('Checkbox value:', this.value);
+            });
+
+            // Debug form submission
+            $('#contactForm').on('submit', function(e) {
+                console.log('Form submit triggered');
+                console.log('Checkbox checked:', $('#robotCheck').is(':checked'));
+                console.log('Form valid:', this.checkValidity());
+
+                // Let's see what data is being sent
+                var formData = new FormData(this);
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ': ' + pair[1]);
+                }
+            });
+        });
+    </script>
 }

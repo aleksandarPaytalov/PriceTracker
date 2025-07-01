@@ -78,6 +78,12 @@ namespace PriceTracker.Core.Services
 
 		public async Task SendContactFormEmailAsync(ContactFormEmailViewModel contactForm)
 		{
+			_logger.LogInformation("=== SendContactFormEmailAsync called ===");
+			_logger.LogInformation($"From: {contactForm.Name} <{contactForm.Email}>");
+			_logger.LogInformation($"Subject: {contactForm.Subject}");
+			_logger.LogInformation($"SupportEmail setting: {_emailSettings.SupportEmail}");
+			_logger.LogInformation($"FromEmail setting: {_emailSettings.FromEmail}");
+
 			try
 			{
 				// Send notification to admin/support team

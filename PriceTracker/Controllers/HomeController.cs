@@ -51,14 +51,29 @@ public class HomeController : BaseController
 	[ValidateAntiForgeryToken]
 	public async Task<IActionResult> Contact(ContactViewModel model)
 	{
+		_logger.LogInformation("Contact form submission started");
+
+		// ? ADDED: Manual checkbox validation
+		if (!model.IsNotRobot)
+		{
+			ModelState.AddModelError("IsNotRobot", "Please confirm you are not a robot");
+		}
+
 		if (!ModelState.IsValid)
 		{
+			_logger.LogWarning("Contact form validation failed");
+			foreach (var error in ModelState)
+			{
+				_logger.LogWarning($"Validation error in {error.Key}: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
+			}
 			return View(model);
 		}
 
+		// Rest of your method stays the same...
 		try
 		{
-			// Create email model with additional data
+			_logger.LogInformation($"Preparing to send contact email from {model.Email}");
+
 			var contactFormEmail = new ContactFormEmailViewModel
 			{
 				Name = model.Name,
@@ -70,20 +85,19 @@ public class HomeController : BaseController
 				UserAgent = HttpContext.Request.Headers["User-Agent"].ToString()
 			};
 
-			// Send email using your existing email service
+			_logger.LogInformation("Calling SendContactFormEmailAsync");
+
 			await _emailService.SendContactFormEmailAsync(contactFormEmail);
 
-			// Add success message
-			TempData["ContactSuccess"] = "Your message has been sent successfully! We'll get back to you within 24 hours.";
+			_logger.LogInformation($"Contact form email sent successfully from {model.Email}");
 
-			_logger.LogInformation($"Contact form submitted successfully by {model.Email}");
+			TempData["ContactSuccess"] = "Your message has been sent successfully! We'll get back to you within 24 hours.";
 
 			return RedirectToAction("Contact");
 		}
 		catch (Exception ex)
 		{
 			_logger.LogError(ex, $"Error processing contact form from {model.Email}");
-
 			ModelState.AddModelError("", "Sorry, there was an error sending your message. Please try again or contact us directly.");
 			return View(model);
 		}

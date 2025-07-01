@@ -27,8 +27,6 @@ namespace PriceTracker.Models.LandingPage
 		public string Message { get; set; } = string.Empty;
 
 		[Required(ErrorMessage = "Please confirm you are not a robot")]
-		[Range(typeof(bool), "true", "true",
-			ErrorMessage = "Please confirm you are not a robot")]
 		[Display(Name = "I'm not a robot")]
 		public bool IsNotRobot { get; set; } = false;
 	}
