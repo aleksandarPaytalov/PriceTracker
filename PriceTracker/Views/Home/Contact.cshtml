@@ -8,17 +8,13 @@
 }
 
 <!-- Public Page Navigation for Contact -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+<nav class="bg-white shadow-sm mb-4 py-3">
     <div class="container">
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="btn btn-primary" href="@Url.Action("Index", "Home")">
-                        <i class="fas fa-arrow-left me-1"></i>Back to Home Page
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <a class="btn btn-primary" href="@Url.Action("Index", "Home")">
+            <i class="fas fa-arrow-left me-2"></i>
+            <span class="d-none d-sm-inline">Back to Home Page</span>
+            <span class="d-inline d-sm-none">Home</span>
+        </a>
     </div>
 </nav>
 
@@ -28,8 +24,8 @@
         <div class="col-lg-10">
             <!-- Page Header -->
             <div class="text-center mb-5">
-                <h1 class="display-4 fw-bold text-primary mb-3">Get in Touch</h1>
-                <p class="lead text-muted">
+                <h1 class="display-4 fw-bold text-dark mb-3">Get in Touch</h1>
+                <p class="lead text-dark" style="font-weight: 500; max-width: 600px; margin: 0 auto;">
                     Have questions about our price tracking features? Need help with budget management?
                     We'd love to hear from you!
                 </p>
