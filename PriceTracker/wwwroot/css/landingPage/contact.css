@@ -1,4 +1,6 @@
-﻿/* Page background with ocean-inspired gradient */
+﻿/* ===== COMPLETE CONTACT.CSS WITH ENHANCED FORM STATES ===== */
+
+/* Page background with ocean-inspired gradient */
 .contact-page {
     background: linear-gradient(135deg, #20E2D7 0%, #F9FFFF 100%);
     min-height: calc(100vh - 100px);
@@ -241,7 +243,20 @@ textarea.form-control {
         box-shadow: 0 2px 8px rgba(0, 206, 209, 0.3);
     }
 
-/* Enhanced checkbox label  */
+        /* Checkmark animation enhancement */
+        .form-check-input:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.2);
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            animation: checkmarkBounce 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+/* Enhanced checkbox label */
 .form-check-label {
     cursor: pointer;
     user-select: none;
