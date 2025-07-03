@@ -18,7 +18,7 @@
             subjectField: 'select[name="Subject"]',  // Fixed: changed from input to select
             messageField: 'textarea[name="Message"]',
             robotCheckbox: '#robotCheck',
-            submitButton: '#submitBtn',  // Fixed: changed from #submitButton to #submitBtn
+            submitButton: '#submitBtn',
             charCounter: '#charCounter'
         },
 
@@ -63,73 +63,30 @@
      * Initialize the contact form functionality
      */
     function initializeContactForm() {
-        console.log('🚀 Contact Form Module: Initializing...');
-
         // Check if contact form exists on page
         if (!$(ContactForm.selectors.form).length) {
-            console.log('📋 Contact Form Module: Form not found, skipping initialization');
             return;
         }
 
-        console.log('✅ Contact Form Module: Form found, setting up functionality');
-
         // Verify all form fields exist
         verifyFormFields();
-
-        // Clear any existing server-side validation messages on load
-        clearAllServerSideValidation();
 
         // Initialize all form features
         initializeCharacterCounter();
         initializeFieldValidation();
         initializeFormSubmission();
-
-        console.log('🎉 Contact Form Module: Initialization complete');
-    }
-
-    /**
-     * Clear all server-side validation messages on form initialization
-     */
-    function clearAllServerSideValidation() {
-        console.log('🧹 Clearing any existing server-side validation messages...');
-
-        // Clear all ASP.NET Core validation spans
-        $('span[data-valmsg-for]').text('');
-        $('span.text-danger.small').text('');
-        $('span.field-validation-error').text('');
-
-        // Clear validation summary if present
-        $('.validation-summary-errors ul').empty();
-        $('.validation-summary-errors').hide();
-
-        console.log('✅ Server-side validation messages cleared');
     }
 
     /**
      * Verify all expected form fields exist
      */
     function verifyFormFields() {
-        console.log('🔍 Verifying form fields...');
-
-        let allFieldsFound = true;
-
         Object.entries(ContactForm.selectors).forEach(([key, selector]) => {
             const $element = $(selector);
-            if ($element.length > 0) {
-                console.log(`✅ ${key}: found (${selector})`);
-            } else {
-                console.warn(`⚠️  ${key}: NOT found (${selector})`);
-                allFieldsFound = false;
+            if ($element.length === 0) {
+                console.warn(`Contact Form: ${key} not found (${selector})`);
             }
         });
-
-        if (allFieldsFound) {
-            console.log('🎉 All form fields verified successfully');
-        } else {
-            console.warn('⚠️  Some form fields are missing - this may cause functionality issues');
-        }
-
-        return allFieldsFound;
     }
 
     /**
@@ -166,8 +123,6 @@
 
             // Initialize counter on page load
             $messageField.trigger('input');
-
-            console.log('📝 Enhanced character counter initialized');
         }
     }
 
@@ -193,12 +148,12 @@
 
                 // Real-time validation for specific fields
                 if (fieldName === 'email') {
-                    // Real-time email validation as user types (with safe value retrieval)
+                    // Real-time email validation as user types
                     $field.on('input', debounce(function () {
-                        const value = getFieldValue(ContactForm.selectors.emailField);
-                        if (value.length > 0) {
-                            console.log(`📧 Real-time email validation for: "${value}"`);
-                            validateField(fieldName, $(this));
+                        const $currentField = $(this);
+                        const value = $currentField.val();
+                        if (value && value.trim && value.trim().length > 0) {
+                            validateField(fieldName, $currentField);
                         }
                     }, 500));
                 }
@@ -213,13 +168,6 @@
                 // Special handling for select dropdown and checkbox
                 if (fieldName === 'subject') {
                     $field.on('change', function () {
-                        console.log(`📋 Subject changed to: "${$(this).val()}"`);
-                        validateField(fieldName, $(this));
-                    });
-
-                    // Also validate on focus out for dropdown
-                    $field.on('blur', function () {
-                        console.log(`📋 Subject blur event with value: "${$(this).val()}"`);
                         validateField(fieldName, $(this));
                     });
                 }
@@ -231,8 +179,6 @@
                 }
             }
         });
-
-        console.log('✅ Field validation listeners initialized');
     }
 
     /**
@@ -243,14 +189,8 @@
 
         $form.on('submit', function (e) {
             e.preventDefault();
-
-            // Clear any existing server-side validation messages
-            clearAllServerSideValidation();
-
             handleFormSubmission();
         });
-
-        console.log('📤 Form submission handler initialized');
     }
 
     /**
@@ -272,16 +212,7 @@
      */
     function validateField(fieldName, $field) {
         const config = ContactForm.validation[fieldName];
-
-        // Safe value retrieval to prevent trim() errors
-        let value;
-        if (fieldName === 'robotCheck') {
-            value = $field.is(':checked');
-        } else {
-            // Use safe value retrieval instead of direct .val().trim()
-            const rawValue = $field.val();
-            value = rawValue ? rawValue.trim() : '';
-        }
+        const value = fieldName === 'robotCheck' ? $field.is(':checked') : $field.val().trim();
 
         let isValid = true;
         let errorMessage = '';
@@ -410,15 +341,16 @@
      * Validate subject field (dropdown selection)
      */
     function validateSubjectField(value, config) {
-        console.log(`🔍 Validating subject field with value: "${value}"`);
-
-        // Required check - empty value means "Select a topic..." is selected
-        if (!value || value === '' || value === 'Select a topic...') {
-            console.log('❌ Subject validation failed: no valid selection');
+        // Required check
+        if (!value || value === '') {
             return { valid: false, message: 'Please select a subject' };
         }
 
-        console.log('✅ Subject validation passed');
+        // Check for meaningful selection (not empty or placeholder)
+        if (value === 'Select a topic...') {
+            return { valid: false, message: 'Please select a valid subject' };
+        }
+
         return { valid: true };
     }
 
@@ -470,14 +402,10 @@
      * Show field validation success
      */
     function showFieldSuccess($field) {
-        // Clear server-side validation messages to prevent duplicates
-        clearServerSideValidation($field);
-
         // For select elements, don't add visual validation classes due to styling conflicts
         if ($field.is('select')) {
             $field.removeClass('is-invalid');
             $field.siblings('.invalid-feedback').text('');
-            console.log('✅ Select field valid (visual styling skipped)');
         } else {
             $field.removeClass('is-invalid').addClass('is-valid');
             $field.siblings('.invalid-feedback').text('');
@@ -488,104 +416,51 @@
      * Show field validation error
      */
     function showFieldError($field, message) {
-        // Clear server-side validation messages to prevent duplicates
-        clearServerSideValidation($field);
-
-        // For select elements, don't add visual validation classes due to styling conflicts
-        if ($field.is('select')) {
-            $field.removeClass('is-valid');
-            $field.siblings('.invalid-feedback').text(message);
-            console.log(`❌ Select field invalid: ${message} (visual styling skipped)`);
-        } else {
-            $field.removeClass('is-valid').addClass('is-invalid');
-            $field.siblings('.invalid-feedback').text(message);
-        }
+        $field.removeClass('is-valid').addClass('is-invalid');
+        $field.siblings('.invalid-feedback').text(message);
     }
 
     /**
      * Clear field validation styling
      */
     function clearFieldValidation($field) {
-        // Clear both client-side and server-side validation
-        clearServerSideValidation($field);
-
-        // For select elements, only remove validation classes (no visual styling issues)
-        if ($field.is('select')) {
-            $field.removeClass('is-valid is-invalid');
-            $field.siblings('.invalid-feedback').text('');
-            console.log('🧹 Select field validation cleared (no styling conflicts)');
-        } else {
-            $field.removeClass('is-valid is-invalid');
-            $field.siblings('.invalid-feedback').text('');
-        }
+        $field.removeClass('is-valid is-invalid');
+        $field.siblings('.invalid-feedback').text('');
     }
 
     /**
-     * Clear server-side validation messages to prevent duplicates
-     */
-    function clearServerSideValidation($field) {
-        // Find and clear ASP.NET Core validation span
-        const fieldName = $field.attr('name');
-        if (fieldName) {
-            // Clear validation summary for this field
-            $(`span[data-valmsg-for="${fieldName}"]`).text('');
-
-            // Also try alternative selector patterns
-            $field.siblings('span.text-danger').text('');
-            $field.siblings('span.field-validation-error').text('');
-            $field.siblings('.text-danger.small').text('');
-        }
-    }
-
-    /**
-     * Handle form submission with complete validation
+     * Handle form submission with AJAX
      */
     function handleFormSubmission() {
-        console.log('📝 Form submission started');
-
         // Prevent double submission
         if (ContactForm.state.isSubmitting) {
-            console.log('⚠️  Form already submitting, ignoring');
             return;
         }
 
         // Clear any previous form-level errors
         clearFormError();
 
-        // Validate all fields
+        // Validate all fields client-side first
         let isFormValid = true;
-        const validationResults = {};
-
-        console.log('🔍 Starting field validation...');
 
         Object.keys(ContactForm.validation).forEach(fieldName => {
             const selector = getFieldSelector(fieldName);
             const $field = $(selector);
 
             if ($field.length) {
-                console.log(`🔸 Validating ${fieldName}...`);
                 const fieldValid = validateField(fieldName, $field);
-                validationResults[fieldName] = fieldValid;
-                console.log(`${fieldValid ? '✅' : '❌'} ${fieldName}: ${fieldValid ? 'valid' : 'invalid'}`);
-
                 if (!fieldValid) {
                     isFormValid = false;
                 }
-            } else {
-                console.warn(`⚠️  Field ${fieldName} not found with selector: ${selector}`);
             }
         });
 
         // Additional form-level validation
         if (isFormValid) {
-            console.log('🔍 Running additional form validation...');
             isFormValid = performAdditionalFormValidation();
         }
 
         if (!isFormValid) {
-            console.log('❌ Form validation failed');
-            console.log('Validation errors:', ContactForm.state.validationErrors);
-
             // Focus on first invalid field
             focusFirstInvalidField();
 
@@ -594,13 +469,269 @@
             return;
         }
 
-        console.log('✅ Form validation passed, preparing submission');
+        // Set submitting state
+        ContactForm.state.isSubmitting = true;
 
-        // All validation passed - ready for AJAX submission
-        console.log('🎉 Form ready for AJAX submission (to be implemented in next sub-step)');
+        // IMPORTANT: Collect form data BEFORE showing loading state (which disables fields)
+        const $form = $(ContactForm.selectors.form);
+        const formData = $form.serialize();
 
-        // For now, just show success message to indicate validation worked
-        showFormSuccess('✅ Form validation successful! (AJAX submission will be implemented next)');
+        // Now show loading state (this will disable fields but we already have the data)
+        showLoadingState();
+
+        // Store start time for minimum loading delay
+        const startTime = Date.now();
+        const minLoadingDuration = 800; // Minimum 800ms loading time for better UX
+
+        // Submit form via AJAX
+        $.ajax({
+            url: $form.attr('action') || '/Home/Contact',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            timeout: 30000, // 30 second timeout
+            success: function (response) {
+                // Calculate remaining time for minimum loading duration
+                const elapsedTime = Date.now() - startTime;
+                const remainingTime = Math.max(0, minLoadingDuration - elapsedTime);
+
+                // Ensure minimum loading time for better UX
+                setTimeout(() => {
+                    handleAjaxSuccess(response);
+                }, remainingTime);
+            },
+            error: function (xhr, status, error) {
+                console.error('Contact form submission failed:', {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    error: error
+                });
+
+                // Calculate remaining time for minimum loading duration
+                const elapsedTime = Date.now() - startTime;
+                const remainingTime = Math.max(0, minLoadingDuration - elapsedTime);
+
+                // Ensure minimum loading time even for errors
+                setTimeout(() => {
+                    handleAjaxError(xhr, status, error);
+                }, remainingTime);
+            }
+        });
+    }
+
+    /**
+     * Show loading state on submit button
+     */
+    function showLoadingState() {
+        const $submitBtn = $(ContactForm.selectors.submitButton);
+
+        if ($submitBtn.length) {
+            // Store original button text
+            $submitBtn.data('original-text', $submitBtn.html());
+
+            // Show loading state with spinner
+            $submitBtn.html('<i class="fas fa-spinner fa-spin me-2"></i>Sending...')
+                .prop('disabled', true)
+                .addClass('btn-loading');
+        }
+
+        // Disable form inputs during submission
+        $(ContactForm.selectors.form + ' input, ' + ContactForm.selectors.form + ' select, ' + ContactForm.selectors.form + ' textarea')
+            .prop('disabled', true)
+            .addClass('submitting');
+    }
+
+    /**
+     * Hide loading state on submit button
+     */
+    function hideLoadingState() {
+        const $submitBtn = $(ContactForm.selectors.submitButton);
+
+        if ($submitBtn.length) {
+            // Restore original button text
+            const originalText = $submitBtn.data('original-text') || 'Send Message';
+            $submitBtn.html(originalText)
+                .prop('disabled', false)
+                .removeClass('btn-loading');
+        }
+
+        // Re-enable form inputs
+        $(ContactForm.selectors.form + ' input, ' + ContactForm.selectors.form + ' select, ' + ContactForm.selectors.form + ' textarea')
+            .prop('disabled', false)
+            .removeClass('submitting');
+    }
+
+    /**
+     * Handle successful AJAX response
+     */
+    function handleAjaxSuccess(response) {
+        // Always clean up loading state first
+        hideLoadingState();
+        ContactForm.state.isSubmitting = false;
+
+        if (response.success) {
+            // Show success message
+            showFormSuccess(response.message);
+
+            // Clear the form
+            clearForm();
+
+            // Reset validation state
+            ContactForm.state.validationErrors = {};
+
+            // Clear any validation styling
+            clearAllValidationStyling();
+
+            // Scroll to success message
+            scrollToMessage('success');
+        } else {
+            // Handle server validation errors
+            handleServerValidationErrors(response.errors, response.message);
+        }
+    }
+
+    /**
+     * Handle AJAX error response
+     */
+    function handleAjaxError(xhr, status, error) {
+        // Always clean up loading state first
+        hideLoadingState();
+        ContactForm.state.isSubmitting = false;
+
+        let errorMessage = 'Sorry, there was an error sending your message. Please try again or contact us directly.';
+        let serverErrors = null;
+
+        // Try to parse JSON error response
+        try {
+            if (xhr.responseText && xhr.responseText.trim()) {
+                const response = JSON.parse(xhr.responseText);
+
+                if (response.message) {
+                    errorMessage = response.message;
+                }
+
+                // Check for validation errors
+                if (response.errors) {
+                    serverErrors = response.errors;
+                }
+            }
+        } catch (e) {
+            // Log parsing errors but don't show to user
+            console.error('Error parsing server response:', e);
+        }
+
+        // Handle specific error types
+        if (xhr.status === 400) {
+            if (serverErrors) {
+                // Handle validation errors
+                handleServerValidationErrors(serverErrors, errorMessage);
+                return;
+            } else {
+                errorMessage = 'Invalid form data. Please check your inputs and try again.';
+            }
+        } else if (xhr.status === 403) {
+            errorMessage = 'Access denied. Please refresh the page and try again.';
+        } else if (xhr.status === 404) {
+            errorMessage = 'Contact form service not found. Please try again later.';
+        } else if (xhr.status === 500) {
+            errorMessage = 'Server error occurred. Please try again later.';
+        } else if (status === 'timeout') {
+            errorMessage = 'Request timed out. Please check your connection and try again.';
+        } else if (status === 'abort') {
+            errorMessage = 'Request was cancelled. Please try again.';
+        } else if (xhr.status === 0) {
+            errorMessage = 'Network error. Please check your internet connection and try again.';
+        }
+
+        showFormError(errorMessage);
+        scrollToMessage('error');
+    }
+
+    /**
+     * Handle server-side validation errors
+     */
+    function handleServerValidationErrors(errors, message) {
+        console.log('🔍 Processing server validation errors:', errors);
+
+        // Show each field error
+        Object.keys(errors).forEach(fieldName => {
+            const fieldErrors = errors[fieldName];
+            const selector = getFieldSelector(fieldName.toLowerCase());
+            const $field = $(selector);
+
+            if ($field.length && fieldErrors.length > 0) {
+                showFieldError($field, fieldErrors[0]); // Show first error
+                console.log(`❌ Server error for ${fieldName}: ${fieldErrors[0]}`);
+            }
+        });
+
+        // Show general form error
+        showFormError(message || 'Please fix the errors above and try again.');
+
+        // Focus on first invalid field
+        focusFirstInvalidField();
+
+        // Scroll to first error
+        scrollToMessage('error');
+    }
+
+    /**
+     * Clear the form after successful submission
+     */
+    function clearForm() {
+        console.log('🧹 Clearing form fields...');
+
+        // Clear all input fields
+        $(ContactForm.selectors.form + ' input[type="text"], ' + ContactForm.selectors.form + ' input[type="email"]').val('');
+
+        // Clear textarea
+        $(ContactForm.selectors.messageField).val('');
+
+        // Reset select dropdown
+        $(ContactForm.selectors.subjectField).val('');
+
+        // Uncheck checkbox
+        $(ContactForm.selectors.robotCheckbox).prop('checked', false);
+
+        // Update character counter
+        $(ContactForm.selectors.messageField).trigger('input');
+
+        console.log('✅ Form cleared successfully');
+    }
+
+    /**
+     * Clear all validation styling from form
+     */
+    function clearAllValidationStyling() {
+        console.log('🎨 Clearing all validation styling...');
+
+        // Remove validation classes from all fields
+        $(ContactForm.selectors.form + ' .form-control, ' + ContactForm.selectors.form + ' .form-select')
+            .removeClass('is-valid is-invalid');
+
+        // Clear all error messages
+        $(ContactForm.selectors.form + ' .invalid-feedback').text('');
+
+        // Clear any server-side validation messages
+        $(ContactForm.selectors.form + ' .text-danger').text('');
+
+        console.log('✅ Validation styling cleared');
+    }
+
+    /**
+     * Scroll to success or error message
+     */
+    function scrollToMessage(type) {
+        const $target = type === 'success' ? $('#form-success-message') : $('#form-error-message');
+
+        if ($target.length && $target.is(':visible')) {
+            $('html, body').animate({
+                scrollTop: $target.offset().top - 50
+            }, 300);
+        }
     }
 
     /**
@@ -648,14 +779,13 @@
         try {
             const $field = $(selector);
             if ($field.length === 0) {
-                console.warn(`⚠️  Field not found: ${selector}`);
                 return '';
             }
 
             const value = $field.val();
             return value ? value.trim() : '';
         } catch (error) {
-            console.error(`❌ Error getting value for ${selector}:`, error);
+            console.error(`Error getting value for ${selector}:`, error);
             return '';
         }
     }
@@ -853,10 +983,9 @@
         },
 
         /**
-         * Clear all validation errors (both client and server-side)
+         * Clear all validation errors
          */
         clearValidation: function () {
-            // Clear client-side validation
             Object.keys(ContactForm.validation).forEach(fieldName => {
                 const selector = getFieldSelector(fieldName);
                 const $field = $(selector);
@@ -866,11 +995,6 @@
             });
             ContactForm.state.validationErrors = {};
             clearFormError();
-
-            // Clear server-side validation
-            clearAllServerSideValidation();
-
-            console.log('🧹 All validation cleared (client and server-side)');
         },
 
         /**
@@ -883,13 +1007,6 @@
                 return validateField(fieldName, $field);
             }
             return false;
-        },
-
-        /**
-         * Clear only server-side validation messages
-         */
-        clearServerSideValidation: function () {
-            clearAllServerSideValidation();
         }
     };
 
