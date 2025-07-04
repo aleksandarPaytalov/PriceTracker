@@ -1,0 +1,936 @@
+﻿@{
+    ViewData["Title"] = "Pricing - 100% Free!";
+    ViewData["Description"] = "Our budget and price tracking app is completely free to use. Support us if you love what we do!";
+}
+
+@section Styles {
+    <link href="~/css/landingPage/pricing.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<main class="pricing-page">
+    <!-- Enhanced Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <!-- Floating Elements -->
+                    <div class="floating-elements">
+                        <div class="float-element float-1">💰</div>
+                        <div class="float-element float-2">📊</div>
+                        <div class="float-element float-3">✨</div>
+                        <div class="float-element float-4">🎯</div>
+                        <div class="float-element float-5">💚</div>
+                        <div class="float-element float-6">🚀</div>
+                    </div>
+
+                    <!-- Pre-headline Teaser -->
+                    <div class="pre-headline mb-3">
+                        <span class="teaser-badge">
+                            <i class="fas fa-fire me-2"></i>Most Popular Free Budget App
+                        </span>
+                    </div>
+
+                    <!-- Main Hero Content -->
+                    <div class="hero-content">
+                        <!-- Fun Icon Cluster -->
+                        <div class="hero-icons mb-4">
+                            <div class="icon-cluster">
+                                <i class="fas fa-gift fa-3x main-icon bounce-animation"></i>
+                                <i class="fas fa-heart fa-lg side-icon-1 heartbeat-animation"></i>
+                                <i class="fas fa-star fa-lg side-icon-2 sparkle-animation"></i>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Headline -->
+                        <h1 class="hero-headline mb-4">
+                            <span class="headline-emoji">🎉</span>
+                            <br>
+                            <span class="headline-main">Everything is</span>
+                            <br>
+                            <span class="headline-highlight">Completely FREE!</span>
+                            <br>
+                            <span class="headline-subtext">No strings attached 🎈</span>
+                        </h1>
+
+                        <!-- Interactive Messaging -->
+                        <div class="hero-messaging mb-4">
+                            <p class="lead-message mb-3">
+                                Track your budget, compare prices, and manage your finances
+                                <strong class="highlight-word">without spending a penny!</strong>
+                            </p>
+
+                            <!-- Animated Values -->
+                            <div class="value-proposition mb-4">
+                                <div class="row g-3">
+                                    <div class="col-6 col-md-3">
+                                        <div class="value-item" data-delay="0">
+                                            <div class="value-icon">💸</div>
+                                            <div class="value-text">$0 Cost</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="value-item" data-delay="200">
+                                            <div class="value-icon">🚫</div>
+                                            <div class="value-text">No Ads</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="value-item" data-delay="400">
+                                            <div class="value-icon">🔒</div>
+                                            <div class="value-text">No Signup Required*</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="value-item" data-delay="600">
+                                            <div class="value-icon">♾️</div>
+                                            <div class="value-text">Forever Free</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <small class="text-light mt-2 d-block opacity-75">
+                                    *Signup only for saving your data across devices
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Free Badge -->
+                        <div class="hero-badges mb-4">
+                            <div class="main-badge">
+                                <span class="badge-content">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <span class="badge-text">100% Free Forever</span>
+                                    <i class="fas fa-infinity ms-2"></i>
+                                </span>
+                            </div>
+
+                            <!-- Secondary Badges -->
+                            <div class="secondary-badges mt-3">
+                                <span class="mini-badge me-2">
+                                    <i class="fas fa-shield-alt me-1"></i>No Hidden Fees
+                                </span>
+                                <span class="mini-badge me-2">
+                                    <i class="fas fa-clock me-1"></i>No Time Limits
+                                </span>
+                                <span class="mini-badge">
+                                    <i class="fas fa-unlock me-1"></i>All Features Unlocked
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Hero Action Buttons -->
+                        <div class="hero-actions">
+                            <a href="@Url.Action("Register", "Account")" class="btn btn-hero-primary btn-lg me-3 mb-2">
+                                <i class="fas fa-rocket me-2"></i>
+                                <span>Start Saving Money Now!</span>
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+
+                            <button class="btn btn-hero-secondary btn-lg mb-2" onclick="scrollToFeatures()">
+                                <i class="fas fa-eye me-2"></i>
+                                <span>See What's Free</span>
+                            </button>
+                        </div>
+
+                        <!-- Trust Indicator -->
+                        <div class="trust-indicator mt-4">
+                            <p class="trust-text">
+                                <i class="fas fa-heart text-danger me-2"></i>
+                                <strong>Built with love</strong> for people who want to manage money better
+                                <br>
+                                <small class="text-light opacity-75">
+                                    Because financial wellness should be accessible to everyone 🌍
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-arrow" onclick="scrollToNextSection()">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Showcase Section -->
+    <section class="features-showcase-section py-5">
+        <div class="container">
+            <!-- Section Header -->
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <div class="section-header">
+                        <div class="section-badge mb-3">
+                            <i class="fas fa-star me-2"></i>Everything Included Free
+                        </div>
+                        <h2 class="section-title mb-4">
+                            🌟 <span class="highlight-gradient">What You Get</span> For Free
+                        </h2>
+                        <p class="section-subtitle">
+                            Every single feature. No premium plans, no hidden costs, no limitations.
+                            <br><strong>Just powerful tools to help you manage money better!</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <div class="row g-4">
+                    <!-- Price Tracking Category -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="feature-category-card" data-category="price-tracking">
+                            <div class="feature-header">
+                                <div class="feature-icon-wrapper">
+                                    <i class="fas fa-chart-line feature-main-icon"></i>
+                                    <div class="icon-background"></div>
+                                </div>
+                                <h3 class="feature-category-title">Price Tracking</h3>
+                                <p class="feature-category-desc">Smart price monitoring & comparison tools</p>
+                            </div>
+
+                            <div class="feature-list">
+                                <div class="feature-item">
+                                    <i class="fas fa-history feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Price History Charts</h4>
+                                        <p>Track price trends over time with interactive charts</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-store feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Store Recommendations</h4>
+                                        <p>Find cheapest stores for your shopping list</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-table feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Price Comparison Table</h4>
+                                        <p>Real-time price comparison across all stores</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="feature-badge">
+                                <span class="badge-text">100% Free</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Budget Management Category -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="feature-category-card" data-category="budget-management">
+                            <div class="feature-header">
+                                <div class="feature-icon-wrapper">
+                                    <i class="fas fa-wallet feature-main-icon"></i>
+                                    <div class="icon-background"></div>
+                                </div>
+                                <h3 class="feature-category-title">Budget Management</h3>
+                                <p class="feature-category-desc">Complete expense tracking & budget analysis</p>
+                            </div>
+
+                            <div class="feature-list">
+                                <div class="feature-item">
+                                    <i class="fas fa-calendar-alt feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Monthly Budgets</h4>
+                                        <p>Set and track monthly spending budgets by category</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-chart-pie feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Expense Analytics</h4>
+                                        <p>Weekly & monthly reports with detailed breakdowns</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-exclamation-triangle feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Overspending Alerts</h4>
+                                        <p>Smart notifications when you exceed budget limits</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="feature-badge">
+                                <span class="badge-text">100% Free</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Task Management Category -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="feature-category-card" data-category="task-management">
+                            <div class="feature-header">
+                                <div class="feature-icon-wrapper">
+                                    <i class="fas fa-tasks feature-main-icon"></i>
+                                    <div class="icon-background"></div>
+                                </div>
+                                <h3 class="feature-category-title">Task Management</h3>
+                                <p class="feature-category-desc">Priority-based personal productivity tools</p>
+                            </div>
+
+                            <div class="feature-list">
+                                <div class="feature-item">
+                                    <i class="fas fa-flag feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Priority Tasks</h4>
+                                        <p>Organize tasks by priority and status levels</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-clock feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Due Date Tracking</h4>
+                                        <p>Never miss deadlines with smart reminders</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-bell feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Smart Notifications</h4>
+                                        <p>Upcoming task alerts and deadline warnings</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="feature-badge">
+                                <span class="badge-text">100% Free</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Category -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="feature-category-card" data-category="dashboard">
+                            <div class="feature-header">
+                                <div class="feature-icon-wrapper">
+                                    <i class="fas fa-tachometer-alt feature-main-icon"></i>
+                                    <div class="icon-background"></div>
+                                </div>
+                                <h3 class="feature-category-title">Smart Dashboard</h3>
+                                <p class="feature-category-desc">Comprehensive overview of your finances</p>
+                            </div>
+
+                            <div class="feature-list">
+                                <div class="feature-item">
+                                    <i class="fas fa-chart-bar feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Budget Overview</h4>
+                                        <p>Real-time budget vs. spending visualization</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-trophy feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Top Products</h4>
+                                        <p>Track your most purchased items and brands</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-calendar-check feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Yearly Summary</h4>
+                                        <p>Annual expense trends and savings insights</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="feature-badge">
+                                <span class="badge-text">100% Free</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data & Security Category -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="feature-category-card" data-category="data-security">
+                            <div class="feature-header">
+                                <div class="feature-icon-wrapper">
+                                    <i class="fas fa-shield-alt feature-main-icon"></i>
+                                    <div class="icon-background"></div>
+                                </div>
+                                <h3 class="feature-category-title">Data & Security</h3>
+                                <p class="feature-category-desc">Your data, protected and portable</p>
+                            </div>
+
+                            <div class="feature-list">
+                                <div class="feature-item">
+                                    <i class="fas fa-lock feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Secure Storage</h4>
+                                        <p>Bank-level encryption for all your financial data</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-download feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Data Export</h4>
+                                        <p>Export your data anytime in multiple formats</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-sync feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Cross-Device Sync</h4>
+                                        <p>Access your data from any device, anywhere</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="feature-badge">
+                                <span class="badge-text">100% Free</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Features Category -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="feature-category-card" data-category="advanced-features">
+                            <div class="feature-header">
+                                <div class="feature-icon-wrapper">
+                                    <i class="fas fa-magic feature-main-icon"></i>
+                                    <div class="icon-background"></div>
+                                </div>
+                                <h3 class="feature-category-title">Advanced Features</h3>
+                                <p class="feature-category-desc">Pro-level tools without the pro price</p>
+                            </div>
+
+                            <div class="feature-list">
+                                <div class="feature-item">
+                                    <i class="fas fa-filter feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Smart Filtering</h4>
+                                        <p>Advanced search and filter across all data</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-mobile-alt feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Mobile Optimized</h4>
+                                        <p>Full functionality on phones and tablets</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <i class="fas fa-palette feature-item-icon"></i>
+                                    <div class="feature-item-content">
+                                        <h4>Customizable UI</h4>
+                                        <p>Personalize colors, themes, and layouts</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="feature-badge">
+                                <span class="badge-text">100% Free</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom CTA Section -->
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <div class="features-cta">
+                        <h3 class="cta-title mb-3">
+                            🎉 All This. Completely Free. Forever.
+                        </h3>
+                        <p class="cta-description mb-4">
+                            No trials, no limits, no premium plans. Start using every feature right now!
+                        </p>
+                        <a href="@Url.Action("Register", "Account")" class="btn btn-features-cta btn-lg">
+                            <i class="fas fa-gift me-2"></i>
+                            Get All Features Free
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+
+                        <div class="cta-note mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                No credit card required • Setup takes 2 minutes • Start saving money today
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section class="support-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="support-card">
+                        <!-- Coffee Icon -->
+                        <div class="support-icon mb-4">
+                            <i class="fas fa-coffee fa-3x"></i>
+                        </div>
+
+                        <h2 class="display-6 fw-bold mb-3">
+                            ☕ Enjoying the App?
+                        </h2>
+
+                        <p class="lead text-muted mb-4">
+                            If our free app is helping you save money and stay organized, consider buying us a coffee!
+                            Your support helps keep the servers running and motivates us to add cool new features.
+                            <br><span class="text-success fw-bold">Every little bit helps! 🙏</span>
+                        </p>
+
+                        <!-- Fun Donation Ideas -->
+                        <div class="donation-ideas mb-4">
+                            <div class="row g-3">
+                                <div class="col-6 col-md-3">
+                                    <div class="donation-item">
+                                        <div class="emoji">☕</div>
+                                        <div class="amount">$3</div>
+                                        <div class="label">One Coffee</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="donation-item">
+                                        <div class="emoji">🥪</div>
+                                        <div class="amount">$5</div>
+                                        <div class="label">Coffee + Snack</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="donation-item">
+                                        <div class="emoji">🍕</div>
+                                        <div class="amount">$10</div>
+                                        <div class="label">Dev Lunch</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="donation-item">
+                                        <div class="emoji">💝</div>
+                                        <div class="amount">$25+</div>
+                                        <div class="label">You're Awesome!</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Revolut Support -->
+                        <div class="revolut-support">
+                            <h5 class="mb-3">💚 Send Support via Revolut:</h5>
+
+                            <div class="revolut-card">
+                                <div class="revolut-header">
+                                    <i class="fas fa-mobile-alt me-2"></i>
+                                    <strong>Revolut Username</strong>
+                                </div>
+                                <div class="revolut-details">
+                                    <code class="revolut-username" id="revolut-username">apaytalov89</code>
+                                    <button class="btn btn-primary btn-sm ms-2" onclick="copyToClipboard('revolut-username')">
+                                        <i class="fas fa-copy me-1"></i>Copy
+                                    </button>
+                                </div>
+                                <div class="revolut-help mt-2">
+                                    <small class="text-muted">
+                                        Open Revolut → Send Money → Search for username → Send any amount ❤️
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thank You Message -->
+                        <div class="gratitude-note mt-4">
+                            <p class="mb-0">
+                                <i class="fas fa-heart text-danger me-1"></i>
+                                <strong>Thank you for considering supporting our work!</strong>
+                                <br>
+                                <small class="text-muted">
+                                    Your kindness helps us keep this app free for everyone and motivates us to make it even better! 🚀
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simple FAQ Section -->
+    <section class="faq-section py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="display-6 fw-bold">
+                        🤔 Quick Questions
+                    </h2>
+                    <p class="lead text-muted">
+                        Just the essentials!
+                    </p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="pricingFAQ">
+                        <!-- FAQ Item 1 -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Is everything really free?
+                                </button>
+                            </h3>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#pricingFAQ">
+                                <div class="accordion-body">
+                                    <strong>Absolutely!</strong> 100% of the app features are free to use forever. No hidden fees, no premium upgrades, no time limits. We built this because we believe financial tools should be accessible to everyone! 🎉
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 2 -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Why don't you charge for it?
+                                </button>
+                            </h3>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#pricingFAQ">
+                                <div class="accordion-body">
+                                    We're passionate about helping people manage their money better! Plus, we believe that tools for financial wellness should be available to everyone, regardless of their budget. Your optional support helps us keep it running! ☕
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 3 -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Will you add paid features later?
+                                </button>
+                            </h3>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#pricingFAQ">
+                                <div class="accordion-body">
+                                    <strong>Everything you see will stay free forever.</strong> We might add extra bonus features down the road, but the core app you're using today will never be locked behind a paywall. Promise! 🤝
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simple Call to Action -->
+    <section class="cta-section py-5 text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h2 class="display-6 fw-bold mb-3">
+                        🚀 Ready to Start?
+                    </h2>
+                    <p class="lead mb-4">
+                        Join users who are already saving money and staying organized!
+                    </p>
+                    <a href="@Url.Action("Identity", "Register")" class="btn btn-primary btn-lg">
+                        <i class="fas fa-play me-2"></i>Get Started - It's Free!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <script>
+        // Copy Revolut username to clipboard
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+
+            navigator.clipboard.writeText(text).then(function() {
+                // Show success feedback
+                const button = element.nextElementSibling;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check me-1"></i>Copied!';
+                button.classList.remove('btn-primary');
+                button.classList.add('btn-success');
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-primary');
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                // Fallback for older browsers
+                element.select();
+                document.execCommand('copy');
+                alert('Username copied to clipboard!');
+            });
+        }
+
+        // Smooth scroll to features section
+        function scrollToFeatures() {
+            const featuresSection = document.querySelector('.features-showcase-section');
+            if (featuresSection) {
+                featuresSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Smooth scroll to next section
+        function scrollToNextSection() {
+            const nextSection = document.querySelector('.features-showcase-section');
+            if (nextSection) {
+                nextSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Enhanced interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click animation to donation items
+            const donationItems = document.querySelectorAll('.donation-item');
+            donationItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+
+            // Add click animation to value proposition items
+            const valueItems = document.querySelectorAll('.value-item');
+            valueItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Create ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+                    ripple.style.width = '20px';
+                    ripple.style.height = '20px';
+                    ripple.style.left = '50%';
+                    ripple.style.top = '50%';
+                    ripple.style.transform = 'translate(-50%, -50%)';
+                    ripple.style.animation = 'ripple 0.6s ease-out';
+                    ripple.style.pointerEvents = 'none';
+
+                    this.style.position = 'relative';
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        if (ripple.parentNode) {
+                            ripple.parentNode.removeChild(ripple);
+                        }
+                    }, 600);
+                });
+            });
+
+            // Add hover effects to floating elements
+            const floatingElements = document.querySelectorAll('.float-element');
+            floatingElements.forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    this.style.animation = 'none';
+                    this.style.transform = 'scale(1.5)';
+                    this.style.opacity = '0.8';
+                });
+
+                element.addEventListener('mouseleave', function() {
+                    this.style.animation = '';
+                    this.style.transform = '';
+                    this.style.opacity = '';
+                });
+            });
+
+            // Add parallax effect to floating elements on scroll
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallax = scrolled * 0.5;
+
+                floatingElements.forEach((element, index) => {
+                    const speed = (index + 1) * 0.1;
+                    element.style.transform = `translateY(${parallax * speed}px)`;
+                });
+            });
+
+            // Add intersection observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            const animateElements = document.querySelectorAll('.feature-category-card, .support-card, .accordion-item, .features-cta');
+            animateElements.forEach(el => observer.observe(el));
+
+            // Add feature card interactions
+            const featureCards = document.querySelectorAll('.feature-category-card');
+            featureCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Add ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(79, 70, 229, 0.3)';
+                    ripple.style.width = '20px';
+                    ripple.style.height = '20px';
+                    ripple.style.left = '50%';
+                    ripple.style.top = '50%';
+                    ripple.style.transform = 'translate(-50%, -50%)';
+                    ripple.style.animation = 'ripple 0.6s ease-out';
+                    ripple.style.pointerEvents = 'none';
+                    ripple.style.zIndex = '10';
+
+                    this.style.position = 'relative';
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        if (ripple.parentNode) {
+                            ripple.parentNode.removeChild(ripple);
+                        }
+                    }, 600);
+                });
+
+                // Add hover sound effect (optional)
+                card.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.feature-main-icon');
+                    if (icon) {
+                        icon.style.animation = 'none';
+                        icon.offsetHeight; // Trigger reflow
+                        icon.style.animation = 'bounce 0.6s ease-in-out';
+                    }
+                });
+            });
+
+            // Add feature item interactions
+            const featureItems = document.querySelectorAll('.feature-item');
+            featureItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const icon = this.querySelector('.feature-item-icon');
+                    if (icon) {
+                        icon.style.transform = 'scale(1.3) rotate(360deg)';
+                        setTimeout(() => {
+                            icon.style.transform = '';
+                        }, 500);
+                    }
+                });
+            });
+
+            // Add scroll-triggered animations for feature cards
+            const featureCardsObserver = new IntersectionObserver(function(entries) {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('animate-in');
+                        }, index * 100); // Staggered animation
+                    }
+                });
+            }, {
+                threshold: 0.2,
+                rootMargin: '0px 0px -100px 0px'
+            });
+
+            featureCards.forEach(card => {
+                featureCardsObserver.observe(card);
+            });
+
+            // Add parallax effect to section backgrounds
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallax = scrolled * 0.3;
+
+                const featuresSection = document.querySelector('.features-showcase-section');
+                if (featuresSection) {
+                    featuresSection.style.backgroundPosition = `center ${parallax}px`;
+                }
+            });
+
+            // Add dynamic icon animations on card hover
+            featureCards.forEach(card => {
+                const icon = card.querySelector('.feature-main-icon');
+                const background = card.querySelector('.icon-background');
+
+                card.addEventListener('mouseenter', function() {
+                    if (icon && background) {
+                        icon.style.animation = 'iconDance 0.8s ease-in-out';
+                        background.style.animation = 'backgroundPulse 0.8s ease-in-out';
+                    }
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    if (icon && background) {
+                        icon.style.animation = '';
+                        background.style.animation = '';
+                    }
+                });
+            });
+
+            // Add dynamic text effect to headline
+            const headlineHighlight = document.querySelector('.headline-highlight');
+            if (headlineHighlight) {
+                const text = headlineHighlight.textContent;
+                const colors = ['#f59e0b', '#10b981', '#06b6d4', '#8b5cf6', '#ef4444'];
+                let colorIndex = 0;
+
+                setInterval(() => {
+                    headlineHighlight.style.background = `linear-gradient(45deg, ${colors[colorIndex]}, ${colors[(colorIndex + 1) % colors.length]}, ${colors[(colorIndex + 2) % colors.length]})`;
+                    headlineHighlight.style.backgroundSize = '300% 300%';
+                    headlineHighlight.style.webkitBackgroundClip = 'text';
+                    headlineHighlight.style.backgroundClip = 'text';
+                    colorIndex = (colorIndex + 1) % colors.length;
+                }, 3000);
+            }
+
+            // Add loading animation to hero buttons
+            const heroButtons = document.querySelectorAll('.btn-hero-primary, .btn-hero-secondary');
+            heroButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.classList.contains('btn-hero-secondary')) {
+                        e.preventDefault();
+                        scrollToFeatures();
+                        return;
+                    }
+
+                    // Add loading state for primary button
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Getting Started...';
+                    this.disabled = true;
+
+                    // Simulate loading (remove this in production)
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.disabled = false;
+                    }, 2000);
+                });
+            });
+        });
+
+     
+    </script>
+}
