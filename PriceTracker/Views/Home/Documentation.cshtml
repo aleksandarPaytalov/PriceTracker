@@ -1,285 +1,222 @@
 ﻿@{
-    ViewData["Title"] = "Documentation";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Documentation - PriceTracker";
+    ViewData["Description"] = "Complete guide to using PriceTracker for price monitoring, budget management, and task organization.";
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/landingPage/documentation.css" />
 }
 
-<div class="documentation-container">
-    <!-- Left Sidebar Navigation -->
-    <nav class="documentation-sidebar" id="documentationSidebar">
-        <div class="sidebar-header">
-            <h4 class="sidebar-title">Documentation</h4>
-            <button class="sidebar-toggle d-md-none" id="sidebarToggle" aria-label="Toggle sidebar">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-
-        <div class="sidebar-search">
-            <div class="search-container">
-                <input type="text" id="documentationSearch" class="form-control search-input"
-                       placeholder="Search documentation..." aria-label="Search documentation">
-                <i class="fas fa-search search-icon"></i>
-            </div>
-        </div>
-
-        <div class="sidebar-menu" id="sidebarMenu">
-            <!-- Getting Started Section -->
-            <div class="menu-section">
-                <button class="menu-section-header" data-bs-toggle="collapse" data-bs-target="#gettingStartedMenu"
-                        aria-expanded="true" aria-controls="gettingStartedMenu">
-                    <i class="fas fa-rocket"></i>
-                    <span>Getting Started</span>
-                    <i class="fas fa-chevron-down collapse-icon"></i>
-                </button>
-                <div class="collapse show" id="gettingStartedMenu">
-                    <div class="menu-items">
-                        <a href="#overview" class="menu-item active" data-section="overview">
-                            <i class="fas fa-home"></i> Overview
-                        </a>
-                        <a href="#installation" class="menu-item" data-section="installation">
-                            <i class="fas fa-download"></i> Installation
-                        </a>
-                        <a href="#first-steps" class="menu-item" data-section="first-steps">
-                            <i class="fas fa-play"></i> First Steps
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Features Section -->
-            <div class="menu-section">
-                <button class="menu-section-header" data-bs-toggle="collapse" data-bs-target="#featuresMenu"
-                        aria-expanded="false" aria-controls="featuresMenu">
-                    <i class="fas fa-star"></i>
-                    <span>Features</span>
-                    <i class="fas fa-chevron-down collapse-icon"></i>
-                </button>
-                <div class="collapse" id="featuresMenu">
-                    <div class="menu-items">
-                        <a href="#price-tracking" class="menu-item" data-section="price-tracking">
-                            <i class="fas fa-chart-line"></i> Price Tracking
-                        </a>
-                        <a href="#budget-management" class="menu-item" data-section="budget-management">
-                            <i class="fas fa-wallet"></i> Budget Management
-                        </a>
-                        <a href="#task-management" class="menu-item" data-section="task-management">
-                            <i class="fas fa-tasks"></i> Task Management
-                        </a>
-                        <a href="#notifications" class="menu-item" data-section="notifications">
-                            <i class="fas fa-bell"></i> Notifications
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- User Guide Section -->
-            <div class="menu-section">
-                <button class="menu-section-header" data-bs-toggle="collapse" data-bs-target="#userGuideMenu"
-                        aria-expanded="false" aria-controls="userGuideMenu">
-                    <i class="fas fa-book"></i>
-                    <span>User Guide</span>
-                    <i class="fas fa-chevron-down collapse-icon"></i>
-                </button>
-                <div class="collapse" id="userGuideMenu">
-                    <div class="menu-items">
-                        <a href="#adding-products" class="menu-item" data-section="adding-products">
-                            <i class="fas fa-plus"></i> Adding Products
-                        </a>
-                        <a href="#setting-budgets" class="menu-item" data-section="setting-budgets">
-                            <i class="fas fa-piggy-bank"></i> Setting Budgets
-                        </a>
-                        <a href="#tracking-expenses" class="menu-item" data-section="tracking-expenses">
-                            <i class="fas fa-receipt"></i> Tracking Expenses
-                        </a>
-                        <a href="#managing-tasks" class="menu-item" data-section="managing-tasks">
-                            <i class="fas fa-check-circle"></i> Managing Tasks
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Support Section -->
-            <div class="menu-section">
-                <button class="menu-section-header" data-bs-toggle="collapse" data-bs-target="#supportMenu"
-                        aria-expanded="false" aria-controls="supportMenu">
-                    <i class="fas fa-life-ring"></i>
-                    <span>Support</span>
-                    <i class="fas fa-chevron-down collapse-icon"></i>
-                </button>
-                <div class="collapse" id="supportMenu">
-                    <div class="menu-items">
-                        <a href="#faq" class="menu-item" data-section="faq">
-                            <i class="fas fa-question-circle"></i> FAQ
-                        </a>
-                        <a href="#troubleshooting" class="menu-item" data-section="troubleshooting">
-                            <i class="fas fa-wrench"></i> Troubleshooting
-                        </a>
-                        <a href="#contact" class="menu-item" data-section="contact">
-                            <i class="fas fa-envelope"></i> Contact Support
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Legal Section -->
-            <div class="menu-section">
-                <button class="menu-section-header" data-bs-toggle="collapse" data-bs-target="#legalMenu"
-                        aria-expanded="false" aria-controls="legalMenu">
-                    <i class="fas fa-gavel"></i>
-                    <span>Legal</span>
-                    <i class="fas fa-chevron-down collapse-icon"></i>
-                </button>
-                <div class="collapse" id="legalMenu">
-                    <div class="menu-items">
-                        <a href="#privacy-policy" class="menu-item" data-section="privacy-policy">
-                            <i class="fas fa-shield-alt"></i> Privacy Policy
-                        </a>
-                        <a href="#terms-of-service" class="menu-item" data-section="terms-of-service">
-                            <i class="fas fa-file-contract"></i> Terms of Service
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content Area -->
-    <main class="documentation-content" id="documentationContent">
-        <!-- Breadcrumb Navigation -->
-        <nav aria-label="Documentation breadcrumb" class="documentation-breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Documentation</li>
-                <li class="breadcrumb-item active" id="currentSection" aria-current="page">Overview</li>
-            </ol>
-        </nav>
-
-        <!-- Content Sections -->
-        <div class="content-section active" id="overview-content">
-            <div class="section-header">
-                <h1 class="section-title">Welcome to PriceTracker Documentation</h1>
-                <p class="section-subtitle">Everything you need to know about managing prices, budgets, and tasks efficiently</p>
-            </div>
-
-            <div class="section-body">
-                <div class="alert alert-info d-flex align-items-center mb-4" role="alert">
-                    <i class="fas fa-info-circle me-3"></i>
-                    <div>
-                        <strong>New to PriceTracker?</strong> Start with our <a href="#first-steps" class="alert-link">First Steps guide</a>
-                        to get up and running quickly.
-                    </div>
-                </div>
-
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <h3>Price Tracking</h3>
-                            <p>Monitor product prices across multiple stores, view price history, and get recommendations for the best deals.</p>
-                            <a href="#price-tracking" class="btn btn-outline-primary btn-sm">Learn More</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <h3>Budget Management</h3>
-                            <p>Set monthly budgets, track expenses, and receive alerts when you're approaching spending limits.</p>
-                            <a href="#budget-management" class="btn btn-outline-primary btn-sm">Learn More</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-tasks"></i>
-                            </div>
-                            <h3>Task Management</h3>
-                            <p>Organize your shopping lists, set priorities, and never forget important tasks with our notification system.</p>
-                            <a href="#task-management" class="btn btn-outline-primary btn-sm">Learn More</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <h3>Reports & Analytics</h3>
-                            <p>Gain insights into your spending patterns with detailed reports and interactive charts.</p>
-                            <a href="#reports" class="btn btn-outline-primary btn-sm">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="quick-links mt-5">
-                    <h3>Quick Links</h3>
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <a href="#installation" class="quick-link-card">
-                                <i class="fas fa-download"></i>
-                                <span>Installation Guide</span>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="#faq" class="quick-link-card">
-                                <i class="fas fa-question-circle"></i>
-                                <span>Frequently Asked Questions</span>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="#contact" class="quick-link-card">
-                                <i class="fas fa-envelope"></i>
-                                <span>Get Support</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Placeholder sections for other content (to be populated) -->
-        <div class="content-section" id="installation-content" style="display: none;">
-            <h1>Installation Guide</h1>
-            <p>Installation content will be added here...</p>
-        </div>
-
-        <div class="content-section" id="first-steps-content" style="display: none;">
-            <h1>First Steps</h1>
-            <p>First steps content will be added here...</p>
-        </div>
-
-        <!-- Additional content sections will be added here -->
-
-    </main>
-
-    <!-- Right Sidebar - Table of Contents -->
-    <aside class="documentation-toc d-none d-xl-block" id="documentationToc">
-        <div class="toc-header">
-            <h5>On This Page</h5>
-        </div>
-        <nav class="toc-nav" id="tocNav">
-            <ul class="toc-list">
-                <li><a href="#overview" class="toc-link active">Overview</a></li>
-                <li><a href="#features" class="toc-link">Features</a></li>
-                <li><a href="#quick-links" class="toc-link">Quick Links</a></li>
-            </ul>
-        </nav>
-    </aside>
-</div>
-
-<!-- Back to Top Button -->
-<button class="back-to-top" id="backToTop" aria-label="Back to top">
-    <i class="fas fa-arrow-up"></i>
-</button>
-
 @section Scripts {
     <script src="~/js/landingPage/documentation.js"></script>
 }
+
+<div class="container mx-auto px-4 py-8">
+    <!-- Header Section -->
+    <div class="text-center mb-6 md:mb-8">
+        <div class="flex items-center justify-center mb-3 md:mb-4">
+            <i class="fas fa-tags text-blue-600 text-2xl md:text-3xl mr-2 md:mr-3"></i>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">PriceTracker</h1>
+        </div>
+        <h2 class="text-xl md:text-2xl text-gray-600 mb-3 md:mb-4">Documentation</h2>
+        <p class="text-base md:text-lg text-gray-500 max-w-2xl mx-auto px-4">
+            Everything you need to know about tracking prices, managing budgets, and staying organized with PriceTracker.
+        </p>
+
+        <!-- Back to Home Navigation -->
+        <div class="mt-4 md:mt-6">
+            <a href="@Url.Action("Index", "Home")"
+               class="btn-primary inline-flex items-center px-4 py-3 md:py-2 text-white rounded-lg transition-colors w-full sm:w-auto justify-center">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back to Home
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
+
+        <!-- Table of Contents - Fixed on Desktop -->
+        <div class="lg:col-span-1 order-1 lg:order-1">
+            <div class="lg:sticky lg:top-8">
+                <nav class="no-print bg-gray-50 rounded-lg p-4 lg:p-6 mb-6 lg:mb-0">
+                    <h3 class="font-semibold text-gray-900 mb-3 lg:mb-4">Contents</h3>
+                    <ul class="space-y-1 lg:space-y-2 text-sm">
+                        <li><a href="#getting-started" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">Getting Started</a></li>
+                        <li><a href="#core-features" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">Core Features</a></li>
+                        <li><a href="#user-guide" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">User Guide</a></li>
+                        <li><a href="#faq" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">FAQ</a></li>
+                        <li><a href="#support" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">Support</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="lg:col-span-3 order-2 lg:order-2">
+            <article class="prose prose-sm sm:prose lg:prose-lg max-w-none">
+
+                <!-- Getting Started Section -->
+                <section id="getting-started" class="mb-8 lg:mb-12">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 lg:mb-6">Getting Started</h2>
+                    <p class="text-gray-600 mb-4 lg:mb-6">
+                        Welcome to PriceTracker! Get up and running in just a few simple steps.
+                    </p>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 lg:p-6 mb-4 lg:mb-6">
+                        <h4 class="font-semibold text-blue-900 mb-2 lg:mb-3">Quick Setup Guide</h4>
+                        <ol class="list-decimal list-inside space-y-1 lg:space-y-2 text-blue-800 text-sm lg:text-base">
+                            <li>Create your account or sign in with Google</li>
+                            <li>Set up your first monthly budget</li>
+                            <li>Add your favorite stores and products</li>
+                            <li>Start tracking prices and expenses</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- Core Features Section -->
+                <section id="core-features" class="mb-8 lg:mb-12">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 lg:mb-6">Core Features</h2>
+                    <p class="text-gray-600 mb-4 lg:mb-6">
+                        PriceTracker offers three main areas to help you save money and stay organized.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-4 lg:mb-6">
+                        <div class="feature-card bg-white rounded-lg p-4 lg:p-6">
+                            <div class="feature-icon text-green-600 text-xl lg:text-2xl mb-2 lg:mb-3">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-base lg:text-lg">Price Tracking</h4>
+                            <p class="text-gray-600 text-xs lg:text-sm">Monitor product prices across different stores and get notified of the best deals.</p>
+                        </div>
+
+                        <div class="feature-card bg-white rounded-lg p-4 lg:p-6">
+                            <div class="feature-icon text-blue-600 text-xl lg:text-2xl mb-2 lg:mb-3">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-base lg:text-lg">Budget Management</h4>
+                            <p class="text-gray-600 text-xs lg:text-sm">Set monthly budgets, track expenses, and get alerts when you're close to your limits.</p>
+                        </div>
+
+                        <div class="feature-card bg-white rounded-lg p-4 lg:p-6 md:col-span-2 lg:col-span-1">
+                            <div class="feature-icon text-purple-600 text-xl lg:text-2xl mb-2 lg:mb-3">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-base lg:text-lg">Task Management</h4>
+                            <p class="text-gray-600 text-xs lg:text-sm">Organize your shopping lists and to-do items with priority levels and due dates.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- User Guide Section -->
+                <section id="user-guide" class="mb-8 lg:mb-12">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 lg:mb-6">User Guide</h2>
+                    <p class="text-gray-600 mb-4 lg:mb-6">
+                        Step-by-step instructions for the most common tasks in PriceTracker.
+                    </p>
+
+                    <div class="space-y-6 lg:space-y-8">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2 lg:mb-3 text-base lg:text-lg">How to Track a Product Price</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-600 ml-2 lg:ml-4 text-sm lg:text-base">
+                                <li>Navigate to the Price Tracking section</li>
+                                <li>Click "Add New Product" and enter product details</li>
+                                <li>Add the product to your preferred stores with current prices</li>
+                                <li>Set up price alerts for when prices drop</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2 lg:mb-3 text-base lg:text-lg">How to Set Up a Monthly Budget</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-600 ml-2 lg:ml-4 text-sm lg:text-base">
+                                <li>Go to Budget Management and click "Create Budget"</li>
+                                <li>Set your total monthly spending limit</li>
+                                <li>Allocate amounts to different categories (groceries, entertainment, etc.)</li>
+                                <li>Enable overspending alerts at your preferred threshold</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2 lg:mb-3 text-base lg:text-lg">How to Create and Manage Tasks</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-600 ml-2 lg:ml-4 text-sm lg:text-base">
+                                <li>Access the Task Management section from the main menu</li>
+                                <li>Click "New Task" and enter task details</li>
+                                <li>Set priority level (High, Medium, Low) and due date</li>
+                                <li>Use filters to view tasks by status or priority</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FAQ Section -->
+                <section id="faq" class="mb-8 lg:mb-12">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 lg:mb-6">Frequently Asked Questions</h2>
+
+                    <div class="space-y-4 lg:space-y-6">
+                        <div class="faq-item bg-gray-50 rounded-lg p-4 lg:p-6">
+                            <h4 class="faq-question font-semibold text-gray-900 mb-2 text-base lg:text-lg cursor-pointer">Is PriceTracker completely free to use?</h4>
+                            <p class="faq-answer text-gray-600 text-sm lg:text-base">Yes! All features of PriceTracker are completely free. We built this tool to help people save money and stay organized.</p>
+                        </div>
+
+                        <div class="faq-item bg-gray-50 rounded-lg p-4 lg:p-6">
+                            <h4 class="faq-question font-semibold text-gray-900 mb-2 text-base lg:text-lg cursor-pointer">How often are prices updated?</h4>
+                            <p class="faq-answer text-gray-600 text-sm lg:text-base">Prices are updated when you manually enter them. We recommend checking and updating prices weekly for the most accurate tracking.</p>
+                        </div>
+
+                        <div class="faq-item bg-gray-50 rounded-lg p-4 lg:p-6">
+                            <h4 class="faq-question font-semibold text-gray-900 mb-2 text-base lg:text-lg cursor-pointer">Can I export my data?</h4>
+                            <p class="faq-answer text-gray-600 text-sm lg:text-base">Yes, you can export your expense reports and budget data in various formats from the respective sections.</p>
+                        </div>
+
+                        <div class="faq-item bg-gray-50 rounded-lg p-4 lg:p-6">
+                            <h4 class="faq-question font-semibold text-gray-900 mb-2 text-base lg:text-lg cursor-pointer">Do you offer mobile apps?</h4>
+                            <p class="faq-answer text-gray-600 text-sm lg:text-base">Currently, PriceTracker is a web application that works great on mobile browsers. A dedicated mobile app may be available in the future.</p>
+                        </div>
+
+                        <div class="faq-item bg-gray-50 rounded-lg p-4 lg:p-6">
+                            <h4 class="faq-question font-semibold text-gray-900 mb-2 text-base lg:text-lg cursor-pointer">How secure is my data?</h4>
+                            <p class="faq-answer text-gray-600 text-sm lg:text-base">We take data security seriously. All data is encrypted, and we never share your personal information with third parties.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Support Section -->
+                <section id="support" class="mb-8 lg:mb-12">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 lg:mb-6">Support</h2>
+                    <p class="text-gray-600 mb-4 lg:mb-6">
+                        Need help? We're here to assist you with any questions or issues.
+                    </p>
+
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 lg:p-6">
+                        <h4 class="font-semibold text-blue-900 mb-3 lg:mb-4 text-base lg:text-lg">Get in Touch</h4>
+                        <div class="space-y-2 lg:space-y-3">
+                            <div class="flex items-center text-blue-800 text-sm lg:text-base">
+                                <i class="fas fa-envelope mr-2 lg:mr-3"></i>
+                                <span>Email: support@pricetracker.com</span>
+                            </div>
+                            <div class="flex items-center text-blue-800 text-sm lg:text-base">
+                                <i class="fas fa-clock mr-2 lg:mr-3"></i>
+                                <span>Response time: Within 24 hours</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 lg:mt-6">
+                            <a href="@Url.Action("Contact", "Home")"
+                               class="btn-primary inline-flex items-center px-4 py-3 lg:py-2 text-white rounded-lg transition-colors w-full sm:w-auto justify-center">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Contact Support
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+            </article>
+        </div>
+    </div>
+
+    <!-- Back to Top Button (will be controlled by JS) -->
+    <button id="backToTop"
+            class="no-print fixed bottom-8 right-8 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all opacity-0 pointer-events-none">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+</div>
