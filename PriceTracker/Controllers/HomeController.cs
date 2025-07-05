@@ -170,6 +170,23 @@ public class HomeController : BaseController
 		}
 	}
 
+	// <summary>
+	/// Displays the pricing page with information about free features and donation options
+	/// </summary>
+	/// <returns>Pricing view with playful, friendly design</returns>
+	[AllowAnonymous]
+	public IActionResult Pricing()
+	{
+		// You can add ViewBag data here if needed for dynamic content
+		ViewBag.AppName = "Budget Tracker Pro"; // Replace with your actual app name
+		ViewBag.CurrentYear = DateTime.Now.Year;
+
+		// Optional: Add analytics tracking
+		// ViewBag.PageTracking = "pricing_page_view";
+
+		return View();
+	}
+
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
