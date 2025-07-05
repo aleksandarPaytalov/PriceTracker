@@ -1,0 +1,657 @@
+﻿/**
+ * Documentation Page Custom CSS
+ * Enhanced with ocean-inspired colors and modern gray backgrounds
+ * Updated with redesigned buttons and ocean green/blue theme
+ */
+
+/* Smooth scroll behavior with ocean-inspired background */
+html {
+    scroll-behavior: smooth;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    min-height: 100vh;
+}
+
+/* Enhanced container with subtle gray background */
+.container {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-radius: 1.25rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Ocean-themed prose styling */
+.prose h2 {
+    background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 3px solid #e0f2fe;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem !important;
+    position: relative;
+}
+
+    .prose h2::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(90deg, #0ea5e9, #14b8a6);
+        border-radius: 2px;
+    }
+
+.prose h4 {
+    color: #0f766e;
+    margin-bottom: 0.75rem !important;
+    font-weight: 600;
+}
+
+/* Ocean-themed table of contents */
+.toc-link {
+    position: relative;
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    margin: 0.25rem 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(20, 184, 166, 0.05) 100%);
+    border-left: 3px solid transparent;
+}
+
+    .toc-link:hover {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        transform: translateX(6px);
+        border-left-color: #14b8a6;
+        box-shadow: 0 4px 12px rgba(20, 184, 166, 0.2);
+    }
+
+    .toc-link.active {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        border-left: 4px solid #14b8a6;
+        font-weight: 600;
+        color: #0f766e;
+        box-shadow: 0 4px 16px rgba(20, 184, 166, 0.25);
+    }
+
+/* Enhanced navigation container with gray theme */
+nav.bg-gray-50 {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(10px);
+}
+
+/* REDESIGNED Back to Top Button - Ocean Theme */
+#backToTop {
+    background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
+    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3);
+    border-radius: 50%;
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+    #backToTop::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+    }
+
+    #backToTop:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 15px 40px rgba(14, 165, 233, 0.4);
+        background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+        #backToTop:hover::before {
+            transform: translateX(100%);
+        }
+
+    #backToTop.opacity-0 {
+        transform: translateY(20px) scale(0.7);
+    }
+
+    #backToTop i {
+        font-size: 1.25rem;
+        z-index: 1;
+        position: relative;
+    }
+
+/* FAQ styling with ocean colors */
+.faq-item {
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+    .faq-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #0ea5e9, #14b8a6, #10b981);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .faq-item:hover {
+        border-color: #a7f3d0;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+    }
+
+        .faq-item:hover::before {
+            opacity: 1;
+        }
+
+.faq-question {
+    transition: all 0.2s ease;
+    user-select: none;
+    position: relative;
+}
+
+    .faq-question:hover {
+        color: #14b8a6 !important;
+        transform: translateX(4px);
+    }
+
+/* Enhanced feature cards with ocean theme */
+.feature-card {
+    transition: all 0.4s ease;
+    border: 1px solid #e5e7eb;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, #10b981, #14b8a6, #0ea5e9);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+        border-color: #a7f3d0;
+        background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+    }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+    .feature-card .feature-icon {
+        transition: all 0.4s ease;
+        padding: 0.5rem;
+        border-radius: 50%;
+        background: rgba(240, 253, 250, 0.8);
+        backdrop-filter: blur(10px);
+        display: inline-block;
+        border: 2px solid rgba(20, 184, 166, 0.1);
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: scale(1.2) rotate(5deg);
+        background: rgba(240, 253, 250, 1);
+        box-shadow: 0 4px 15px rgba(20, 184, 166, 0.2);
+        border-color: rgba(20, 184, 166, 0.3);
+    }
+
+/* Enhanced getting started section with ocean colors */
+.bg-blue-50 {
+    background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%) !important;
+    border-radius: 1rem !important;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #a7f3d0 !important;
+}
+
+    .bg-blue-50::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%2314b8a6" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%230ea5e9" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="%2310b981" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        pointer-events: none;
+    }
+
+    /* Enhanced support section */
+    .bg-blue-50.border-blue-200 {
+        background: linear-gradient(135deg, #f0fdfa 0%, #e6fffa 100%) !important;
+        border: 1px solid #a7f3d0 !important;
+        box-shadow: 0 8px 25px rgba(20, 184, 166, 0.1);
+    }
+
+/* REDESIGNED Back to Home Button */
+.btn-primary {
+    background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem 2rem;
+}
+
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .btn-primary::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 12px 35px rgba(14, 165, 233, 0.4);
+        background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
+    }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover::after {
+            opacity: 1;
+        }
+
+    .btn-primary:active {
+        transform: translateY(-1px) scale(0.98);
+    }
+
+/* Code block styling with ocean theme */
+pre {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    position: relative;
+    overflow-x: auto;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid #334155;
+}
+
+code {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    color: #475569;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.875em;
+    border: 1px solid #cbd5e1;
+}
+
+pre code {
+    background: transparent;
+    color: #f8fafc;
+    padding: 0;
+    border: none;
+}
+
+/* Section spacing with ocean-themed separators */
+section {
+    scroll-margin-top: 2rem;
+    position: relative;
+}
+
+    section:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        bottom: -2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #14b8a6, transparent);
+        border-radius: 1px;
+    }
+
+/* Enhanced Responsive Design - Mobile First Approach */
+
+/* Base mobile styles (320px and up) */
+@media (min-width: 320px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Improve touch targets on mobile */
+    .toc-link,
+    .faq-question,
+    .btn-primary {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Larger text for better mobile readability */
+    .prose p,
+    .prose li {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+}
+
+/* Small mobile (max 480px) */
+@media (max-width: 480px) {
+    /* Header improvements */
+    .text-4xl {
+        font-size: 2.5rem !important;
+    }
+
+    .text-2xl {
+        font-size: 1.75rem !important;
+    }
+
+    .text-lg {
+        font-size: 1rem !important;
+    }
+
+    /* Content spacing adjustments */
+    .container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    .mb-8 {
+        margin-bottom: 2rem !important;
+    }
+
+    .mb-12 {
+        margin-bottom: 3rem !important;
+    }
+
+    /* TOC mobile optimization */
+    .lg\\:sticky {
+        position: static !important;
+    }
+
+    nav.bg-gray-50 {
+        margin-bottom: 2rem !important;
+        padding: 1rem !important;
+    }
+
+    /* Feature cards stack with better spacing */
+    .grid.md\\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    .feature-card {
+        padding: 1.25rem !important;
+    }
+
+    /* FAQ improvements for mobile */
+    .faq-item {
+        padding: 1rem !important;
+        margin-bottom: 1rem;
+    }
+
+    .faq-question {
+        font-size: 1rem !important;
+        line-height: 1.5;
+        padding: 0.5rem 0;
+    }
+
+    .faq-answer {
+        font-size: 0.875rem !important;
+        margin-top: 0.75rem;
+    }
+
+    /* Button improvements */
+    .btn-primary {
+        width: 100%;
+        justify-content: center;
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+    }
+
+    /* Back to top button positioning */
+    #backToTop {
+        bottom: 1rem;
+        right: 1rem;
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+/* Tablet portrait (481px to 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .prose h1 {
+        font-size: 2.25rem !important;
+    }
+
+    .prose h2 {
+        font-size: 1.75rem !important;
+    }
+
+    .prose h4 {
+        font-size: 1.25rem !important;
+    }
+
+    /* Two-column layout for feature cards on tablets */
+    .grid.md\\:grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
+    }
+
+        /* Center the third card */
+        .grid.md\\:grid-cols-3 > :nth-child(3) {
+            grid-column: 1 / -1;
+            max-width: 50%;
+            margin: 0 auto;
+        }
+
+    /* Better button sizing */
+    .btn-primary {
+        width: auto;
+        min-width: 200px;
+    }
+}
+
+/* Tablet landscape and small desktop (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 768px;
+    }
+
+    /* Adjust grid for better tablet landscape experience */
+    .grid.lg\\:grid-cols-4 {
+        grid-template-columns: 1fr 2fr !important;
+        gap: 2rem !important;
+    }
+
+    .lg\\:col-span-1 {
+        grid-column: span 1 !important;
+    }
+
+    .lg\\:col-span-3 {
+        grid-column: span 1 !important;
+    }
+}
+
+/* Desktop and larger (1025px and up) */
+@media (min-width: 1025px) {
+    .container {
+        max-width: 1200px;
+    }
+
+    /* Enhanced desktop experience */
+    .prose {
+        font-size: 1.125rem;
+    }
+
+        .prose h2 {
+            font-size: 2rem !important;
+            margin-top: 3rem !important;
+        }
+
+        .prose h4 {
+            font-size: 1.375rem !important;
+        }
+
+    /* Better spacing for large screens */
+    .mb-12 {
+        margin-bottom: 4rem !important;
+    }
+
+    /* Enhanced feature cards layout */
+    .feature-card:hover {
+        transform: translateY(-6px);
+    }
+}
+
+/* Large desktop (1440px and up) */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1400px;
+    }
+
+    /* Increase content width slightly for very large screens */
+    .lg\\:col-span-3 {
+        padding-left: 2rem;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Sharper icons and images */
+    .feature-icon i,
+    #backToTop i {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Landscape orientation specific adjustments */
+@media screen and (orientation: landscape) and (max-height: 600px) {
+    /* Reduce vertical spacing in landscape mode */
+    .py-8 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .mb-8 {
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* Make TOC less prominent in landscape */
+    nav.bg-gray-50 {
+        padding: 1rem !important;
+    }
+}
+
+/* Print styles for documentation */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    #backToTop,
+    nav,
+    .copy-button {
+        display: none !important;
+    }
+
+    .prose {
+        max-width: none !important;
+    }
+
+    section {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    h2, h3, h4 {
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+}
+
+/* Focus styles for accessibility */
+.toc-link:focus,
+#backToTop:focus,
+.faq-question:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Loading animation for dynamic content */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.loading {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Highlight animation for section changes */
+@keyframes highlight {
+    0% {
+        background-color: #fef3c7;
+    }
+
+    100% {
+        background-color: transparent;
+    }
+}
+
+.section-highlight {
+    animation: highlight 1s ease-out;
+}
