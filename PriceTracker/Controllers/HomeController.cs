@@ -187,6 +187,12 @@ public class HomeController : BaseController
 		return View();
 	}
 
+	[AllowAnonymous]
+	public IActionResult Documentation()
+	{
+		return View();
+	}
+
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
