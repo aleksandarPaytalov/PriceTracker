@@ -1,8 +1,6 @@
 ﻿/**
  * Documentation Page JavaScript
- * Handles smooth scrolling, TOC highlighting, back-to-top, and FAQ interactions
  * Enhanced with mobile-first responsive features
- * Total: ~180 lines with mobile optimizations
  */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -10,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
     initSmoothScrolling();
     initBackToTop();
     initTOCHighlighting();
-    initFAQAccordion();
     initCopyButtons();
     initMobileOptimizations();
     initResponsiveFeatures();
@@ -28,7 +25,7 @@ function initMobileOptimizations() {
         document.body.classList.add('mobile-device');
 
         // Optimize touch interactions
-        const touchElements = document.querySelectorAll('.toc-link, .faq-question, .btn-primary');
+        const touchElements = document.querySelectorAll('.toc-link, .btn-primary, .btn-faq');
         touchElements.forEach(element => {
             element.style.minHeight = '44px';
             element.style.display = 'flex';
@@ -73,10 +70,12 @@ function handleResponsiveChanges() {
     const backToTopBtn = document.getElementById('backToTop');
     if (backToTopBtn) {
         if (isMobile) {
-            backToTopBtn.style.bottom = '1rem';
-            backToTopBtn.style.right = '1rem';
+            backToTopBtn.style.bottom = '1.5rem';
+            backToTopBtn.style.right = '0.5rem';
+            backToTopBtn.style.left = 'auto';
             backToTopBtn.style.width = '3rem';
             backToTopBtn.style.height = '3rem';
+            backToTopBtn.style.position = 'fixed';
         } else {
             backToTopBtn.style.bottom = '2rem';
             backToTopBtn.style.right = '2rem';
@@ -95,11 +94,6 @@ function handleResponsiveChanges() {
             toc.style.position = '';
             toc.style.marginBottom = '';
         }
-    }
-
-    // Recalculate section highlighting for mobile
-    if (isMobile) {
-        updateActiveSection();
     }
 }
 
@@ -205,51 +199,6 @@ function initTOCHighlighting() {
 
     // Initial call
     updateActiveSection();
-}
-
-/**
- * FAQ accordion functionality
- */
-function initFAQAccordion() {
-    const faqItems = document.querySelectorAll('#faq .bg-gray-50');
-
-    faqItems.forEach(item => {
-        const question = item.querySelector('h4');
-        const answer = item.querySelector('p');
-
-        if (!question || !answer) return;
-
-        // Add cursor pointer and interaction styling
-        question.style.cursor = 'pointer';
-        question.classList.add('transition-colors', 'hover:text-blue-700');
-
-        // Add expand/collapse icon
-        const icon = document.createElement('i');
-        icon.className = 'fas fa-chevron-down text-sm ml-2 transition-transform';
-        question.appendChild(icon);
-
-        // Initially hide answers (except first one for better UX)
-        const isFirst = Array.from(faqItems).indexOf(item) === 0;
-        if (!isFirst) {
-            answer.style.display = 'none';
-            icon.style.transform = 'rotate(-90deg)';
-        }
-
-        // Click handler for toggling
-        question.addEventListener('click', function () {
-            const isVisible = answer.style.display !== 'none';
-
-            if (isVisible) {
-                answer.style.display = 'none';
-                icon.style.transform = 'rotate(-90deg)';
-                item.classList.remove('ring-2', 'ring-blue-200');
-            } else {
-                answer.style.display = 'block';
-                icon.style.transform = 'rotate(0deg)';
-                item.classList.add('ring-2', 'ring-blue-200');
-            }
-        });
-    });
 }
 
 /**

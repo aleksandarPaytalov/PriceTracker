@@ -45,7 +45,7 @@
                         <li><a href="#getting-started" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">Getting Started</a></li>
                         <li><a href="#core-features" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">Core Features</a></li>
                         <li><a href="#user-guide" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">User Guide</a></li>
-                        <li><a href="#faq" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">FAQ</a></li>
+                        <li><a href="#faq-redirect" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">FAQ</a></li>
                         <li><a href="#support" class="toc-link text-blue-600 hover:text-blue-800 block py-2 lg:py-1 px-2 rounded">Support</a></li>
                     </ul>
                 </nav>
@@ -148,34 +148,35 @@
                     </div>
                 </section>
 
-                <!-- FAQ Section -->
-                <section id="faq" class="mb-8 lg:mb-12">
+                <!-- FAQ Redirect Section -->
+                <section id="faq-redirect" class="mb-8 lg:mb-12">
                     <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 lg:mb-6">Frequently Asked Questions</h2>
 
-                    <div class="space-y-4 lg:space-y-6">
-                        <div class="faq-item bg-gray-50 rounded-lg p-4 lg:p-6">
-                            <h4 class="faq-question font-semibold text-gray-900 mb-2 text-base lg:text-lg cursor-pointer">Is PriceTracker completely free to use?</h4>
-                            <p class="faq-answer text-gray-600 text-sm lg:text-base">Yes! All features of PriceTracker are completely free. We built this tool to help people save money and stay organized.</p>
-                        </div>
+                    <div class="bg-blue-50 from-gray-50 to-gray-100 rounded-xl p-8 lg:p-12 text-center border border-gray-200">
+                        <div class="max-w-2xl mx-auto">
+                            <!-- Icon -->
+                            <div class="mb-6">
+                                <i class="fas fa-question-circle text-5xl text-teal-600"></i>
+                            </div>
 
-                        <div class="faq-item bg-gray-50 rounded-lg p-4 lg:p-6">
-                            <h4 class="faq-question font-semibold text-gray-900 mb-2 text-base lg:text-lg cursor-pointer">How often are prices updated?</h4>
-                            <p class="faq-answer text-gray-600 text-sm lg:text-base">Prices are updated when you manually enter them. We recommend checking and updating prices weekly for the most accurate tracking.</p>
-                        </div>
+                            <!-- Heading -->
+                            <h3 class="text-xl lg:text-2xl font-semibold text-gray-900 mb-4">
+                                Have a question?
+                            </h3>
 
-                        <div class="faq-item bg-gray-50 rounded-lg p-4 lg:p-6">
-                            <h4 class="faq-question font-semibold text-gray-900 mb-2 text-base lg:text-lg cursor-pointer">Can I export my data?</h4>
-                            <p class="faq-answer text-gray-600 text-sm lg:text-base">Yes, you can export your expense reports and budget data in various formats from the respective sections.</p>
-                        </div>
+                            <!-- Description -->
+                            <p class="text-gray-600 mb-8 text-base lg:text-lg leading-relaxed">
+                                Check our comprehensive FAQ page with the most commonly asked questions and detailed answers about PriceTracker features, pricing, and support.
+                            </p>
 
-                        <div class="faq-item bg-gray-50 rounded-lg p-4 lg:p-6">
-                            <h4 class="faq-question font-semibold text-gray-900 mb-2 text-base lg:text-lg cursor-pointer">Do you offer mobile apps?</h4>
-                            <p class="faq-answer text-gray-600 text-sm lg:text-base">Currently, PriceTracker is a web application that works great on mobile browsers. A dedicated mobile app may be available in the future.</p>
-                        </div>
-
-                        <div class="faq-item bg-gray-50 rounded-lg p-4 lg:p-6">
-                            <h4 class="faq-question font-semibold text-gray-900 mb-2 text-base lg:text-lg cursor-pointer">How secure is my data?</h4>
-                            <p class="faq-answer text-gray-600 text-sm lg:text-base">We take data security seriously. All data is encrypted, and we never share your personal information with third parties.</p>
+                            <!-- Button Container -->
+                            <div class="flex justify-center">
+                                <a href="@Url.Action("FAQ", "Home")"
+                                   class="btn-faq">
+                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                    Visit FAQ Page
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </section>
