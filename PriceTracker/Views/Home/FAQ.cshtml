@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Frequently Asked Questions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/landingPage/faq.css" />
+<script src="~/js/landingPage/faq.js"></script>
+
+<div class="faq-container">
+    <!-- Clean Navigation Bar -->
+    <nav class="faq-navigation">
+        <div class="container mx-auto px-4 py-3">
+            <div class="nav-wrapper">
+                <a href="@Url.Action("Index", "Home")" class="nav-btn nav-back">
+                    <i class="fas fa-arrow-left"></i>
+                    <span class="nav-text">Back to Home</span>
+                </a>
+
+                <a href="@Url.Action("Contact", "Home")" class="nav-btn nav-contact">
+                    <span class="nav-text">Contact Us</span>
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="faq-hero">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <h1 class="hero-title">Frequently Asked Questions</h1>
+                <p class="hero-description">
+                    Find answers to common questions about price tracking, budget management, and task organization.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Bar -->
+    <section class="faq-search">
+        <div class="container mx-auto px-4">
+            <div class="search-wrapper">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="faqSearch" class="search-input" placeholder="Search FAQ...">
+                    <button type="button" id="clearSearch" class="clear-search">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main FAQ Content -->
+    <main class="faq-main">
+        <div class="container mx-auto px-4 py-8">
+            <div class="faq-grid">
+                <!-- FAQ Categories will be populated here -->
+                <div id="faqCategories" class="faq-categories">
+                    <!-- Categories will be dynamically loaded -->
+                </div>
+
+                <!-- FAQ Items Container -->
+                <div id="faqItems" class="faq-items">
+                    <!-- FAQ items will be dynamically loaded -->
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Loading Spinner -->
+<div id="loadingSpinner" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading FAQ...</p>
+</div>
+
+<!-- No Results Message -->
+<div id="noResults" class="no-results" style="display: none;">
+    <div class="container mx-auto px-4 py-8 text-center">
+        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+        <h3>No results found</h3>
+        <p>Try searching with different keywords or browse our categories below.</p>
+    </div>
+</div>

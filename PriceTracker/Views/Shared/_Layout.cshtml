@@ -23,6 +23,7 @@
         ViewContext.RouteData.Values["action"]?.ToString() == "About" ||
         ViewContext.RouteData.Values["action"]?.ToString() == "Pricing" ||
         ViewContext.RouteData.Values["action"]?.ToString() == "Documentation" ||
+        ViewContext.RouteData.Values["action"]?.ToString() == "FAQ" ||
         ViewContext.RouteData.Values["action"]?.ToString() == "LandingPage";
 
         bool shouldShowNavigation = !isAuthPage && !isPublicPage;
