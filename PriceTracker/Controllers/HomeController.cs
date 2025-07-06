@@ -193,6 +193,14 @@ public class HomeController : BaseController
 		return View();
 	}
 
+	[AllowAnonymous]
+	[HttpGet]
+	public IActionResult FAQ()
+	{
+		ViewData["Title"] = "Frequently Asked Questions";
+		return View();
+	}
+
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
