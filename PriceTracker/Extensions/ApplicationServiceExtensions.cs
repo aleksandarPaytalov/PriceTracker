@@ -65,6 +65,28 @@ namespace PriceTracker.Extensions
 			.AddDefaultTokenProviders()
 			.AddDefaultUI();
 
+			services.ConfigureApplicationCookie(options =>
+			{
+				options.LoginPath = "/Identity/Account/Login";
+				options.LogoutPath = "/Identity/Account/Logout";
+				options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+
+				options.Events.OnRedirectToReturnUrl = context =>
+				{
+					// If no specific returnUrl or returnUrl is root, redirect to authenticated dashboard
+					if (string.IsNullOrEmpty(context.RedirectUri) ||
+						context.RedirectUri == "/" ||
+						context.RedirectUri.EndsWith("/") ||
+						context.RedirectUri.Contains("/Land/"))
+					{
+						context.RedirectUri = "/Home/Index";
+					}
+
+					context.Response.Redirect(context.RedirectUri);
+					return Task.CompletedTask;
+				};
+			});
+
 			// Add Google OAuth Authentication
 			var googleConfig = configuration.GetSection("Authentication:Google");
 			if (!string.IsNullOrEmpty(googleConfig["ClientId"]))
