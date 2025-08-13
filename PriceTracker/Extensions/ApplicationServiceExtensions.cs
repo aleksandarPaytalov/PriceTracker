@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using PriceTracker.Constants;
+using PriceTracker.Core.Contracts;
 using PriceTracker.Core.Services;
 using PriceTracker.Infrastructure.Common;
 using PriceTracker.Infrastructure.Configuration;
@@ -25,6 +26,11 @@ namespace PriceTracker.Extensions
 				options.UseSqlServer(dbConnection));
 
 			services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+			services.AddScoped<IDashboardService, DashboardService>();
+
+
+
+
 			services.AddDatabaseDeveloperPageExceptionFilter();
 
 			return services;

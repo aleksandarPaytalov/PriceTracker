@@ -14,9 +14,7 @@
   <ItemGroup>
     <Folder Include="Components\" />
 	<Folder Include="Extensions\" />
-	<Folder Include="wwwroot\css\pagesAuthUsers\" />
 	<Folder Include="wwwroot\images\" />
-	<Folder Include="wwwroot\js\pagesAuthUsers\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,230 @@
+﻿@model DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pagesAuthUsers/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="dashboard-title mb-2">@Model.WelcomeMessage</h1>
+                <p class="dashboard-subtitle text-muted mb-0">
+                    <i class="fas fa-calendar-alt me-2"></i>
+                    @Model.CurrentDate.ToString("dddd, MMMM dd, yyyy")
+                </p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <button type="button" class="btn btn-outline-primary btn-sm" id="refreshDashboard">
+                    <i class="fas fa-sync-alt me-1"></i>
+                    Refresh
+                </button>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.HasError)
+    {
+        <!-- Error State -->
+        <div class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            @Model.ErrorMessage
+        </div>
+    }
+    else
+    {
+        <!-- Dashboard Widgets Grid -->
+        <div class="dashboard-grid">
+            <!-- Row 1: Budget Overview & Yearly Expenses -->
+            <div class="row mb-4">
+                <!-- Budget Overview Widget -->
+                <div class="col-lg-6 mb-4">
+                    <div class="dashboard-widget">
+                        <div class="widget-header">
+                            <h5 class="widget-title">
+                                <i class="fas fa-wallet me-2 text-primary"></i>
+                                Current Month Budget
+                            </h5>
+                            <div class="widget-actions">
+                                <button class="btn btn-sm btn-outline-secondary" title="Settings">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            @if (Model.HasBudgetData)
+                            {
+                                <!-- Budget data will be implemented in Phase 2 Step 3 -->
+                                <p class="text-muted">Budget data will appear here...</p>
+                            }
+                            else
+                            {
+                                <div class="empty-state">
+                                    <i class="fas fa-chart-pie text-muted mb-3"></i>
+                                    <h6 class="text-muted">No Budget Data</h6>
+                                    <p class="text-muted small mb-3">Set up your monthly budget to start tracking your spending.</p>
+                                    <a href="#" class="btn btn-primary btn-sm">Set Budget</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yearly Expense Summary Widget -->
+                <div class="col-lg-6 mb-4">
+                    <div class="dashboard-widget">
+                        <div class="widget-header">
+                            <h5 class="widget-title">
+                                <i class="fas fa-chart-line me-2 text-success"></i>
+                                Yearly Expense Summary
+                            </h5>
+                            <div class="widget-actions">
+                                <button class="btn btn-sm btn-outline-secondary" title="View Details">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            @if (Model.HasExpenseData)
+                            {
+                                <!-- Expense chart will be implemented in Phase 2 Step 4 -->
+                                <p class="text-muted">Expense chart will appear here...</p>
+                            }
+                            else
+                            {
+                                <div class="empty-state">
+                                    <i class="fas fa-chart-bar text-muted mb-3"></i>
+                                    <h6 class="text-muted">No Expense Data</h6>
+                                    <p class="text-muted small mb-3">Start tracking your expenses to see spending patterns.</p>
+                                    <a href="#" class="btn btn-success btn-sm">Add Expense</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: Top Products & Task Overview -->
+            <div class="row mb-4">
+                <!-- Top 5 Products Widget -->
+                <div class="col-lg-6 mb-4">
+                    <div class="dashboard-widget">
+                        <div class="widget-header">
+                            <h5 class="widget-title">
+                                <i class="fas fa-shopping-cart me-2 text-warning"></i>
+                                Top 5 Most Purchased
+                            </h5>
+                            <div class="widget-actions">
+                                <button class="btn btn-sm btn-outline-secondary" title="View All">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            @if (Model.HasPriceData)
+                            {
+                                <!-- Product list will be implemented in Phase 2 Step 5 -->
+                                <p class="text-muted">Product list will appear here...</p>
+                            }
+                            else
+                            {
+                                <div class="empty-state">
+                                    <i class="fas fa-box text-muted mb-3"></i>
+                                    <h6 class="text-muted">No Product Data</h6>
+                                    <p class="text-muted small mb-3">Start tracking product prices to see your most purchased items.</p>
+                                    <a href="#" class="btn btn-warning btn-sm">Track Products</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Overview Widget -->
+                <div class="col-lg-6 mb-4">
+                    <div class="dashboard-widget">
+                        <div class="widget-header">
+                            <h5 class="widget-title">
+                                <i class="fas fa-tasks me-2 text-info"></i>
+                                Task Overview
+                            </h5>
+                            <div class="widget-actions">
+                                <span class="badge bg-danger" id="taskNotificationBadge" style="display: none;">3</span>
+                                <button class="btn btn-sm btn-outline-secondary" title="Manage Tasks">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            @if (Model.HasTaskData)
+                            {
+                                <!-- Task list will be implemented in Phase 2 Step 6 -->
+                                <p class="text-muted">Task overview will appear here...</p>
+                            }
+                            else
+                            {
+                                <div class="empty-state">
+                                    <i class="fas fa-clipboard-list text-muted mb-3"></i>
+                                    <h6 class="text-muted">No Tasks</h6>
+                                    <p class="text-muted small mb-3">Create tasks to stay organized and track your productivity.</p>
+                                    <a href="#" class="btn btn-info btn-sm">Create Task</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="dashboard-widget">
+                        <div class="widget-header">
+                            <h5 class="widget-title">
+                                <i class="fas fa-bolt me-2 text-primary"></i>
+                                Quick Actions
+                            </h5>
+                        </div>
+                        <div class="widget-content">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <a href="#" class="quick-action-btn">
+                                        <i class="fas fa-plus-circle"></i>
+                                        <span>Add Expense</span>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#" class="quick-action-btn">
+                                        <i class="fas fa-search"></i>
+                                        <span>Track Price</span>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#" class="quick-action-btn">
+                                        <i class="fas fa-calendar-plus"></i>
+                                        <span>Create Task</span>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#" class="quick-action-btn">
+                                        <i class="fas fa-chart-bar"></i>
+                                        <span>View Reports</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/pagesAuthUsers/dashboard.js" asp-append-version="true"></script>
+}

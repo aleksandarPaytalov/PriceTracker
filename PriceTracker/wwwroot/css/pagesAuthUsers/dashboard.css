@@ -1,0 +1,205 @@
+﻿/* ===================================
+   Dashboard Styles - Phase 1 Placeholder
+   Will be enhanced in Phase 2 Step 1
+   =================================== */
+
+/* Dashboard Container */
+.dashboard-container {
+    padding: 20px 0;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-subtitle {
+    font-size: 0.95rem;
+    color: #6c757d;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    /* Will be enhanced with CSS Grid in Phase 2 */
+}
+
+/* Widget Styles */
+.dashboard-widget {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    transition: box-shadow 0.2s ease;
+}
+
+    .dashboard-widget:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #e9ecef;
+    background-color: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+}
+
+.widget-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #495057;
+    display: flex;
+    align-items: center;
+}
+
+    .widget-title i {
+        font-size: 1rem;
+    }
+
+.widget-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.widget-content {
+    padding: 1.25rem;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Empty State Styles */
+.empty-state {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    .empty-state h6 {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        margin-bottom: 1rem;
+        line-height: 1.4;
+    }
+
+/* Quick Actions */
+.quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: #ffffff;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #495057;
+    transition: all 0.2s ease;
+    min-height: 100px;
+}
+
+    .quick-action-btn:hover {
+        border-color: #007bff;
+        color: #007bff;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.15);
+    }
+
+    .quick-action-btn i {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .quick-action-btn span {
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 10px 0;
+    }
+
+    .dashboard-title {
+        font-size: 1.5rem;
+    }
+
+    .widget-content {
+        min-height: 150px;
+        padding: 1rem;
+    }
+
+    .empty-state {
+        padding: 1.5rem 0.5rem;
+    }
+
+    .quick-action-btn {
+        min-height: 80px;
+        padding: 0.75rem;
+    }
+}
+
+/* Loading States (for future AJAX functionality) */
+.widget-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+    .widget-loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Notification Badge */
+#taskNotificationBadge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.7rem;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
