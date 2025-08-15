@@ -8,7 +8,6 @@ using PriceTracker.Infrastructure.Data.Models;
 
 namespace PriceTracker.Web.Controllers
 {
-	[Authorize] // Ensures only authenticated users can access
 	public class DashboardController : BaseController
 	{
 		private readonly IDashboardService _dashboardService;

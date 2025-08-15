@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using PriceTracker.Core.Models.Email;
 using PriceTracker.Core.Services;
+using PriceTracker.Models;
 using PriceTracker.Models.LandingPage;
+using System.Diagnostics;
 
 namespace PriceTracker.Controllers
 {
@@ -16,6 +18,12 @@ namespace PriceTracker.Controllers
 		{
 			_logger = logger;
 			_emailService = emailService;
+		}
+
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult Error()
+		{
+			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
 		[HttpGet]

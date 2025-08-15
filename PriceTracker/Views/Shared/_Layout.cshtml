@@ -7,82 +7,140 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PriceTracker.styles.css" asp-append-version="true" />
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    @{
-        bool isAuthPage = ViewContext.RouteData.Values["page"]?.ToString()?.Contains("/Account/") == true ||
-        ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Login") == true ||
-        ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Register") == true;
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="@(User.Identity!.IsAuthenticated? Url.Action("Index", "Dashboard") : Url.Action("Index", "Land"))">
+                    <i class="fas fa-chart-line me-2"></i>PriceTracker
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-        // Also exclude public pages that should not show authenticated navigation
-        bool isPublicPage = ViewContext.RouteData.Values["action"]?.ToString() == "Contact" ||
-        ViewContext.RouteData.Values["action"]?.ToString() == "About" ||
-        ViewContext.RouteData.Values["action"]?.ToString() == "Pricing" ||
-        ViewContext.RouteData.Values["action"]?.ToString() == "Documentation" ||
-        ViewContext.RouteData.Values["action"]?.ToString() == "FAQ" ||
-        ViewContext.RouteData.Values["action"]?.ToString() == "LandingPage";
-
-        bool shouldShowNavigation = !isAuthPage && !isPublicPage;
-    }
-
-    @if (shouldShowNavigation)
-    {
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                        <i class="fas fa-chart-line text-primary"></i> PriceTracker
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- Navigation for Authenticated Users -->
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
-                                    <i class="fas fa-home"></i> Home
+                                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")"
+                                   asp-controller="Dashboard" asp-action="Index">
+                                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">
-                                    <i class="fas fa-shield-alt"></i> Privacy
+
+                            <!-- Price Tracking Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-chart-line me-1"></i>Price Tracking
                                 </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-search me-2"></i>Track Products</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-store me-2"></i>Stores</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i>Price History</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-chart-bar me-2"></i>Price Reports</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Budget Management Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-wallet me-1"></i>Budget
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-2"></i>Add Expense</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-alt me-2"></i>Monthly Budget</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-list me-2"></i>All Expenses</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-chart-pie me-2"></i>Budget Reports</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Task Management Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-tasks me-1"></i>Tasks
+                                    <span class="badge bg-danger ms-1" id="navTaskBadge" style="display: none;">3</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-2"></i>Create Task</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-list-check me-2"></i>My Tasks</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-bell me-2"></i>Notifications</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-chart-gantt me-2"></i>Task Analytics</a></li>
+                                </ul>
                             </li>
                         </ul>
-                        <partial name="_LoginPartial" />
-                    </div>
-                </div>
-            </nav>
-        </header>
-    }
+                    }
+                    else
+                    {
+                        <!-- Navigation for Anonymous Users -->
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Land" ? "active" : "")"
+                                   asp-controller="Land" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#features">Features</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#pricing">Pricing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#about">About</a>
+                            </li>
+                        </ul>
+                    }
 
-    <div class="@(!shouldShowNavigation ? "" : "container")">
-        <main role="main" class="@(!shouldShowNavigation ? "" : "pb-3")">
-            @if (shouldShowNavigation)
-            {
-                <partial name="_EmailStatusPartial" />
-            }
+                    <!-- User Authentication Partial -->
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    @if (shouldShowNavigation)
-    {
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2025 - PriceTracker
-            </div>
-        </footer>
-    }
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - PriceTracker -
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+            }
+            else
+            {
+                <a asp-controller="Land" asp-action="Index">Home</a>
+            }
+        </div>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <!-- Global JavaScript for authenticated users -->
+        <script>
+            // Update task notification badge (placeholder for Phase 2)
+            document.addEventListener('DOMContentLoaded', function() {
+                // This will be enhanced in Phase 2 with real task data
+                const taskBadge = document.getElementById('navTaskBadge');
+                // taskBadge.style.display = 'inline'; // Show when there are notifications
+            });
+        </script>
+    }
 </body>
 </html>

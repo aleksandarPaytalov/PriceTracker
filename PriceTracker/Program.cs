@@ -21,7 +21,7 @@ app.ConfigureMigrationLoggersAsync();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Home/Error");
+	app.UseExceptionHandler("/Land/Error");
 	app.UseHsts();
 }
 

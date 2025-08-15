@@ -85,7 +85,7 @@ namespace PriceTracker.Areas.Identity.Pages.Account
 				ModelState.AddModelError(string.Empty, ErrorMessage);
 			}
 
-			returnUrl ??= User.Identity.IsAuthenticated ? Url.Action("Index", "Home") : Url.Content("~/");
+			returnUrl ??= User.Identity.IsAuthenticated ? Url.Action("Index", "Dashboard") : Url.Content("~/");
 
 			// Clear the existing external cookie to ensure a clean login process
 			await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -101,7 +101,7 @@ namespace PriceTracker.Areas.Identity.Pages.Account
 
 		public async Task<IActionResult> OnPostAsync(string returnUrl = null)
 		{
-			returnUrl ??= Url.Action("Index", "Home");
+			returnUrl ??= Url.Action("Index", "Dashboard");
 
 			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
