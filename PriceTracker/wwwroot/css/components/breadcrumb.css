@@ -1,0 +1,216 @@
+﻿/* ===================================
+   Breadcrumb Navigation Component Styles
+   =================================== */
+
+/* Breadcrumb Container */
+.breadcrumb-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Bootstrap Breadcrumb Override */
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+/* Breadcrumb Links */
+.breadcrumb-link {
+    color: #6c757d;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+    .breadcrumb-link:hover {
+        color: #007bff;
+        background-color: rgba(0, 123, 255, 0.1);
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+
+    .breadcrumb-link:focus {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
+    }
+
+/* Breadcrumb Text (non-clickable) */
+.breadcrumb-text {
+    color: #495057;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+/* Active Breadcrumb Item */
+.breadcrumb-item.active .breadcrumb-text {
+    color: #007bff;
+    font-weight: 600;
+}
+
+.breadcrumb-item.active {
+    color: #007bff;
+}
+
+/* Breadcrumb Separators */
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    color: #adb5bd;
+    font-weight: normal;
+    margin: 0 0.5rem;
+    opacity: 0.7;
+}
+
+/* Icons in Breadcrumbs */
+.breadcrumb-link i,
+.breadcrumb-text i {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.breadcrumb-item.active i {
+    opacity: 1;
+}
+
+/* Hover Effects for Icons */
+.breadcrumb-link:hover i {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .breadcrumb-container {
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .breadcrumb {
+        font-size: 0.8rem;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        margin: 0 0.25rem;
+    }
+
+    .breadcrumb-link,
+    .breadcrumb-text {
+        padding: 0.2rem 0.3rem;
+    }
+
+    /* Hide icons on very small screens to save space */
+    @media (max-width: 480px) {
+        .breadcrumb-link i,
+        .breadcrumb-text i {
+            display: none;
+        }
+    }
+}
+
+/* Breadcrumb Animations */
+.breadcrumb-container {
+    animation: slideInFromTop 0.3s ease-out;
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dark Mode Support (Future Enhancement) */
+@media (prefers-color-scheme: dark) {
+    .breadcrumb-container {
+        background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+        border-color: #495057;
+    }
+
+    .breadcrumb-link {
+        color: #adb5bd;
+    }
+
+        .breadcrumb-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+    .breadcrumb-text {
+        color: #f8f9fa;
+    }
+
+    .breadcrumb-item.active .breadcrumb-text {
+        color: #80bdff;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: #6c757d;
+    }
+}
+
+/* Accessibility Enhancements */
+.breadcrumb-link:focus {
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .breadcrumb-container {
+        border-width: 2px;
+        border-color: #000;
+    }
+
+    .breadcrumb-link {
+        color: #000;
+        font-weight: 600;
+    }
+
+        .breadcrumb-link:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+    .breadcrumb-item.active .breadcrumb-text {
+        color: #000;
+        font-weight: 700;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .breadcrumb-container {
+        background: none;
+        border: 1px solid #000;
+        box-shadow: none;
+        color: #000;
+    }
+
+    .breadcrumb-link {
+        color: #000;
+        text-decoration: underline;
+    }
+
+    .breadcrumb-text {
+        color: #000;
+    }
+}

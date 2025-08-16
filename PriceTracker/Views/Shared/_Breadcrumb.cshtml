@@ -1,0 +1,71 @@
+﻿@model BreadcrumbViewModel
+
+@if (Model != null && Model.ShowBreadcrumb && Model.Items.Any())
+{
+    <nav aria-label="breadcrumb" class="@Model.ContainerClass">
+        <ol class="breadcrumb mb-0">
+            @for (int i = 0; i < Model.Items.Count; i++)
+            {
+                var item = Model.Items[i];
+                var isLast = i == Model.Items.Count - 1;
+
+                <li class="breadcrumb-item @(item.IsActive ? "active" : "")"
+                    @(item.IsActive ? "aria-current=\"page\"" : "")
+                    @(!string.IsNullOrEmpty(item.Tooltip) ? $"data-bs-toggle=\"tooltip\" title=\"{item.Tooltip}\"" : "")>
+
+                    @if (item.IsActive || isLast)
+                    {
+                        <!-- Current/Active page - no link -->
+                        <span class="breadcrumb-text">
+                            @if (!string.IsNullOrEmpty(item.Icon))
+                            {
+                                <i class="@item.Icon me-1"></i>
+                            }
+                            @item.Text
+                        </span>
+                    }
+                    else
+                    {
+                        <!-- Clickable breadcrumb item -->
+                        @if (!string.IsNullOrEmpty(item.Controller) && !string.IsNullOrEmpty(item.Action))
+                        {
+                            <!-- MVC route link -->
+                            <a asp-controller="@item.Controller"
+                               asp-action="@item.Action"
+                               asp-all-route-data="@(item.RouteValues as Dictionary<string, string>)"
+                               class="breadcrumb-link">
+                                @if (!string.IsNullOrEmpty(item.Icon))
+                                {
+                                    <i class="@item.Icon me-1"></i>
+                                }
+                                @item.Text
+                            </a>
+                        }
+                        else if (!string.IsNullOrEmpty(item.Url))
+                        {
+                            <!-- Direct URL link -->
+                            <a href="@item.Url" class="breadcrumb-link">
+                                @if (!string.IsNullOrEmpty(item.Icon))
+                                {
+                                    <i class="@item.Icon me-1"></i>
+                                }
+                                @item.Text
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Non-clickable item -->
+                            <span class="breadcrumb-text">
+                                @if (!string.IsNullOrEmpty(item.Icon))
+                                {
+                                    <i class="@item.Icon me-1"></i>
+                                }
+                                @item.Text
+                            </span>
+                        }
+                    }
+                </li>
+            }
+        </ol>
+    </nav>
+}

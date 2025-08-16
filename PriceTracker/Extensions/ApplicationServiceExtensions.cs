@@ -27,6 +27,7 @@ namespace PriceTracker.Extensions
 
 			services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 			services.AddScoped<IDashboardService, DashboardService>();
+			services.AddScoped<IBreadcrumbService, BreadcrumbService>();
 
 
 
