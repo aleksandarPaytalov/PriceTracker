@@ -24,7 +24,344 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-                    @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated)<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PriceTracker</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components/breadcrumb.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components/navigation.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components/notification-badges.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components/mobile-navigation.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PriceTracker.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    @{
+        // Load navigation helper data
+        await Component.InvokeAsync("Navigation");
+        var navModel = ViewData["NavigationModel"] as dynamic;
+    }
+    
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="@(User.Identity.IsAuthenticated ? Url.Action("Index", "Dashboard") : Url.Action("Index", "Land"))">
+                    <i class="fas fa-chart-line me-2"></i>PriceTracker
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" 
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    
+                    @if (User.Identity.IsAuthenticated && navModel != null)
+                    {
+                        <!-- Navigation for Authenticated Users with Active States -->
+                        <ul class="navbar-nav flex-grow-1">
+                            <!-- Dashboard Menu Item -->
+                            <li class="nav-item">
+                                <a class="@navModel.GetMenuCss("dashboard")" 
+                                   asp-controller="Dashboard" asp-action="Index">
+                                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                                </a>
+                            </li>
+                            
+                            <!-- Price Tracking Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a class="@navModel.GetDropdownToggleCss("price-tracking")" 
+                                   href="#" role="button" data-bs-toggle="dropdown" aria-expanded="@navModel.ShouldExpandDropdown("price-tracking").ToString().ToLower()">
+                                    <i class="fas fa-chart-line me-1"></i>Price Tracking
+                                    @if (navModel.ShouldShowBadge("prices"))
+                                    {
+                                        <span @Html.Raw(navModel.GetBadgeAttributes("prices"))>@navModel.GetBadgeDisplayCount("prices")</span>
+                                    }
+                                </a>
+                                <ul class="dropdown-menu @(navModel.ShouldExpandDropdown("price-tracking") ? "show" : "")">
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("price-tracking", "track-products")" href="#">
+                                            <i class="fas fa-search me-2"></i>Track Products
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("price-tracking", "stores")" href="#">
+                                            <i class="fas fa-store me-2"></i>Stores
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("price-tracking", "price-history")" href="#">
+                                            <i class="fas fa-history me-2"></i>Price History
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("price-tracking", "price-reports")" href="#">
+                                            <i class="fas fa-chart-bar me-2"></i>Price Reports
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                            <!-- Budget Management Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a class="@navModel.GetDropdownToggleCss("budget")" 
+                                   href="#" role="button" data-bs-toggle="dropdown" aria-expanded="@navModel.ShouldExpandDropdown("budget").ToString().ToLower()">
+                                    <i class="fas fa-wallet me-1"></i>Budget
+                                    @if (navModel.ShouldShowBadge("budget"))
+                                    {
+                                        <span @Html.Raw(navModel.GetBadgeAttributes("budget"))>@navModel.GetBadgeDisplayCount("budget")</span>
+                                    }
+                                </a>
+                                <ul class="dropdown-menu @(navModel.ShouldExpandDropdown("budget") ? "show" : "")">
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("budget", "add-expense")" href="#">
+                                            <i class="fas fa-plus me-2"></i>Add Expense
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("budget", "monthly-budget")" href="#">
+                                            <i class="fas fa-calendar-alt me-2"></i>Monthly Budget
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("budget", "all-expenses")" href="#">
+                                            <i class="fas fa-list me-2"></i>All Expenses
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("budget", "budget-reports")" href="#">
+                                            <i class="fas fa-chart-pie me-2"></i>Budget Reports
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                            <!-- Task Management Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a class="@navModel.GetDropdownToggleCss("tasks")" 
+                                   href="#" role="button" data-bs-toggle="dropdown" aria-expanded="@navModel.ShouldExpandDropdown("tasks").ToString().ToLower()">
+                                    <i class="fas fa-tasks me-1"></i>Tasks
+                                    @if (navModel.ShouldShowBadge("tasks"))
+                                    {
+                                        <span @Html.Raw(navModel.GetBadgeAttributes("tasks"))>@navModel.GetBadgeDisplayCount("tasks")</span>
+                                    }
+                                </a>
+                                <ul class="dropdown-menu @(navModel.ShouldExpandDropdown("tasks") ? "show" : "")">
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("tasks", "create-task")" href="#">
+                                            <i class="fas fa-plus me-2"></i>Create Task
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("tasks", "my-tasks")" href="#">
+                                            <i class="fas fa-list-check me-2"></i>My Tasks
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("tasks", "notifications")" href="#">
+                                            <i class="fas fa-bell me-2"></i>Notifications
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="@navModel.GetDropdownItemCss("tasks", "task-analytics")" href="#">
+                                            <i class="fas fa-chart-gantt me-2"></i>Task Analytics
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    else if (!User.Identity.IsAuthenticated)
+                    {
+                        <!-- Navigation for Anonymous Users -->
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Land" ? "active" : "")" 
+                                   asp-controller="Land" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#features">Features</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#pricing">Pricing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#about">About</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <!-- Fallback navigation if navigation model fails to load -->
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Index">
+                                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                    
+                    <!-- User Authentication Partial -->
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <!-- Breadcrumb Navigation for Authenticated Users -->
+        @if (User.Identity.IsAuthenticated)
+        {
+            @await Component.InvokeAsync("Breadcrumb")
+        }
+        
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - PriceTracker - 
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+            }
+            else
+            {
+                <a asp-controller="Land" asp-action="Index">Home</a>
+            }
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/pagesAuthUsers/shared/notification-badges.js" asp-append-version="true"></script>
+    <script src="~/js/pagesAuthUsers/shared/mobile-navigation.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    
+    @if (User.Identity.IsAuthenticated)
+    {
+        <!-- Global JavaScript for authenticated users -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialize notification badges
+                initializeNotificationBadges();
+                
+                // Initialize tooltips for notification badges
+                initializeBadgeTooltips();
+                
+                // Auto-collapse dropdowns when clicking outside (mobile enhancement)
+                document.addEventListener('click', function(event) {
+                    const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+                    dropdowns.forEach(dropdown => {
+                        if (!dropdown.parentElement.contains(event.target)) {
+                            dropdown.classList.remove('show');
+                        }
+                    });
+                });
+                
+                // Set up notification refresh interval (every 30 seconds)
+                setInterval(refreshNotificationBadges, 30000);
+            });
+
+            /**
+             * Initialize notification badge functionality
+             */
+            function initializeNotificationBadges() {
+                // Add fade-in animation to visible badges
+                document.querySelectorAll('.notification-badge').forEach(badge => {
+                    if (badge.style.display !== 'none') {
+                        badge.classList.add('fade-in');
+                    }
+                });
+                
+                // Log notification counts for debugging
+                const totalCount = @(navModel?.GetTotalNotificationCount() ?? 0);
+                const hasCritical = @(navModel?.HasCriticalNotifications().ToString().ToLower() ?? "false");
+                
+                console.log('Notification badges initialized:', {
+                    totalCount: totalCount,
+                    hasCritical: hasCritical
+                });
+            }
+
+            /**
+             * Initialize Bootstrap tooltips for notification badges
+             */
+            function initializeBadgeTooltips() {
+                if (typeof bootstrap !== 'undefined') {
+                    const tooltipTriggerList = [].slice.call(document.querySelectorAll('.notification-badge[data-bs-toggle="tooltip"]'));
+                    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl, {
+                            placement: 'bottom',
+                            trigger: 'hover focus'
+                        });
+                    });
+                }
+            }
+
+            /**
+             * Refresh notification badges via AJAX (placeholder for Phase 2)
+             */
+            async function refreshNotificationBadges() {
+                try {
+                    // TODO: Implement AJAX call to refresh badges in Phase 2
+                    // const response = await fetch('/Navigation/RefreshBadges');
+                    // const data = await response.json();
+                    // updateNotificationBadges(data);
+                    
+                    console.log('Notification badges refresh scheduled for Phase 2');
+                } catch (error) {
+                    console.error('Error refreshing notification badges:', error);
+                }
+            }
+
+            /**
+             * Update notification badges with new data (placeholder for Phase 2)
+             */
+            function updateNotificationBadges(badgeData) {
+                // TODO: Implement badge updates in Phase 2
+                console.log('Badge update functionality will be implemented in Phase 2');
+            }
+
+            /**
+             * Animate badge count changes
+             */
+            function animateBadgeUpdate(badgeElement) {
+                if (badgeElement) {
+                    badgeElement.classList.add('updating');
+                    setTimeout(() => {
+                        badgeElement.classList.remove('updating');
+                    }, 800);
+                }
+            }
+
+            /**
+             * Show/hide badge with animation
+             */
+            function toggleBadgeVisibility(badgeElement, show) {
+                if (badgeElement) {
+                    if (show) {
+                        badgeElement.classList.remove('hidden');
+                        badgeElement.classList.add('fade-in');
+                    } else {
+                        badgeElement.classList.add('hidden');
+                    }
+                }
+            }
+        </script>
+    }
+</body>
+</html>
                     {
                         <!-- Navigation for Authenticated Users -->
                         <ul class="navbar-nav flex-grow-1">

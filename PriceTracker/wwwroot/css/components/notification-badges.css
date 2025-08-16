@@ -1,0 +1,369 @@
+﻿/* ===================================
+   Notification Badge Styles
+   =================================== */
+
+/* Base Badge Styles */
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    min-width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    border: 2px solid #ffffff;
+    transition: all 0.3s ease;
+}
+
+    /* Badge Color Variants */
+    .notification-badge.bg-danger {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    }
+
+    .notification-badge.bg-warning {
+        background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+        color: #212529;
+    }
+
+    .notification-badge.bg-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    }
+
+    .notification-badge.bg-success {
+        background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    }
+
+    .notification-badge.bg-primary {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    }
+
+    .notification-badge.bg-secondary {
+        background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);
+    }
+
+    /* Pulse Animation for Critical Badges */
+    .notification-badge.pulse {
+        animation: badgePulse 2s infinite;
+    }
+
+@keyframes badgePulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.15);
+        opacity: 0.8;
+    }
+}
+
+/* Hover Effects */
+.nav-link:hover .notification-badge {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Different Badge Sizes */
+.notification-badge.badge-sm {
+    min-width: 16px;
+    height: 16px;
+    font-size: 0.6rem;
+    top: -6px;
+    right: -8px;
+}
+
+.notification-badge.badge-lg {
+    min-width: 24px;
+    height: 24px;
+    font-size: 0.8rem;
+    top: -10px;
+    right: -14px;
+}
+
+/* Badge Positioning for Different Menu Items */
+.nav-item {
+    position: relative;
+}
+
+.dropdown-toggle {
+    position: relative;
+}
+
+/* Special Badge for Dropdown Menus */
+.dropdown .notification-badge {
+    top: -5px;
+    right: -5px;
+}
+
+/* Badge Numbers Formatting */
+.notification-badge .badge-number {
+    line-height: 1;
+    letter-spacing: -0.5px;
+}
+
+/* High Count Badge (99+) */
+.notification-badge.high-count {
+    min-width: 28px;
+    font-size: 0.65rem;
+    padding: 0 4px;
+    border-radius: 12px;
+}
+
+/* Critical Badge - Special Styling */
+.notification-badge.critical {
+    animation: criticalBadgePulse 1.5s infinite;
+    border-color: #ffffff;
+    box-shadow: 0 0 15px rgba(220, 53, 69, 0.6);
+}
+
+@keyframes criticalBadgePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(220, 53, 69, 0.6);
+    }
+
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 25px rgba(220, 53, 69, 0.8);
+    }
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    .notification-badge {
+        min-width: 18px;
+        height: 18px;
+        font-size: 0.65rem;
+        top: -6px;
+        right: -10px;
+    }
+
+        .notification-badge.badge-lg {
+            min-width: 22px;
+            height: 22px;
+            font-size: 0.75rem;
+        }
+
+        .notification-badge.high-count {
+            min-width: 26px;
+            font-size: 0.6rem;
+        }
+
+        /* Reduce animations on mobile for performance */
+        .notification-badge.pulse {
+            animation: none;
+        }
+
+        .notification-badge.critical {
+            animation: criticalBadgePulseMobile 2s infinite;
+        }
+
+    @keyframes criticalBadgePulseMobile {
+        0%, 100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.7;
+        }
+    }
+}
+
+/* Navbar Specific Badge Positioning */
+.navbar-nav .nav-item .notification-badge {
+    top: -8px;
+    right: -12px;
+}
+
+.navbar-nav .dropdown .notification-badge {
+    top: -5px;
+    right: -8px;
+}
+
+/* Badge Tooltip Enhancement */
+.notification-badge[data-bs-toggle="tooltip"] {
+    cursor: pointer;
+}
+
+/* Badge Fade In Animation */
+.notification-badge.fade-in {
+    animation: badgeFadeIn 0.5s ease-out;
+}
+
+@keyframes badgeFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Badge Update Animation */
+.notification-badge.updating {
+    animation: badgeUpdate 0.8s ease-in-out;
+}
+
+@keyframes badgeUpdate {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.3) rotate(-5deg);
+    }
+
+    50% {
+        transform: scale(0.9) rotate(5deg);
+    }
+
+    75% {
+        transform: scale(1.1) rotate(-2deg);
+    }
+}
+
+/* Hidden Badge State */
+.notification-badge.hidden {
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .notification-badge {
+        border-color: #343a40;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+        .notification-badge.bg-warning {
+            color: #000000;
+        }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .notification-badge {
+        border-width: 3px;
+        font-weight: 700;
+    }
+
+        .notification-badge.bg-warning {
+            background: #ffff00;
+            color: #000000;
+            border-color: #000000;
+        }
+
+        .notification-badge.bg-danger {
+            background: #ff0000;
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .notification-badge,
+    .notification-badge.pulse,
+    .notification-badge.critical {
+        animation: none;
+        transition: none;
+    }
+
+    .nav-link:hover .notification-badge {
+        transform: none;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .notification-badge {
+        position: static;
+        display: inline-block;
+        margin-left: 0.5rem;
+        color: #000000 !important;
+        background: transparent !important;
+        border: 1px solid #000000 !important;
+        box-shadow: none;
+    }
+}
+
+/* Focus States for Accessibility */
+.nav-link:focus .notification-badge {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* Badge Loading State */
+.notification-badge.loading {
+    background: #6c757d;
+    animation: loadingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Badge Container for Complex Layouts */
+.badge-container {
+    position: relative;
+    display: inline-block;
+}
+
+    .badge-container .notification-badge {
+        position: absolute;
+    }
+
+/* Multiple Badge Support */
+.badge-stack .notification-badge:nth-child(1) {
+    top: -8px;
+    right: -12px;
+    z-index: 1002;
+}
+
+.badge-stack .notification-badge:nth-child(2) {
+    top: -5px;
+    right: -18px;
+    z-index: 1001;
+    transform: scale(0.8);
+}
+
+/* Badge with Icon */
+.notification-badge .badge-icon {
+    font-size: 0.6rem;
+    margin-right: 2px;
+}
+
+/* Notification Bell Enhancement */
+.notification-bell {
+    position: relative;
+}
+
+    .notification-bell.has-notifications::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 8px;
+        height: 8px;
+        background: #dc3545;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+    }
