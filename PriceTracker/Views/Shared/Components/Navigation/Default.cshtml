@@ -1,0 +1,14 @@
+﻿@model NavigationViewModel
+
+@*
+    This view provides navigation data to be used in the layout
+    The model contains helper methods for determining active states
+*@
+
+@{
+    // This component just passes the navigation model to ViewData
+    // so it can be accessed in the layout without complex dependency injection
+    ViewData["NavigationModel"] = Model;
+}
+
+@* This component doesn't render anything visible - it just provides data *@
