@@ -3,10 +3,10 @@
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
 
-<!-- Back to Home Button with Enhanced Styling -->
+<!-- Back to Dashboard Button with Enhanced Styling -->
 <div class="mb-4">
-    <a asp-controller="Home" asp-action="Index" asp-area="" class="manage-nav-back-btn">
-        <i class="fas fa-home"></i>Back to Home
+    <a asp-controller="Dashboard" asp-action="Index" asp-area="" class="manage-nav-back-btn">
+        <i class="fas fa-tachometer-alt"></i>Back to Dashboard
     </a>
 </div>
 

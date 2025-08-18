@@ -9,6 +9,12 @@
     }
 }
 
+<!-- Include Account Management specific CSS -->
+@section Styles {
+    <link rel="stylesheet" href="~/css/accountManage/account-manage-layout.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+}
+
 <h1>Manage your account</h1>
 <div>
     <h2>Change your account settings</h2>
@@ -22,10 +28,6 @@
         </div>
     </div>
 </div>
-
-@section Styles {
-    @RenderSection("Styles", required: false)
-}
 
 @section Scripts {
     @RenderSection("Scripts", required: false)
