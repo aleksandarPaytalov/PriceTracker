@@ -6,6 +6,10 @@
 }
 
 @section Styles {
+    <!-- Shared component styles for all authenticated user features -->
+    <link rel="stylesheet" href="~/css/pagesAuthUsers/components.css" asp-append-version="true" />
+
+    <!-- Dashboard-specific styles -->
     <link rel="stylesheet" href="~/css/pagesAuthUsers/dashboard.css" asp-append-version="true" />
 }
 
@@ -32,7 +36,7 @@
     @if (Model.HasError)
     {
         <!-- Error State -->
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-gradient-danger" role="alert">
             <i class="fas fa-exclamation-triangle me-2"></i>
             @Model.ErrorMessage
         </div>
@@ -58,51 +62,125 @@
                             </div>
                         </div>
                         <div class="widget-content">
-                            @if (Model.HasBudgetData)
+                            @if (Model.BudgetOverview != null)
                             {
-                                <!-- Budget data will be implemented in Phase 2 Step 3 -->
-                                <p class="text-muted">Budget data will appear here...</p>
+                                <div class="budget-summary">
+                                    <div class="budget-item">
+                                        <div class="budget-value planned" id="budgetPlanned" data-amount="@Model.BudgetOverview.PlannedBudget">
+                                            @Model.BudgetOverview.PlannedBudget.ToString("C")
+                                        </div>
+                                        <div class="budget-label">Planned</div>
+                                    </div>
+                                    <div class="budget-item">
+                                        <div class="budget-value spent" id="budgetSpent" data-amount="@Model.BudgetOverview.TotalSpent">
+                                            @Model.BudgetOverview.TotalSpent.ToString("C")
+                                        </div>
+                                        <div class="budget-label">Spent</div>
+                                    </div>
+                                </div>
+
+                                <!-- Progress Bar -->
+                                <div class="progress-enhanced mb-3">
+                                    <div class="progress-bar-gradient" id="budgetProgress"
+                                         style="width: @Model.BudgetOverview.ProgressPercentage%"
+                                         data-spent="@Model.BudgetOverview.TotalSpent"
+                                         data-planned="@Model.BudgetOverview.PlannedBudget"
+                                         data-progress="@Model.BudgetOverview.ProgressPercentage">
+                                    </div>
+                                </div>
+
+                                <div class="budget-item text-center">
+                                    <div class="budget-value remaining @(Model.BudgetOverview.IsOverBudget ? "text-danger" : "")"
+                                         id="budgetRemaining"
+                                         data-amount="@Model.BudgetOverview.RemainingAmount">
+                                        @Model.BudgetOverview.RemainingAmount.ToString("C")
+                                    </div>
+                                    <div class="budget-label">Remaining</div>
+                                </div>
+
+                                @if (Model.BudgetOverview.IsOverBudget)
+                                {
+                                    <div class="alert alert-gradient-warning mt-3">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        You are over budget this month!
+                                    </div>
+                                }
                             }
                             else
                             {
                                 <div class="empty-state">
-                                    <i class="fas fa-chart-pie text-muted mb-3"></i>
-                                    <h6 class="text-muted">No Budget Data</h6>
-                                    <p class="text-muted small mb-3">Set up your monthly budget to start tracking your spending.</p>
-                                    <a href="#" class="btn btn-primary btn-sm">Set Budget</a>
+                                    <i class="empty-state-icon fas fa-plus-circle"></i>
+                                    <h6>Set Your Budget</h6>
+                                    <p>Create your first monthly budget to start tracking expenses.</p>
+                                    <div class="empty-state-action">
+                                        <a href="#" class="btn btn-gradient-primary btn-sm">
+                                            <i class="fas fa-plus me-1"></i>Create Budget
+                                        </a>
+                                    </div>
                                 </div>
                             }
                         </div>
                     </div>
                 </div>
 
-                <!-- Yearly Expense Summary Widget -->
+                <!-- Yearly Expenses Widget -->
                 <div class="col-lg-6 mb-4">
                     <div class="dashboard-widget">
                         <div class="widget-header">
                             <h5 class="widget-title">
-                                <i class="fas fa-chart-line me-2 text-success"></i>
-                                Yearly Expense Summary
+                                <i class="fas fa-chart-line me-2 text-primary"></i>
+                                Yearly Expenses (@DateTime.Now.Year)
                             </h5>
                             <div class="widget-actions">
-                                <button class="btn btn-sm btn-outline-secondary" title="View Details">
+                                <button class="btn btn-sm btn-outline-secondary" title="View Details" data-widget="expenses">
                                     <i class="fas fa-external-link-alt"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="widget-content">
-                            @if (Model.HasExpenseData)
+                            @if (Model.YearlyExpenses != null)
                             {
-                                <!-- Expense chart will be implemented in Phase 2 Step 4 -->
-                                <p class="text-muted">Expense chart will appear here...</p>
+                                <!-- Display yearly summary stats -->
+                                <div class="mb-3">
+                                    <div class="row text-center">
+                                        <div class="col-6">
+                                            <div class="budget-value">@Model.YearlyExpenses.TotalYearlyExpenses.ToString("C")</div>
+                                            <div class="budget-label">Total This Year</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="budget-value">@Model.YearlyExpenses.AverageMonthlySpending.ToString("C")</div>
+                                            <div class="budget-label">Monthly Average</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Chart Container -->
+                                <div class="chart-container">
+                                    <canvas id="yearlyExpensesChart"
+                                            data-monthly-data="@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.YearlyExpenses.MonthlyData))"
+                                            data-total="@Model.YearlyExpenses.TotalYearlyExpenses"
+                                            data-average="@Model.YearlyExpenses.AverageMonthlySpending"></canvas>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(Model.YearlyExpenses.HighestSpendingMonth))
+                                {
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Highest spending: @Model.YearlyExpenses.HighestSpendingMonth
+                                    </small>
+                                }
                             }
                             else
                             {
                                 <div class="empty-state">
-                                    <i class="fas fa-chart-bar text-muted mb-3"></i>
-                                    <h6 class="text-muted">No Expense Data</h6>
-                                    <p class="text-muted small mb-3">Start tracking your expenses to see spending patterns.</p>
-                                    <a href="#" class="btn btn-success btn-sm">Add Expense</a>
+                                    <i class="empty-state-icon fas fa-chart-line"></i>
+                                    <h6>No Expense Data</h6>
+                                    <p>Start adding expenses to see your yearly spending trends.</p>
+                                    <div class="empty-state-action">
+                                        <a href="#" class="btn btn-gradient-primary btn-sm">
+                                            <i class="fas fa-plus me-1"></i>Add Expense
+                                        </a>
+                                    </div>
                                 </div>
                             }
                         </div>
@@ -110,121 +188,225 @@
                 </div>
             </div>
 
-            <!-- Row 2: Top Products & Task Overview -->
+            <!-- Row 2: Top Products & Tasks -->
             <div class="row mb-4">
-                <!-- Top 5 Products Widget -->
+                <!-- Top Products Widget -->
                 <div class="col-lg-6 mb-4">
-                    <div class="dashboard-widget">
+                    <div class="dashboard-widget" id="productsWidget">
                         <div class="widget-header">
                             <h5 class="widget-title">
-                                <i class="fas fa-shopping-cart me-2 text-warning"></i>
-                                Top 5 Most Purchased
+                                <i class="fas fa-shopping-cart me-2 text-primary"></i>
+                                Top 5 Products
                             </h5>
                             <div class="widget-actions">
-                                <button class="btn btn-sm btn-outline-secondary" title="View All">
+                                <button class="btn btn-sm btn-outline-secondary" title="View All" data-widget="products">
                                     <i class="fas fa-list"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="widget-content">
-                            @if (Model.HasPriceData)
+                            @if (Model.TopProducts?.Any() == true)
                             {
-                                <!-- Product list will be implemented in Phase 2 Step 5 -->
-                                <p class="text-muted">Product list will appear here...</p>
+                                <div id="topProductsList">
+                                    @foreach (var product in Model.TopProducts.Take(5))
+                                    {
+                                        <div class="d-flex align-items-center mb-3 pb-2 border-bottom">
+                                            <div class="me-3">
+                                                <i class="fas fa-box text-primary"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-0">@product.ProductName</h6>
+                                                <small class="text-muted">@product.Brand</small>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="badge badge-gradient-primary">@product.PurchaseCount</span>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
                             }
                             else
                             {
                                 <div class="empty-state">
-                                    <i class="fas fa-box text-muted mb-3"></i>
-                                    <h6 class="text-muted">No Product Data</h6>
-                                    <p class="text-muted small mb-3">Start tracking product prices to see your most purchased items.</p>
-                                    <a href="#" class="btn btn-warning btn-sm">Track Products</a>
+                                    <i class="empty-state-icon fas fa-shopping-basket"></i>
+                                    <h6>No Product Data</h6>
+                                    <p>Start tracking product prices to see your most purchased items.</p>
+                                    <div class="empty-state-action">
+                                        <a href="#" class="btn btn-gradient-primary btn-sm">
+                                            <i class="fas fa-search me-1"></i>Browse Products
+                                        </a>
+                                    </div>
                                 </div>
                             }
                         </div>
                     </div>
                 </div>
 
-                <!-- Task Overview Widget -->
+                <!-- Tasks Overview Widget -->
                 <div class="col-lg-6 mb-4">
-                    <div class="dashboard-widget">
+                    <div class="dashboard-widget" id="tasksWidget">
                         <div class="widget-header">
                             <h5 class="widget-title">
-                                <i class="fas fa-tasks me-2 text-info"></i>
-                                Task Overview
+                                <i class="fas fa-tasks me-2 text-primary"></i>
+                                Upcoming Tasks
                             </h5>
                             <div class="widget-actions">
-                                <span class="badge bg-danger" id="taskNotificationBadge" style="display: none;">3</span>
-                                <button class="btn btn-sm btn-outline-secondary" title="Manage Tasks">
+                                <button class="btn btn-sm btn-outline-secondary" title="Add Task" data-widget="tasks">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="widget-content">
-                            @if (Model.HasTaskData)
+                            @if (Model.TaskOverview?.UpcomingTasks?.Any() == true)
                             {
-                                <!-- Task list will be implemented in Phase 2 Step 6 -->
-                                <p class="text-muted">Task overview will appear here...</p>
+                                <!-- Task Stats Summary -->
+                                <div class="row text-center mb-3">
+                                    <div class="col-4">
+                                        <div class="budget-value">@Model.TaskOverview.OpenTasks</div>
+                                        <div class="budget-label">Open</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="budget-value">@Model.TaskOverview.InProgressTasks</div>
+                                        <div class="budget-label">In Progress</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="budget-value">@Model.TaskOverview.TasksDueThisWeek</div>
+                                        <div class="budget-label">Due This Week</div>
+                                    </div>
+                                </div>
+
+                                <div id="upcomingTasksList">
+                                    @foreach (var task in Model.TaskOverview.UpcomingTasks.Take(5))
+                                    {
+                                        <div class="task-item @(task.IsOverdue ? "task-overdue" : "")">
+                                            <div class="task-priority @(task.Priority.ToLower())"
+                                                 style="@(!string.IsNullOrEmpty(task.PriorityColor) ? $"background-color: {task.PriorityColor};" : "")"></div>
+                                            <div class="task-title">
+                                                @task.Title
+                                                @if (task.IsOverdue)
+                                                {
+                                                    <i class="fas fa-exclamation-triangle text-danger ms-1" title="Overdue"></i>
+                                                }
+                                            </div>
+                                            <div class="task-due" data-due-date="@task.DueDate.ToString("yyyy-MM-ddTHH:mm:ss")">
+                                                @if (task.IsOverdue)
+                                                {
+                                                    <span class="text-danger">Overdue</span>
+                                                }
+                                                else if (task.DaysUntilDue == 0)
+                                                {
+                                                    <span class="text-warning">Today</span>
+                                                }
+                                                else if (task.DaysUntilDue == 1)
+                                                {
+                                                    <span class="text-info">Tomorrow</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@task.DueDate.ToString("MMM dd")</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+                                <!-- Completion Rate Progress -->
+                                @if (Model.TaskOverview.CompletionRate > 0)
+                                {
+                                    <div class="mt-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <small class="text-muted">Completion Rate</small>
+                                            <small class="text-muted">@Model.TaskOverview.CompletionRate.ToString("F1")%</small>
+                                        </div>
+                                        <div class="progress-enhanced">
+                                            <div class="progress-bar-gradient" style="width: @Model.TaskOverview.CompletionRate%"></div>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (Model.TaskOverview.OverdueTasks > 0)
+                                {
+                                    <div class="alert alert-gradient-danger mt-3">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        You have <strong>@Model.TaskOverview.OverdueTasks</strong> overdue task(s).
+                                    </div>
+                                }
+                                else if (Model.TaskOverview.TasksDueNext3Days > 0)
+                                {
+                                    <div class="alert alert-gradient-warning mt-3">
+                                        <i class="fas fa-clock me-2"></i>
+                                        <strong>@Model.TaskOverview.TasksDueNext3Days</strong> task(s) due in the next 3 days.
+                                    </div>
+                                }
                             }
                             else
                             {
                                 <div class="empty-state">
-                                    <i class="fas fa-clipboard-list text-muted mb-3"></i>
-                                    <h6 class="text-muted">No Tasks</h6>
-                                    <p class="text-muted small mb-3">Create tasks to stay organized and track your productivity.</p>
-                                    <a href="#" class="btn btn-info btn-sm">Create Task</a>
+                                    <i class="empty-state-icon fas fa-check-circle"></i>
+                                    <h6>All Caught Up!</h6>
+                                    <p>No upcoming tasks. Create new tasks to stay organized.</p>
+                                    <div class="empty-state-action">
+                                        <a href="#" class="btn btn-gradient-primary btn-sm">
+                                            <i class="fas fa-plus me-1"></i>Create Task
+                                        </a>
+                                    </div>
                                 </div>
                             }
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Quick Actions Row -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="dashboard-widget">
-                        <div class="widget-header">
-                            <h5 class="widget-title">
-                                <i class="fas fa-bolt me-2 text-primary"></i>
-                                Quick Actions
-                            </h5>
-                        </div>
-                        <div class="widget-content">
-                            <div class="row g-3">
-                                <div class="col-md-3">
-                                    <a href="#" class="quick-action-btn">
-                                        <i class="fas fa-plus-circle"></i>
-                                        <span>Add Expense</span>
-                                    </a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="#" class="quick-action-btn">
-                                        <i class="fas fa-search"></i>
-                                        <span>Track Price</span>
-                                    </a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="#" class="quick-action-btn">
-                                        <i class="fas fa-calendar-plus"></i>
-                                        <span>Create Task</span>
-                                    </a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="#" class="quick-action-btn">
-                                        <i class="fas fa-chart-bar"></i>
-                                        <span>View Reports</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Quick Actions Section -->
+        <div class="quick-actions-section">
+            <h3 class="quick-actions-title">
+                <i class="fas fa-bolt me-2"></i>
+                Quick Actions
+            </h3>
+            <div class="quick-actions-grid">
+                <a href="#" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-plus"></i>
                     </div>
-                </div>
+                    <div class="quick-action-label">Add Expense</div>
+                    <div class="quick-action-description">Track a new purchase</div>
+                </a>
+
+                <a href="#" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="quick-action-label">Compare Prices</div>
+                    <div class="quick-action-description">Find the best deals</div>
+                </a>
+
+                <a href="#" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-calendar-plus"></i>
+                    </div>
+                    <div class="quick-action-label">Create Task</div>
+                    <div class="quick-action-description">Add to your todo list</div>
+                </a>
+
+                <a href="#" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="quick-action-label">View Reports</div>
+                    <div class="quick-action-description">Analyze your spending</div>
+                </a>
             </div>
         </div>
     }
 </div>
 
 @section Scripts {
-    <script src="~/js/pagesAuthUsers/dashboard.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <script src="~/js/pagesAuthUsers/shared/utilities.js" asp-append-version="true"></script>
+    <script src="~/js/pagesAuthUsers/shared/api-client.js" asp-append-version="true"></script>
+
+    @* <script src="~/js/pagesAuthUsers/shared/chart-configs.js" asp-append-version="true"></script> *@
+    @* <script src="~/js/pagesAuthUsers/dashboard.js" asp-append-version="true"></script> *@
 }
